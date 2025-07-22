@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 const navigation = [
   { name: "Dashboard", href: "/", icon: LayoutDashboard },
@@ -40,16 +41,18 @@ export function Sidebar({ open, setOpen }: SidebarProps) {
   const pathname = usePathname();
 
   const SidebarContent = () => (
-    <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4 shadow-lg">
-      <div className="flex h-16 shrink-0 items-center">
-        <div className="flex items-center gap-3">
-          <div className="h-10 w-10 rounded-2xl bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center">
-            <Weight className="h-6 w-6 text-white" />
-          </div>
-          <div>
-            <h1 className="text-xl font-bold text-gray-900">Semensol</h1>
-            <p className="text-xs text-gray-500 font-medium">PROFESSIONAL</p>
-          </div>
+    <div className="flex grow flex-col overflow-y-auto gap-y-7 bg-white px-6 py-4 shadow-lg">
+      <div className="flex items-center gap-3 shrink-0">
+        <Image
+          src="/images/logo.png"
+          alt="Logo"
+          width={74}
+          height={74}
+          className="h-10 w-auto"
+        />
+        <div>
+          <h1 className="text-xl font-bold text-gray-900">Semensol</h1>
+          <p className="text-xs text-gray-500 font-medium">Sistema de pesagem</p>
         </div>
       </div>
       <nav className="flex flex-1 flex-col">
@@ -65,9 +68,9 @@ export function Sidebar({ open, setOpen }: SidebarProps) {
                     href={item.href}
                     className={cn(
                       pathname === item.href
-                        ? "bg-primary-50 text-primary-600 border-r-2 border-primary-600"
+                        ? "bg-primary-50 text-primary-600 border-primary-600"
                         : "text-gray-700 hover:text-primary-600 hover:bg-gray-50",
-                      "group flex gap-x-3 rounded-2xl py-2 px-3 text-sm leading-6 font-medium transition-colors"
+                      "group flex gap-x-3 border-l-2 rounded-r-2xl py-2 px-3 text-sm leading-6 font-medium transition-colors"
                     )}
                   >
                     <item.icon
