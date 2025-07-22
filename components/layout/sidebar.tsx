@@ -46,6 +46,8 @@ interface SidebarProps {
 export function Sidebar({ open, setOpen }: SidebarProps) {
   const pathname = usePathname();
 
+  const selectedLinkIndex = navigation.findIndex((item) => item.href === pathname);
+
   const NavItem = ({item} : {item: NavItem}) => {
     return (
       <Link
@@ -89,31 +91,42 @@ export function Sidebar({ open, setOpen }: SidebarProps) {
           <p className="text-xs text-gray-500 font-medium">Sistema de pesagem</p>
         </div>
       </div>
-      <nav className="flex flex-col">
-        <div className="flex flex-col gap-y-7">
-          <div>
-            <div className="text-xs font-semibold leading-6 text-gray-400 uppercase tracking-wider px-6">
-              OPERAÇÕES
-            </div>
-            <div className="mt-2">
-              {navigation.map((item) => <NavItem key={item.name} item={item} />)}
-            </div>
+      <nav className="flex flex-col h-full gap-y-7 relative">
+        <div
+          style={{
+            top: selectedLinkIndex === 0 ? "32px" : `${(52 * selectedLinkIndex) + 32}px`,
+          }}
+          className="
+            absolute w-full h-[52px] border-l-4 border-primary-500
+          "
+        />
+        <div>
+          <div className="text-xs font-semibold leading-6 text-gray-400 uppercase tracking-wider px-6">
+            OPERAÇÕES
           </div>
-          <div>
-            <div className="text-xs font-semibold leading-6 text-gray-400 uppercase tracking-wider px-6">
-              SISTEMA
-            </div>
-            <div className="mt-2">
-              {systemNavigation.map((item) => <NavItem key={item.name} item={item} />)}
-            </div>
+          <div className="mt-2">
+            {navigation.map((item) => <NavItem key={item.name} item={item} />)}
+          </div>
+        </div>
+        <div className="mt-auto">
+          <div className="text-xs font-semibold leading-6 text-gray-400 uppercase tracking-wider px-6">
+            SISTEMA
+          </div>
+          <div className="mt-2">
+            {systemNavigation.map((item) => <NavItem key={item.name} item={item} />)}
           </div>
         </div>
       </nav>
-      <div className="flex items-center gap-3 mb-2 mt-auto px-6 py-4">
-        <div className="h-2 w-2 rounded-full bg-green-500"></div>
-        <span className="text-sm font-medium text-gray-900">
-          Sistema Online
-        </span>
+      <div className="mt-auto">
+        <div className="text-xs font-semibold leading-6 text-gray-400 uppercase tracking-wider px-6">
+          STATUS
+        </div>
+        <div className="flex items-center gap-3 mb-2 mt-auto px-6 py-4">
+          <div className="h-2 w-2 rounded-full bg-green-500"></div>
+          <span className="text-sm font-medium text-gray-900">
+            Sistema Online
+          </span>
+        </div>
       </div>
     </div>
   );

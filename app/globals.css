@@ -152,6 +152,17 @@
   .hover\:border-primary-900:hover { border-color: hsl(var(--primary-hue), var(--primary-saturation), calc(var(--primary-lightness) - 20%)); }
 }
 
+.brick-animation:hover {
+  @apply
+  -translate-x-1
+  -translate-y-1;
+   box-shadow: 4px 4px 0 hsl(var(--primary-hue), calc(var(--primary-saturation) * 0.7), 80%);
+}
+
+.brick-animation:active {
+  @apply translate-x-0 translate-y-0 shadow-none;
+}
+
 @layer base {
   * {
     @apply border-border;

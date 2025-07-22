@@ -12,7 +12,7 @@ export function Dashboard() {
   const quickActions = [
     {
       title: "Iniciar Pesagem",
-      description: "Conectar balança e iniciar novo ciclo de pesagem",
+      description: "Iniciar novo ciclo de pesagem",
       icon: Weight,
       color: "green",
       href: "/weighing",
@@ -108,21 +108,22 @@ export function Dashboard() {
                     href={action.href}
                     key={index}
                     className="
-                      flex gap-4 items-center relative overflow-hidden
-                      rounded-2xl border-2 border-dashed p-6 transition-all duration-200
-                      cursor-pointer border-primary-300
-                      hover:border-solid hover:shadow-md hover:bg-primary-100
+                      flex gap-4 items-center p-6 relative overflow-hidden
+                      rounded-2xl border-2 border-dashed border-primary-300
+                      transition-all duration-200
+                      cursor-pointer brick-animation
+                      hover:border-solid hover:bg-primary-100
                       group
                   ">
                     <div className="
                       flex items-center justify-center bg-primary-100
-                      flex-shrink-0 h-12 w-12 rounded-2xl
+                      flex-shrink-0 h-16 w-16 rounded-2xl
                       transition-all duration-200 z-10
                       group-hover:bg-transparent
                     ">
                       <action.icon className="
-                        h-6 w-6 text-primary-600 transition-all duration-200
-                        group-hover:h-12 group-hover:w-12
+                        h-10 w-10 text-primary-600 transition-all duration-200
+                        group-hover:h-16 group-hover:w-16
                       "/>
                     </div>
                     <div className="absolute -top-4 -right-4">
@@ -134,10 +135,10 @@ export function Dashboard() {
                       />
                     </div>
                     <div className="flex flex-col transition-all duration-200 z-10">
-                      <h3 className="text-lg font-semibold text-gray-900">
+                      <h3 className="text-xl font-semibold text-gray-900">
                         {action.title}
                       </h3>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-lg text-gray-600">
                         {action.description}
                       </p>
                     </div>
