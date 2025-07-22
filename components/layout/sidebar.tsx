@@ -13,13 +13,19 @@ import {
   IdCardLanyard,
   Handshake,
   Settings,
-  X,
+  X, LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
-const navigation = [
+interface NavItem {
+  name: string;
+  href: string;
+  icon: LucideIcon;
+}
+
+const navigation: NavItem[] = [
   { name: "Dashboard", href: "/", icon: LayoutDashboard },
   { name: "Pesagem Ativa", href: "/weighing", icon: Weight },
   { name: "Histórico", href: "/history", icon: History },
@@ -28,7 +34,7 @@ const navigation = [
   { name: "Parceiros", href: "/partners", icon: Handshake },
 ];
 
-const systemNavigation = [
+const systemNavigation: NavItem[] = [
   { name: "Configurações", href: "/settings", icon: Settings },
 ];
 
@@ -40,9 +46,40 @@ interface SidebarProps {
 export function Sidebar({ open, setOpen }: SidebarProps) {
   const pathname = usePathname();
 
+
+  const NavItem = ({item} : {item: NavItem}) => {
+    console.log(item)
+
+    return (
+      <Link
+        href={item.href}
+        className={cn(
+          "flex items-center gap-x-3 py-3.5 px-6",
+          "text-sm leading-6 text-gray-700",
+          "transition-colors group",
+          "hover:text-black hover:bg-gray-100",
+          pathname === item.href &&
+            "bg-primary-100 text-primary-600 border-primary-600 " +
+            "hover:bg-primary-100 hover:text-primary-600",
+        )}
+      >
+        <item.icon
+          className={cn(
+            pathname === item.href
+              ? "text-primary-600"
+              : "text-gray-400 group-hover:text-black",
+            "h-5 w-5 shrink-0 transition-colors"
+          )}
+          aria-hidden="true"
+        />
+        {item.name}
+      </Link>
+    )
+  }
+
   const SidebarContent = () => (
-    <div className="flex grow flex-col overflow-y-auto gap-y-7 bg-white px-6 py-4 shadow-lg">
-      <div className="flex items-center gap-3 shrink-0">
+    <div className="flex grow flex-col overflow-y-auto gap-y-7 bg-white shadow-lg">
+      <div className="flex items-center gap-3 px-6 pt-4 shrink-0">
         <Image
           src="/images/logo.png"
           alt="Logo"
@@ -55,82 +92,32 @@ export function Sidebar({ open, setOpen }: SidebarProps) {
           <p className="text-xs text-gray-500 font-medium">Sistema de pesagem</p>
         </div>
       </div>
-      <nav className="flex flex-1 flex-col">
-        <ul role="list" className="flex flex-1 flex-col gap-y-7">
-          <li>
-            <div className="text-xs font-semibold leading-6 text-gray-400 uppercase tracking-wider">
+      <nav className="flex flex-col">
+        <div className="flex flex-col gap-y-7">
+          <div>
+            <div className="text-xs font-semibold leading-6 text-gray-400 uppercase tracking-wider px-6">
               OPERAÇÕES
             </div>
-            <ul role="list" className="-mx-2 mt-2 space-y-1">
-              {navigation.map((item) => (
-                <li key={item.name}>
-                  <Link
-                    href={item.href}
-                    className={cn(
-                      pathname === item.href
-                        ? "bg-primary-50 text-primary-600 border-primary-600"
-                        : "text-gray-700 hover:text-primary-600 hover:bg-gray-50",
-                      "group flex gap-x-3 border-l-2 rounded-r-2xl py-2 px-3 text-sm leading-6 font-medium transition-colors"
-                    )}
-                  >
-                    <item.icon
-                      className={cn(
-                        pathname === item.href
-                          ? "text-primary-600"
-                          : "text-gray-400 group-hover:text-primary-600",
-                        "h-5 w-5 shrink-0 transition-colors"
-                      )}
-                      aria-hidden="true"
-                    />
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </li>
-          <li>
-            <div className="text-xs font-semibold leading-6 text-gray-400 uppercase tracking-wider">
+            <div className="mt-2">
+              {navigation.map((item) => <NavItem key={item.name} item={item} />)}
+            </div>
+          </div>
+          <div>
+            <div className="text-xs font-semibold leading-6 text-gray-400 uppercase tracking-wider px-6">
               SISTEMA
             </div>
-            <ul role="list" className="-mx-2 mt-2 space-y-1">
-              {systemNavigation.map((item) => (
-                <li key={item.name}>
-                  <Link
-                    href={item.href}
-                    className={cn(
-                      pathname === item.href
-                        ? "bg-primary-50 text-primary-600 border-r-2 border-primary-600"
-                        : "text-gray-700 hover:text-primary-600 hover:bg-gray-50",
-                      "group flex gap-x-3 rounded-2xl py-2 px-3 text-sm leading-6 font-medium transition-colors"
-                    )}
-                  >
-                    <item.icon
-                      className={cn(
-                        pathname === item.href
-                          ? "text-primary-600"
-                          : "text-gray-400 group-hover:text-primary-600",
-                        "h-5 w-5 shrink-0 transition-colors"
-                      )}
-                      aria-hidden="true"
-                    />
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </li>
-          <li className="mt-auto">
-            <div className="rounded-2xl bg-gradient-to-r from-primary-50 to-primary-100 p-4">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                <span className="text-sm font-medium text-gray-900">
-                  Sistema Online
-                </span>
-              </div>
+            <div className="mt-2">
+              {systemNavigation.map((item) => <NavItem key={item.name} item={item} />)}
             </div>
-          </li>
-        </ul>
+          </div>
+        </div>
       </nav>
+      <div className="flex items-center gap-3 mb-2 mt-auto px-6 py-4">
+        <div className="h-2 w-2 rounded-full bg-green-500"></div>
+        <span className="text-sm font-medium text-gray-900">
+          Sistema Online
+        </span>
+      </div>
     </div>
   );
 
