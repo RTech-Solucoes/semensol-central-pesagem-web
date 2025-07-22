@@ -28,15 +28,15 @@ export function DriverManagement() {
   ];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 animate-fade-in">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+          <h1 className="text-3xl font-bold tracking-tight text-white">
             Motoristas
           </h1>
-          <p className="text-gray-600 mt-1">Gerencie os motoristas cadastrados</p>
+          <p className="text-gray-200 mt-1">Gerencie os motoristas cadastrados</p>
         </div>
-        <Button>
+        <Button className="bg-black">
           <Plus className="h-4 w-4 mr-2" />
           Novo Motorista
         </Button>
@@ -48,8 +48,8 @@ export function DriverManagement() {
             <CardHeader className="pb-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="h-12 w-12 rounded-lg bg-green-100 flex items-center justify-center">
-                    <User className="h-6 w-6 text-brown-600" />
+                  <div className="h-12 w-12 rounded-2xl bg-primary-100 flex items-center justify-center">
+                    <User className="h-6 w-6 text-primary-600" />
                   </div>
                   <div>
                     <CardTitle className="text-lg font-bold">
@@ -60,7 +60,7 @@ export function DriverManagement() {
                 </div>
                 <Badge
                   variant="default"
-                  className="bg-brown-100 text-brown-700"
+                  className="bg-primary-100 text-primary-700"
                 >
                   {driver.status}
                 </Badge>
@@ -93,7 +93,7 @@ export function DriverManagement() {
                 <Button
                   variant="outline"
                   size="sm"
-                  className="text-brown-600 border-brown-200 hover:bg-brown-50"
+                  className="text-primary-600 border-primary-200 hover:bg-primary-50"
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>

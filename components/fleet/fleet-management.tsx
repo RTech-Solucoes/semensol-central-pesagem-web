@@ -28,15 +28,15 @@ export function FleetManagement() {
   ];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 animate-fade-in">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+          <h1 className="text-3xl font-bold tracking-tight text-white">
             Caminhões
           </h1>
-          <p className="text-gray-600 mt-1">Gerencie a frota de caminhões</p>
+          <p className="text-gray-200 mt-1">Gerencie a frota de caminhões</p>
         </div>
-        <Button>
+        <Button className="bg-black">
           <Plus className="h-4 w-4 mr-2" />
           Novo Caminhão
         </Button>
@@ -48,8 +48,8 @@ export function FleetManagement() {
             <CardHeader className="pb-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="h-12 w-12 rounded-lg bg-blue-100 flex items-center justify-center">
-                    <Truck className="h-6 w-6 text-brown-600" />
+                  <div className="h-12 w-12 rounded-2xl bg-primary-100 flex items-center justify-center">
+                    <Truck className="h-6 w-6 text-primary-600" />
                   </div>
                   <div>
                     <CardTitle className="text-lg font-bold">
@@ -62,8 +62,8 @@ export function FleetManagement() {
                   variant={truck.status === "Ativo" ? "default" : "secondary"}
                   className={
                     truck.status === "Ativo"
-                      ? "bg-brown-100 text-brown-700"
-                      : "bg-brown-100 text-brown-700"
+                      ? "bg-primary-100 text-primary-700"
+                      : "bg-primary-100 text-primary-700"
                   }
                 >
                   {truck.status}
@@ -101,7 +101,7 @@ export function FleetManagement() {
                 <Button
                   variant="outline"
                   size="sm"
-                  className="text-brown-600 border-brown-200 hover:bg-brown-50"
+                  className="text-primary-600 border-primary-200 hover:bg-primary-50"
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>

@@ -23,7 +23,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import {
   Clock,
-  Scale,
+  Weight,
   Truck,
   Filter,
   Download,
@@ -51,7 +51,7 @@ export function WeighingHistory() {
     {
       title: "Peso Total Transportado",
       value: "131.800 kg",
-      icon: Scale,
+      icon: Weight,
       color: "brown",
     },
     {
@@ -131,17 +131,17 @@ export function WeighingHistory() {
   ];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 animate-fade-in">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+          <h1 className="text-3xl font-bold tracking-tight text-white">
             Histórico de Pesagens
           </h1>
-          <p className="text-gray-600 mt-1">
+          <p className="text-gray-200 mt-1">
             Consulte o histórico completo de pesagens
           </p>
         </div>
-        <Button>
+        <Button className="bg-black">
           <Download className="h-4 w-4 mr-2" />
           Exportar
         </Button>
@@ -161,13 +161,13 @@ export function WeighingHistory() {
                   </p>
                 </div>
                 <div
-                  className={`h-12 w-12 rounded-lg flex items-center justify-center ${
-                    "bg-brown-100"
+                  className={`h-12 w-12 rounded-2xl flex items-center justify-center ${
+                    "bg-primary-100"
                   }`}
                 >
                   <stat.icon
                     className={`h-6 w-6 ${
-                      "text-brown-600"
+                      "text-primary-600"
                     }`}
                   />
                 </div>
@@ -180,7 +180,7 @@ export function WeighingHistory() {
       <Card>
         <CardHeader className="pb-4">
           <CardTitle className="text-lg font-semibold flex items-center gap-2">
-            <Filter className="h-5 w-5 text-brown-600" />
+            <Filter className="h-5 w-5 text-primary-600" />
             Filtros
           </CardTitle>
         </CardHeader>
@@ -318,7 +318,7 @@ export function WeighingHistory() {
                     <TableCell>
                       <Badge
                         variant="secondary"
-                       className="bg-brown-100 text-brown-700"
+                       className="bg-primary-100 text-primary-700"
                       >
                         {record.status}
                       </Badge>

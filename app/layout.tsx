@@ -4,8 +4,12 @@ import "./globals.css";
 import { Lexend } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import {cn} from "@/lib/utils";
 
-const lexend = Lexend({ subsets: ["latin"] });
+const lexend = Lexend({
+  subsets: ["latin"],
+  display: "swap",
+});
 
 export default function RootLayout({
   children,
@@ -15,13 +19,14 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <title>FarmLogistics - Agricultural Operations Management</title>
-        <meta
-          name="description"
-          content="Modern agricultural logistics management system"
-        />
+        <title>Semensol</title>
       </head>
-      <body className={lexend.className}>
+      <body
+        className={cn(
+          lexend.className,
+          "waves-background"
+        )}
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="light"

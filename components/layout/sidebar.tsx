@@ -7,11 +7,11 @@ import { Dialog } from "@radix-ui/react-dialog";
 import { Transition } from "@headlessui/react";
 import {
   LayoutDashboard,
-  Scale,
+  Weight,
   History,
   Truck,
-  Users,
-  Building2,
+  IdCardLanyard,
+  Handshake,
   Settings,
   X,
 } from "lucide-react";
@@ -20,11 +20,11 @@ import { Button } from "@/components/ui/button";
 
 const navigation = [
   { name: "Dashboard", href: "/", icon: LayoutDashboard },
-  { name: "Pesagem Ativa", href: "/weighing", icon: Scale },
+  { name: "Pesagem Ativa", href: "/weighing", icon: Weight },
   { name: "Histórico", href: "/history", icon: History },
   { name: "Frota", href: "/fleet", icon: Truck },
-  { name: "Motoristas", href: "/drivers", icon: Users },
-  { name: "Parceiros", href: "/partners", icon: Building2 },
+  { name: "Motoristas", href: "/drivers", icon: IdCardLanyard },
+  { name: "Parceiros", href: "/partners", icon: Handshake },
 ];
 
 const systemNavigation = [
@@ -43,11 +43,11 @@ export function Sidebar({ open, setOpen }: SidebarProps) {
     <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4 shadow-lg">
       <div className="flex h-16 shrink-0 items-center">
         <div className="flex items-center gap-3">
-          <div className="h-10 w-10 rounded-lg bg-gradient-to-br from-brown-500 to-brown-600 flex items-center justify-center">
-            <Scale className="h-6 w-6 text-white" />
+          <div className="h-10 w-10 rounded-2xl bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center">
+            <Weight className="h-6 w-6 text-white" />
           </div>
           <div>
-            <h1 className="text-xl font-bold text-gray-900">FarmLogistics</h1>
+            <h1 className="text-xl font-bold text-gray-900">Semensol</h1>
             <p className="text-xs text-gray-500 font-medium">PROFESSIONAL</p>
           </div>
         </div>
@@ -65,16 +65,16 @@ export function Sidebar({ open, setOpen }: SidebarProps) {
                     href={item.href}
                     className={cn(
                       pathname === item.href
-                        ? "bg-brown-50 text-brown-600 border-r-2 border-brown-600"
-                        : "text-gray-700 hover:text-brown-600 hover:bg-gray-50",
-                      "group flex gap-x-3 rounded-md py-2 px-3 text-sm leading-6 font-medium transition-colors"
+                        ? "bg-primary-50 text-primary-600 border-r-2 border-primary-600"
+                        : "text-gray-700 hover:text-primary-600 hover:bg-gray-50",
+                      "group flex gap-x-3 rounded-2xl py-2 px-3 text-sm leading-6 font-medium transition-colors"
                     )}
                   >
                     <item.icon
                       className={cn(
                         pathname === item.href
-                          ? "text-brown-600"
-                          : "text-gray-400 group-hover:text-brown-600",
+                          ? "text-primary-600"
+                          : "text-gray-400 group-hover:text-primary-600",
                         "h-5 w-5 shrink-0 transition-colors"
                       )}
                       aria-hidden="true"
@@ -96,16 +96,16 @@ export function Sidebar({ open, setOpen }: SidebarProps) {
                     href={item.href}
                     className={cn(
                       pathname === item.href
-                        ? "bg-brown-50 text-brown-600 border-r-2 border-brown-600"
-                        : "text-gray-700 hover:text-brown-600 hover:bg-gray-50",
-                      "group flex gap-x-3 rounded-md py-2 px-3 text-sm leading-6 font-medium transition-colors"
+                        ? "bg-primary-50 text-primary-600 border-r-2 border-primary-600"
+                        : "text-gray-700 hover:text-primary-600 hover:bg-gray-50",
+                      "group flex gap-x-3 rounded-2xl py-2 px-3 text-sm leading-6 font-medium transition-colors"
                     )}
                   >
                     <item.icon
                       className={cn(
                         pathname === item.href
-                          ? "text-brown-600"
-                          : "text-gray-400 group-hover:text-brown-600",
+                          ? "text-primary-600"
+                          : "text-gray-400 group-hover:text-primary-600",
                         "h-5 w-5 shrink-0 transition-colors"
                       )}
                       aria-hidden="true"
@@ -117,18 +117,13 @@ export function Sidebar({ open, setOpen }: SidebarProps) {
             </ul>
           </li>
           <li className="mt-auto">
-            <div className="rounded-lg bg-gradient-to-r from-brown-50 to-brown-100 p-4">
+            <div className="rounded-2xl bg-gradient-to-r from-primary-50 to-primary-100 p-4">
               <div className="flex items-center gap-3 mb-2">
-                <div className="h-2 w-2 rounded-full bg-brown-500"></div>
+                <div className="h-2 w-2 rounded-full bg-green-500"></div>
                 <span className="text-sm font-medium text-gray-900">
                   Sistema Online
                 </span>
               </div>
-              <p className="text-xs text-gray-600">
-                FarmLogistics Pro v2.1
-                <br />
-                © 2025 Todos os direitos reservados
-              </p>
             </div>
           </li>
         </ul>

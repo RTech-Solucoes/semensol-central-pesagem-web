@@ -1,12 +1,12 @@
 "use client";
 
 import { MainLayout } from "@/components/layout/main-layout";
-import { Dashboard } from "@/components/dashboard/dashboard";
+import { SettingsPage } from "@/components/settings/settings";
 
-export default function Home() {
+export default function Settings() {
   return (
     <MainLayout>
-      <Dashboard />
+      <SettingsPage />
     </MainLayout>
   );
 }

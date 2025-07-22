@@ -16,9 +16,9 @@ import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
-  Scale,
+  Weight,
   Truck,
-  Users,
+  IdCardLanyard,
   AlertTriangle,
   CheckCircle,
   Play,
@@ -34,7 +34,7 @@ export function WeighingCenter() {
     {
       title: "Peso Atual",
       value: `${currentWeight} kg`,
-      icon: Scale,
+      icon: Weight,
       color: "brown",
     },
     {
@@ -46,7 +46,7 @@ export function WeighingCenter() {
     {
       title: "Concluídas Hoje",
       value: "0",
-      icon: Users,
+      icon: IdCardLanyard,
       color: "brown",
     },
     {
@@ -58,13 +58,13 @@ export function WeighingCenter() {
   ];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 animate-fade-in">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+          <h1 className="text-3xl font-bold tracking-tight text-white">
             Central de Pesagem
           </h1>
-          <p className="text-gray-600 mt-1">
+          <p className="text-gray-200 mt-1">
             Controle e monitoramento das operações de pesagem em tempo real
           </p>
         </div>
@@ -84,13 +84,13 @@ export function WeighingCenter() {
                   </p>
                 </div>
                 <div
-                  className={`h-12 w-12 rounded-lg flex items-center justify-center ${
-                    "bg-brown-100"
+                  className={`h-12 w-12 rounded-2xl flex items-center justify-center ${
+                    "bg-primary-100"
                   }`}
                 >
                   <stat.icon
                     className={`h-6 w-6 ${
-                      "text-brown-600"
+                      "text-primary-600"
                     }`}
                   />
                 </div>
@@ -105,7 +105,7 @@ export function WeighingCenter() {
           <Card>
             <CardHeader>
               <CardTitle className="text-lg font-semibold flex items-center gap-2">
-                <Scale className="h-5 w-5 text-brown-600" />
+                <Weight className="h-5 w-5 text-primary-600" />
                 Controle da Balança
               </CardTitle>
             </CardHeader>
@@ -126,11 +126,11 @@ export function WeighingCenter() {
                   variant={isConnected ? "outline" : "default"}
                   className={
                     isConnected
-                      ? "text-brown-600 border-brown-600 hover:bg-brown-50"
+                      ? "text-primary-600 border-primary-600 hover:bg-primary-50"
                       : ""
                   }
                 >
-                  <Scale className="h-4 w-4 mr-2" />
+                  <Weight className="h-4 w-4 mr-2" />
                   {isConnected ? "Desconectar" : "Conectar Balança"}
                 </Button>
                 <div className="flex items-center space-x-2">
@@ -217,13 +217,13 @@ export function WeighingCenter() {
           <Card>
             <CardHeader>
               <CardTitle className="text-lg font-semibold flex items-center gap-2">
-               <Scale className="h-5 w-5 text-brown-600" />
+               <Weight className="h-5 w-5 text-primary-600" />
                 Ciclos Ativos
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-center py-12">
-                <Scale className="h-16 w-16 text-gray-300 mx-auto mb-4" />
+                <Weight className="h-16 w-16 text-gray-300 mx-auto mb-4" />
                 <p className="text-gray-500">Nenhum ciclo ativo no momento</p>
               </div>
             </CardContent>
