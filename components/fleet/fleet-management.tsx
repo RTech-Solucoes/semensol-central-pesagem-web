@@ -36,7 +36,7 @@ export function FleetManagement() {
           </h1>
           <p className="text-gray-200 mt-1">Gerencie a frota de caminhões</p>
         </div>
-        <Button className="bg-black">
+        <Button className="bg-black hover:bg-black/70">
           <Plus className="h-4 w-4 mr-2" />
           Novo Caminhão
         </Button>

@@ -28,8 +28,9 @@ import {
   Filter,
   Download,
   Eye,
-  MoreHorizontal,
+  MoreHorizontal, X, CheckCircle,
 } from "lucide-react";
+import {cn} from "@/lib/utils";
 
 export function WeighingHistory() {
   const [filters, setFilters] = useState({
@@ -41,26 +42,18 @@ export function WeighingHistory() {
     plate: "",
   });
 
-  const stats = [
-    {
-      title: "Total de Pesagens",
-      value: "5",
-      icon: Clock,
-      color: "brown",
-    },
-    {
-      title: "Peso Total Transportado",
-      value: "131.800 kg",
-      icon: Weight,
-      color: "brown",
-    },
-    {
-      title: "Peso Médio por Viagem",
-      value: "26.360 kg",
-      icon: Truck,
-      color: "brown",
-    },
-  ];
+  const tableCols = [
+    "Data/Hora",
+    "Caminhão",
+    "Motorista",
+    "Empresa",
+    "Carga",
+    "Entrada (kg)",
+    "Saída (kg)",
+    "Líquido (kg)",
+    "Status",
+    // "Ações"
+  ]
 
   const weighingRecords = [
     {
@@ -113,7 +106,7 @@ export function WeighingHistory() {
       entryWeight: "39.800",
       exitWeight: "13.900",
       netWeight: "25.900",
-      status: "Concluído",
+      status: "Em andamento",
     },
     {
       id: 5,
@@ -141,51 +134,25 @@ export function WeighingHistory() {
             Consulte o histórico completo de pesagens
           </p>
         </div>
-        <Button className="bg-black">
+        <Button className="bg-black hover:bg-black/70">
           <Download className="h-4 w-4 mr-2" />
           Exportar
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-        {stats.map((stat, index) => (
-          <Card key={index}>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600 mb-2">
-                    {stat.title}
-                  </p>
-                  <p className="text-2xl font-bold text-gray-900">
-                    {stat.value}
-                  </p>
-                </div>
-                <div
-                  className={`h-12 w-12 rounded-2xl flex items-center justify-center ${
-                    "bg-primary-100"
-                  }`}
-                >
-                  <stat.icon
-                    className={`h-6 w-6 ${
-                      "text-primary-600"
-                    }`}
-                  />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-
       <Card>
-        <CardHeader className="pb-4">
+        <CardHeader className="flex flex-row justify-between pb-4">
           <CardTitle className="text-lg font-semibold flex items-center gap-2">
             <Filter className="h-5 w-5 text-primary-600" />
             Filtros
           </CardTitle>
+          <Button variant="outline">
+            <X className="h-4 w-4 mr-2" />
+            Limpar Filtros
+          </Button>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-6 mb-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-6 pt-2 pb-4">
             <div>
               <Label htmlFor="startDate">Data Início</Label>
               <Input
@@ -262,37 +229,13 @@ export function WeighingHistory() {
               </Select>
             </div>
           </div>
-          <div className="flex gap-2">
-            <Button>
-              <Filter className="h-4 w-4 mr-2" />
-              Filtrar
-            </Button>
-            <Button variant="outline">Limpar Filtros</Button>
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold">
-            Registros de Pesagem
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto rounded-2xl">
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Data/Hora</TableHead>
-                  <TableHead>Caminhão</TableHead>
-                  <TableHead>Motorista</TableHead>
-                  <TableHead>Empresa</TableHead>
-                  <TableHead>Carga</TableHead>
-                  <TableHead>Entrada (kg)</TableHead>
-                  <TableHead>Saída (kg)</TableHead>
-                  <TableHead>Líquido (kg)</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Ações</TableHead>
+                  {tableCols.map((col, index) =>
+                    <TableHead key={index}>{col}</TableHead>
+                  )}
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -318,16 +261,28 @@ export function WeighingHistory() {
                     <TableCell>
                       <Badge
                         variant="secondary"
-                       className="bg-primary-100 text-primary-700"
+                        className={cn(
+                          "flex items-center w-fit space-x-1",
+                          record.status === "Concluído"
+                          ? "bg-green-100 text-green-700"
+                          : "bg-amber-100 text-amber-700"
+                        )}
                       >
-                        {record.status}
+                        <span>
+                          {record.status}
+                        </span>
+                        {
+                          record.status === "Concluído"
+                            ? <CheckCircle className="w-4 h-4"/>
+                            : <Clock className="w-4 h-4"/>
+                        }
                       </Badge>
                     </TableCell>
-                    <TableCell>
-                      <Button variant="ghost" size="sm">
-                        <Eye className="h-4 w-4" />
-                      </Button>
-                    </TableCell>
+                    {/*<TableCell>*/}
+                    {/*  <Button variant="ghost" size="sm">*/}
+                    {/*    <Eye className="h-4 w-4" />*/}
+                    {/*  </Button>*/}
+                    {/*</TableCell>*/}
                   </TableRow>
                 ))}
               </TableBody>

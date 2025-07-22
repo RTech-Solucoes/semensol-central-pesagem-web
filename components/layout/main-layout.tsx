@@ -14,8 +14,8 @@ export function MainLayout({ children }: MainLayoutProps) {
     <div className="min-h-screen">
       <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} />
       <div className="lg:pl-72">
-        <main className="py-6 px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-7xl">{children}</div>
+        <main className="py-8 px-4 sm:px-6 lg:px-12">
+          {children}
         </main>
       </div>
     </div>

@@ -46,10 +46,7 @@ interface SidebarProps {
 export function Sidebar({ open, setOpen }: SidebarProps) {
   const pathname = usePathname();
 
-
   const NavItem = ({item} : {item: NavItem}) => {
-    console.log(item)
-
     return (
       <Link
         href={item.href}

@@ -117,7 +117,7 @@ export function SettingsPage() {
             Gerencie as configurações do sistema Semensol
           </p>
         </div>
-        <Button onClick={handleSave} className="bg-black">
+        <Button onClick={handleSave} className="bg-black hover:bg-black/70">
           <Save className="h-4 w-4 mr-2" />
           Salvar Alterações
         </Button>

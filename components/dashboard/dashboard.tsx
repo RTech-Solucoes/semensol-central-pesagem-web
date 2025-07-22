@@ -1,53 +1,13 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import {
-  Weight,
-  TrendingUp,
-  Truck,
-  IdCardLanyard,
-  Activity,
-  ArrowUpRight,
-  CheckCircle,
-  Clock,
-  AlertTriangle, Handshake,
-} from "lucide-react";
+import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
+import {Button} from "@/components/ui/button";
+import {Badge} from "@/components/ui/badge";
+import {Activity, CheckCircle, Clock, Handshake, IdCardLanyard, TrendingUp, Truck, Weight, Zap,} from "lucide-react";
+import {cn} from "@/lib/utils";
+import Link from "next/link";
 
 export function Dashboard() {
-  const kpis = [
-    {
-      title: "Pesagens Hoje",
-      value: "247",
-      change: "+12%",
-      trend: "up",
-      icon: Weight,
-      color: "green",
-    },
-    {
-      title: "Em Operação",
-      value: "8",
-      status: "Ativo agora",
-      icon: Activity,
-      color: "blue",
-    },
-    {
-      title: "Volume Total",
-      value: "1848t",
-      change: "+8.5%",
-      trend: "up",
-      icon: TrendingUp,
-      color: "orange",
-    },
-    {
-      title: "Eficiência",
-      value: "94.2%",
-      status: "Excelente",
-      icon: CheckCircle,
-      color: "emerald",
-    },
-  ];
 
   const quickActions = [
     {
@@ -105,8 +65,8 @@ export function Dashboard() {
   ];
 
   const systemStatus = [
-    { name: "Balança R1", status: "Online"},
-    { name: "Balança R2", status: "Offline"},
+    {name: "Balança R1", status: "Online"},
+    {name: "Balança R2", status: "Offline"},
   ];
 
   return (
@@ -121,12 +81,12 @@ export function Dashboard() {
           </p>
         </div>
         <div className="flex gap-3">
-          <Button className="bg-black">
-            <Weight className="h-4 w-4 mr-2" />
+          <Button className="bg-black hover:bg-black/70">
+            <Weight className="h-4 w-4 mr-2"/>
             Nova Pesagem
           </Button>
           <Button variant="outline">
-            <TrendingUp className="h-4 w-4 mr-2" />
+            <TrendingUp className="h-4 w-4 mr-2"/>
             Relatórios
           </Button>
         </div>
@@ -137,53 +97,62 @@ export function Dashboard() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle className="text-lg font-semibold flex items-center gap-2">
-                <Activity className="h-5 w-5 text-primary-600" />
+                <Zap className="h-5 w-5 text-primary-600"/>
                 Ações Rápidas
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 {quickActions.map((action, index) => (
-                  <div
+                  <Link
+                    href={action.href}
                     key={index}
-                    className={`rounded-2xl border-2 border-dashed p-6 transition-all hover:border-solid hover:shadow-md cursor-pointer ${
-                      "border-primary-200 hover:border-primary-300 hover:bg-primary-50"
-                    }`}
-                  >
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <h3 className="font-semibold text-gray-900 mb-1">
-                          {action.title}
-                        </h3>
-                        <p className="text-sm text-gray-600 mb-3">
-                          {action.description}
-                        </p>
-                      </div>
-                      <ArrowUpRight className="h-5 w-5 text-gray-400" />
+                    className="
+                      flex gap-4 items-center relative overflow-hidden
+                      rounded-2xl border-2 border-dashed p-6 transition-all duration-200
+                      cursor-pointer border-primary-300
+                      hover:border-solid hover:shadow-md hover:bg-primary-100
+                      group
+                  ">
+                    <div className="
+                      flex items-center justify-center bg-primary-100
+                      flex-shrink-0 h-12 w-12 rounded-2xl
+                      transition-all duration-200 z-10
+                      group-hover:bg-transparent
+                    ">
+                      <action.icon className="
+                        h-6 w-6 text-primary-600 transition-all duration-200
+                        group-hover:h-12 group-hover:w-12
+                      "/>
                     </div>
-                    <div
-                      className={`h-10 w-10 rounded-2xl flex items-center justify-center ${
-                        "bg-primary-100"
-                      }`}
-                    >
+                    <div className="absolute -top-4 -right-4">
                       <action.icon
-                        className={`h-5 w-5 ${
-                          "text-primary-600"
-                        }`}
+                        className="
+                          text-primary-300
+                          h-16 w-16
+                        "
                       />
                     </div>
-                  </div>
+                    <div className="flex flex-col transition-all duration-200 z-10">
+                      <h3 className="text-lg font-semibold text-gray-900">
+                        {action.title}
+                      </h3>
+                      <p className="text-sm text-gray-600">
+                        {action.description}
+                      </p>
+                    </div>
+                  </Link>
                 ))}
               </div>
             </CardContent>
           </Card>
         </div>
 
-        <div className="space-y-6">
-          <Card>
+        <Card className="h-fit">
+          <div className="border-b">
             <CardHeader>
               <CardTitle className="text-lg font-semibold flex items-center gap-2">
-                <Clock className="h-5 w-5 text-primary-600" />
+                <Clock className="h-5 w-5 text-primary-600"/>
                 Atividade Recente
               </CardTitle>
             </CardHeader>
@@ -194,27 +163,30 @@ export function Dashboard() {
                     <div
                       className={`h-2 w-2 rounded-full mt-2 bg-primary-500`}
                     />
-                    <div className="flex-1">
-                      <div>
+                    <div className="flex flex-col">
+                      <div className="flex items-start justify-between">
                         <p className="text-sm font-medium text-gray-900">
                           {activity.title}
                         </p>
-                        <Badge
-                          className={`text-xs ${
-                            activity.status === "Concluído"
-                              ? "bg-green-100 text-green-700"
-                              : activity.status === "Em andamento"
-                                ? "bg-amber-100 text-amber-700"
-                                : "bg-amber-100 text-primary-700"
-                          }`}
-                        >
-                          {activity.status}
-                        </Badge>
                       </div>
                       <div className="flex items-center justify-between mt-1">
                         <p className="text-xs text-gray-500">{activity.time}</p>
                       </div>
                     </div>
+                    <Badge
+                      className={cn(
+                        "text-xs p-1 ml-auto",
+                        activity.status === "Concluído"
+                          ? "bg-green-100 text-green-700"
+                          : "bg-amber-100 text-amber-700"
+                      )}
+                    >
+                      {
+                        activity.status === "Concluído"
+                          ? <CheckCircle className="w-4 h-4"/>
+                          : <Clock className="w-4 h-4"/>
+                      }
+                    </Badge>
                   </div>
                 ))}
               </div>
@@ -223,12 +195,12 @@ export function Dashboard() {
               {/*  <ArrowUpRight className="h-4 w-4 ml-2" />*/}
               {/*</Button>*/}
             </CardContent>
-          </Card>
+          </div>
 
-          <Card>
+          <div>
             <CardHeader>
               <CardTitle className="text-lg font-semibold flex items-center gap-2">
-                <Activity className="h-5 w-5 text-primary-600" />
+                <Activity className="h-5 w-5 text-primary-600"/>
                 Status do Sistema
               </CardTitle>
             </CardHeader>
@@ -253,8 +225,8 @@ export function Dashboard() {
                 ))}
               </div>
             </CardContent>
-          </Card>
-        </div>
+          </div>
+        </Card>
       </div>
     </div>
   );
