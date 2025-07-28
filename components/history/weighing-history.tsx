@@ -204,7 +204,7 @@ export function WeighingHistory() {
   };
 
   return (
-    <div className="space-y-8 animate-fade-in">
+    <div className="flex flex-col w-full space-y-8 page-animation">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-white">
@@ -214,88 +214,13 @@ export function WeighingHistory() {
             Consulte o histórico completo de pesagens
           </p>
         </div>
-        <Button className="bg-black hover:bg-black/70">
+        <Button className="bg-primary-900 hover:bg-primary-900/70">
           <Download className="h-4 w-4 mr-2" />
           Exportar
         </Button>
       </div>
 
       <div className="flex flex-col lg:flex-row gap-8">
-        {/* Main Table Card */}
-        <Card className="flex-1">
-          <CardHeader>
-            <CardTitle className="text-lg font-semibold flex items-center gap-2">
-              <Weight className="h-5 w-5 text-primary-600" />
-              Registros de Pesagem
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="overflow-x-auto rounded-2xl">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    {tableCols.map((col, index) =>
-                      <TableHead 
-                        key={index} 
-                        className="cursor-pointer hover:bg-gray-50 select-none"
-                        onClick={() => handleSort(col.key)}
-                      >
-                        <div className="flex items-center justify-between">
-                          {col.label}
-                          {getSortIcon(col.key)}
-                        </div>
-                      </TableHead>
-                    )}
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {sortedRecords.map((record) => (
-                    <TableRow key={record.id}>
-                      <TableCell>
-                        <div className="text-sm">
-                          <div className="font-medium">{record.date}</div>
-                          <div className="text-gray-500">{record.time}</div>
-                        </div>
-                      </TableCell>
-                      <TableCell className="font-medium">
-                        {record.plate}
-                      </TableCell>
-                      <TableCell>{record.driver}</TableCell>
-                      <TableCell>{record.company}</TableCell>
-                      <TableCell>{record.cargo}</TableCell>
-                      <TableCell>{record.entryWeight}</TableCell>
-                      <TableCell>{record.exitWeight}</TableCell>
-                      <TableCell className="font-medium">
-                        {record.netWeight}
-                      </TableCell>
-                      <TableCell>
-                        <Badge
-                          variant="secondary"
-                          className={cn(
-                            "flex items-center w-fit space-x-1",
-                            record.status === "Concluído"
-                            ? "bg-green-100 text-green-700"
-                            : "bg-amber-100 text-amber-700"
-                          )}
-                        >
-                          <span>
-                            {record.status}
-                          </span>
-                          {
-                            record.status === "Concluído"
-                              ? <CheckCircle className="w-4 h-4"/>
-                              : <Clock className="w-4 h-4"/>
-                          }
-                        </Badge>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-          </CardContent>
-        </Card>
-
         {/* Filters Card */}
         <Card className="w-full lg:w-80 h-fit">
           <CardHeader className="flex flex-row justify-between pb-4">
@@ -391,6 +316,81 @@ export function WeighingHistory() {
                 <X className="h-4 w-4 mr-2" />
                 Limpar
               </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Main Table Card */}
+        <Card className="flex-1">
+          <CardHeader>
+            <CardTitle className="text-lg font-semibold flex items-center gap-2">
+              <Weight className="h-5 w-5 text-primary-600" />
+              Registros de Pesagem
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="overflow-x-auto rounded-2xl">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    {tableCols.map((col, index) =>
+                      <TableHead 
+                        key={index} 
+                        className="cursor-pointer hover:bg-gray-50 select-none"
+                        onClick={() => handleSort(col.key)}
+                      >
+                        <div className="flex items-center justify-between">
+                          {col.label}
+                          {getSortIcon(col.key)}
+                        </div>
+                      </TableHead>
+                    )}
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {sortedRecords.map((record) => (
+                    <TableRow key={record.id}>
+                      <TableCell>
+                        <div className="text-sm">
+                          <div className="font-medium">{record.date}</div>
+                          <div className="text-gray-500">{record.time}</div>
+                        </div>
+                      </TableCell>
+                      <TableCell className="font-medium">
+                        {record.plate}
+                      </TableCell>
+                      <TableCell>{record.driver}</TableCell>
+                      <TableCell>{record.company}</TableCell>
+                      <TableCell>{record.cargo}</TableCell>
+                      <TableCell>{record.entryWeight}</TableCell>
+                      <TableCell>{record.exitWeight}</TableCell>
+                      <TableCell className="font-medium">
+                        {record.netWeight}
+                      </TableCell>
+                      <TableCell>
+                        <Badge
+                          variant="secondary"
+                          className={cn(
+                            "flex items-center w-fit space-x-1",
+                            record.status === "Concluído"
+                            ? "bg-green-100 text-green-700"
+                            : "bg-amber-100 text-amber-700"
+                          )}
+                        >
+                          <span>
+                            {record.status}
+                          </span>
+                          {
+                            record.status === "Concluído"
+                              ? <CheckCircle className="w-4 h-4"/>
+                              : <Clock className="w-4 h-4"/>
+                          }
+                        </Badge>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
             </div>
           </CardContent>
         </Card>

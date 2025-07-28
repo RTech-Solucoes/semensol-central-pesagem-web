@@ -1,21 +1,36 @@
 "use client";
 
 import "./globals.css";
-import { Lexend } from "next/font/google";
-import { ThemeProvider } from "@/components/theme-provider";
-import { Toaster } from "@/components/ui/sonner";
+import {Lexend as Font} from "next/font/google";
+import {ThemeProvider} from "@/components/theme-provider";
+import {Toaster} from "@/components/ui/sonner";
 import {cn} from "@/lib/utils";
+import {Sidebar} from "@/components/layout/navigation/sidebar";
+import {Bottombar} from "@/components/layout/navigation/bottombar";
+import {NavItem} from "@/types/NavItem";
+import {Handshake, History, IdCardLanyard, Home, Settings, Truck, Weight,} from "lucide-react";
 
-const lexend = Lexend({
+const font = Font({
   subsets: ["latin"],
   display: "swap",
 });
+
+const navigation: NavItem[] = [
+  { name: "Tela Inicial", href: "/", section: "Operações", icon: Home },
+  { name: "Pesagem Ativa", href: "/weighing", section: "Operações", icon: Weight },
+  { name: "Histórico", href: "/history", section: "Operações", icon: History },
+  { name: "Frota", href: "/fleet", section: "Operações", icon: Truck },
+  { name: "Motoristas", href: "/drivers", section: "Operações", icon: IdCardLanyard },
+  { name: "Parceiros", href: "/partners", section: "Operações", icon: Handshake },
+  { name: "Configurações", href: "/settings", section: "Sistema", icon: Settings },
+];
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -24,8 +39,8 @@ export default function RootLayout({
       </head>
       <body
         className={cn(
-          lexend.className,
-          "waves-background"
+          font.className,
+          "bg-white relative"
         )}
       >
         <ThemeProvider
@@ -34,7 +49,13 @@ export default function RootLayout({
           enableSystem={false}
           disableTransitionOnChange
         >
-          {children}
+          <div className="
+            flex min-h-screen overflow-hidden
+          ">
+            <Sidebar navigation={navigation}/>
+            <Bottombar navigation={navigation}/>
+            {children}
+          </div>
           <Toaster />
         </ThemeProvider>
       </body>

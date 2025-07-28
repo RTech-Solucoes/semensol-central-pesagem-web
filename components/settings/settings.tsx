@@ -107,7 +107,7 @@ export function SettingsPage() {
   };
 
   return (
-    <div className="space-y-8 animate-fade-in">
+    <div className="flex flex-col w-full space-y-8 page-animation">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-white">
@@ -117,7 +117,7 @@ export function SettingsPage() {
             Gerencie as configurações do sistema Semensol
           </p>
         </div>
-        <Button onClick={handleSave} className="bg-black hover:bg-black/70">
+        <Button onClick={handleSave} className="bg-primary-900 hover:bg-primary-900/70">
           <Save className="h-4 w-4 mr-2" />
           Salvar Alterações
         </Button>

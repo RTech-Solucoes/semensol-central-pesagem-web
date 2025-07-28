@@ -32,21 +32,21 @@ export function PartnerManagement() {
   ];
 
   return (
-    <div className="space-y-8 animate-fade-in">
+    <div className="flex flex-col w-full space-y-8 page-animation">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-white">
-            Empresas
+            Empresas parceiras
           </h1>
           <p className="text-gray-200 mt-1">Gerencie as empresas parceiras</p>
         </div>
-        <Button className="bg-black hover:bg-black/70">
+        <Button className="bg-primary-900 hover:bg-primary-900/70">
           <Plus className="h-4 w-4 mr-2" />
           Nova Empresa
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
         {partners.map((partner) => (
           <Card key={partner.id} className="relative">
             <CardHeader className="pb-4">

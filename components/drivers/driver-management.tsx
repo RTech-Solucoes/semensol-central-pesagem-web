@@ -28,7 +28,7 @@ export function DriverManagement() {
   ];
 
   return (
-    <div className="space-y-8 animate-fade-in">
+    <div className="w-full space-y-8 page-animation">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-white">
@@ -36,7 +36,7 @@ export function DriverManagement() {
           </h1>
           <p className="text-gray-200 mt-1">Gerencie os motoristas cadastrados</p>
         </div>
-        <Button className="bg-black hover:bg-black/70">
+        <Button className="bg-primary-900 hover:bg-primary-900/70">
           <Plus className="h-4 w-4 mr-2" />
           Novo Motorista
         </Button>

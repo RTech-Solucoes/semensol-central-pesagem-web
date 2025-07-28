@@ -25,14 +25,14 @@ export function Dashboard() {
       href: "/fleet",
     },
     {
-      title: "Motoristas",
+      title: "Gerenciar Motoristas",
       description: "Cadastrar e gerenciar motoristas",
       icon: IdCardLanyard,
       color: "orange",
       href: "/drivers",
     },
     {
-      title: "Parceiros",
+      title: "Gerenciar Parceiros",
       description: "Gerenciar empresas parceiras",
       icon: Handshake,
       color: "purple",
@@ -70,7 +70,7 @@ export function Dashboard() {
   ];
 
   return (
-    <div className="space-y-8 animate-fade-in">
+    <div className="flex flex-col w-full space-y-8 page-animation">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-white">
@@ -81,7 +81,7 @@ export function Dashboard() {
           </p>
         </div>
         <div className="flex gap-3">
-          <Button className="bg-black hover:bg-black/70">
+          <Button className="bg-primary-900 hover:bg-primary-900/70">
             <Weight className="h-4 w-4 mr-2"/>
             Nova Pesagem
           </Button>
@@ -92,65 +92,63 @@ export function Dashboard() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-        <div className="lg:col-span-2">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle className="text-lg font-semibold flex items-center gap-2">
-                <Zap className="h-5 w-5 text-primary-600"/>
-                Ações Rápidas
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {quickActions.map((action, index) => (
-                  <Link
-                    href={action.href}
-                    key={index}
-                    className="
-                      flex gap-4 items-center p-6 relative overflow-hidden
-                      rounded-2xl border-2 border-dashed border-primary-300
-                      transition-all duration-200
-                      cursor-pointer brick-animation
-                      hover:border-solid hover:bg-primary-100
-                      group
+      <Card className="grid grid-cols-1 lg:grid-cols-3">
+        <div className="flex flex-col lg:col-span-2 border-r">
+          <CardHeader className="flex flex-row items-center justify-between">
+            <CardTitle className="text-lg font-semibold flex items-center gap-2">
+              <Zap className="h-5 w-5 text-primary-600"/>
+              Ações Rápidas
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="h-full">
+            <div className="grid grid-cols-1 h-full gap-4 sm:grid-cols-2 auto-rows-fr">
+              {quickActions.map((action, index) => (
+                <Link
+                  href={action.href}
+                  key={index}
+                  className="
+                    flex gap-4 items-center p-6 relative overflow-hidden
+                    rounded-2xl border-2 border-dashed border-primary-300
+                    transition-all duration-200
+                    cursor-pointer brick-animation
+                    hover:border-solid hover:bg-primary-100
+                    group
+                  "
+                >
+                  <div className="
+                    flex items-center justify-center bg-primary-100
+                    flex-shrink-0 h-16 w-16 rounded-2xl
+                    transition-all duration-200 z-10
+                    group-hover:bg-transparent
                   ">
-                    <div className="
-                      flex items-center justify-center bg-primary-100
-                      flex-shrink-0 h-16 w-16 rounded-2xl
-                      transition-all duration-200 z-10
-                      group-hover:bg-transparent
-                    ">
-                      <action.icon className="
-                        h-10 w-10 text-primary-600 transition-all duration-200
-                        group-hover:h-16 group-hover:w-16
-                      "/>
-                    </div>
-                    <div className="absolute -top-4 -right-4">
-                      <action.icon
-                        className="
-                          text-primary-300
-                          h-16 w-16
-                        "
-                      />
-                    </div>
-                    <div className="flex flex-col transition-all duration-200 z-10">
-                      <h3 className="text-xl font-semibold text-gray-900">
-                        {action.title}
-                      </h3>
-                      <p className="text-lg text-gray-600">
-                        {action.description}
-                      </p>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+                    <action.icon className="
+                      h-10 w-10 text-primary-600 transition-all duration-200
+                      group-hover:h-16 group-hover:w-16
+                    "/>
+                  </div>
+                  <div className="absolute -top-4 -right-4">
+                    <action.icon
+                      className="
+                        text-primary-300
+                        h-16 w-16
+                      "
+                    />
+                  </div>
+                  <div className="flex flex-col transition-all duration-200 z-10">
+                    <h3 className="text-xl font-semibold text-gray-900">
+                      {action.title}
+                    </h3>
+                    <p className="text-lg text-gray-600">
+                      {action.description}
+                    </p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </CardContent>
         </div>
-
-        <Card className="h-fit">
-          <div className="border-b">
+        <div>
+          <div className="h-fit border-b">
             <CardHeader>
               <CardTitle className="text-lg font-semibold flex items-center gap-2">
                 <Clock className="h-5 w-5 text-primary-600"/>
@@ -161,9 +159,7 @@ export function Dashboard() {
               <div className="space-y-4">
                 {recentActivity.map((activity) => (
                   <div key={activity.id} className="flex items-start gap-3">
-                    <div
-                      className={`h-2 w-2 rounded-full mt-2 bg-primary-500`}
-                    />
+                    <div className="h-2 w-2 rounded-full mt-2 bg-primary-600"/>
                     <div className="flex flex-col">
                       <div className="flex items-start justify-between">
                         <p className="text-sm font-medium text-gray-900">
@@ -191,13 +187,8 @@ export function Dashboard() {
                   </div>
                 ))}
               </div>
-              {/*<Button variant="outline" className="w-full mt-4">*/}
-              {/*  Ver Histórico Completo*/}
-              {/*  <ArrowUpRight className="h-4 w-4 ml-2" />*/}
-              {/*</Button>*/}
             </CardContent>
           </div>
-
           <div>
             <CardHeader>
               <CardTitle className="text-lg font-semibold flex items-center gap-2">
@@ -214,12 +205,20 @@ export function Dashboard() {
                     </span>
                     <Badge
                       variant="secondary"
-                      className={`text-xs ${
+                      className={`flex gap-1 text-xs ${
                         system.status === "Online"
                           ? "bg-green-100 text-green-700"
                           : "bg-red-100 text-red-700"
                       }`}
                     >
+                      <div
+                        className={cn(
+                          "w-1 h-1 rounded-full",
+                          system.status === "Online"
+                            ? "bg-green-700"
+                            : "bg-red-700"
+                        )}
+                      />
                       {system.status}
                     </Badge>
                   </div>
@@ -227,8 +226,8 @@ export function Dashboard() {
               </div>
             </CardContent>
           </div>
-        </Card>
-      </div>
+        </div>
+      </Card>
     </div>
   );
 }

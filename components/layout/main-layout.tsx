@@ -1,23 +1,23 @@
 "use client";
 
-import {useState} from "react";
-import {Sidebar} from "./sidebar";
-
 interface MainLayoutProps {
   children: React.ReactNode;
 }
 
 export function MainLayout({ children }: MainLayoutProps) {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="min-h-screen">
-      <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} />
-      <div className="lg:pl-72">
-        <main className="py-8 px-4 sm:px-6 lg:px-12">
-          {children}
-        </main>
-      </div>
+    <div className="flex w-full">
+      <main className="
+        waves-background
+        flex w-full
+        py-8 px-4 pb-24
+        sm:px-6 lg:px-12 lg:pb-0
+        lg:my-4 lg:mr-4 lg:rounded-3xl
+        overflow-y-auto
+      ">
+        {children}
+      </main>
     </div>
   );
 }
