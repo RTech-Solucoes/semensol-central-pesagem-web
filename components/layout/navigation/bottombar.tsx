@@ -30,6 +30,17 @@ export function Bottombar({navigation} : {navigation: NavItem[]}) {
     )
   }
 
+  const Indicator = () => {
+    return (
+      <div
+        style={{
+          left: (selectedLinkIndex * 64) + 8,
+        }}
+        className="absolute w-16 h-12 bg-primary-600 rounded-full transition-all duration-300 shadow-lg"
+      />
+    )
+  }
+
   return (
     <div className="lg:hidden fixed flex items-center justify-center z-20 px-4 sm:px-6 lg:px-12 bottom-4 left-0 right-0">
       <nav
@@ -38,12 +49,7 @@ export function Bottombar({navigation} : {navigation: NavItem[]}) {
           "w-fit gap-4 p-4 py-2"
         )}
       >
-        <div
-          style={{
-            left: (selectedLinkIndex * 64) + 8,
-          }}
-          className="absolute w-16 h-12 bg-primary-600 rounded-full transition-all duration-300 shadow-lg"
-        />
+        <Indicator />
         {navigation.filter(item => item.section === "Operações").map((item) =>
           <BottombarItem
             key={item.name}

@@ -58,7 +58,7 @@ export function Sidebar({navigation} : {navigation: NavItem[]}) {
     )
   }
 
-  const Selector = () => {
+  const Indicator = () => {
     return (
       <div
         style={
@@ -81,7 +81,7 @@ export function Sidebar({navigation} : {navigation: NavItem[]}) {
 
     return (
       <nav className="flex flex-col h-full justify-between relative pb-4">
-        <Selector />
+        <Indicator />
         <SidebarItemListSection section="Operações" />
         <SidebarItemListSection section="Sistema" />
       </nav>
