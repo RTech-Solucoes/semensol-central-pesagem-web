@@ -33,19 +33,21 @@ export default function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        <link rel="icon" href="/images/favicon.ico" />
-        <title>Semensol</title>
-      </head>
-      <body
-        className={cn(
-          font.className,
-          "bg-white relative"
-        )}
-      >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
+    <head>
+      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+      <meta name="apple-mobile-web-app-capable" content="yes"/>
+      <link rel="icon" href="/images/favicon.ico"/>
+      <title>Semensol</title>
+    </head>
+    <body
+      className={cn(
+        font.className,
+        "bg-white relative"
+      )}
+    >
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="light"
           enableSystem={false}
           disableTransitionOnChange
         >

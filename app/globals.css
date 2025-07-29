@@ -63,16 +63,20 @@
   }
 
   *::-webkit-scrollbar {
-    @apply w-4;
+    @apply w-4 ;
   }
 
   *::-webkit-scrollbar-track {
-    @apply bg-transparent;
+    @apply bg-transparent my-4;
   }
 
   *::-webkit-scrollbar-thumb {
-    @apply bg-primary-800 rounded-full;
-    border: 4px solid transparent;
+    @apply
+    bg-white
+    rounded-full
+    border-4
+    border-solid
+    border-transparent;
     background-clip: content-box;
   }
 
@@ -112,6 +116,7 @@
   .waves-background {
     background-image: url("/images/background.svg");
     object-fit: cover;
+    background-repeat: no-repeat;
   }
 
   .page-animation {

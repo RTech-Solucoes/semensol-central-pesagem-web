@@ -7,56 +7,43 @@ import {NavItem} from "@/types/NavItem";
 
 export function Bottombar({navigation} : {navigation: NavItem[]}) {
   const pathname = usePathname();
-
-  const selectedLinkIndex = navigation.findIndex((item) => item.href === pathname);
-
-  const BottombarItem = ({ item } : { item: NavItem }) => {
-    return (
-      <Link
-        href={item.href}
-        className={cn(
-          "flex items-center justify-center rounded-full relative w-12 h-12",
-        )}
-      >
-        <item.icon
-          className={cn(
-            "w-6 h-6",
-            "text-gray-300",
-            pathname === item.href && "text-white"
-          )}
-          aria-hidden="true"
-        />
-      </Link>
-    )
-  }
-
-  const Indicator = () => {
-    return (
-      <div
-        style={{
-          left: (selectedLinkIndex * 64) + 8,
-        }}
-        className="absolute w-16 h-12 bg-primary-600 rounded-full transition-all duration-300 shadow-lg"
-      />
-    )
-  }
+  const selectedClasses = (href, classes) => pathname === href && classes
 
   return (
-    <div className="lg:hidden fixed flex items-center justify-center z-20 px-4 sm:px-6 lg:px-12 bottom-4 left-0 right-0">
-      <nav
-        className={cn(
-          "flex rounded-full justify-between bg-white relative",
-          "w-fit gap-4 p-4 py-2"
-        )}
-      >
-        <Indicator />
-        {navigation.filter(item => item.section === "Operações").map((item) =>
-          <BottombarItem
-            key={item.name}
-            item={item}
+    <nav className={
+      cn(
+        "lg:hidden w-full h-fit p-3 pb-0 mx-auto",
+        "flex items-center justify-between",
+        "fixed z-20 bottom-0 left-0 right-0",
+        "border-t border-gray-200",
+        "bg-white drop-shadow-2xl rounded-t-3xl",
+        "sm:max-w-md sm:rounded-3xl sm:bottom-4 sm:border-0 sm:pb-3"
+      )
+    }>
+      {navigation.filter(item => item.section === "Operações").map((item) =>
+        <Link
+          key={item.name}
+          href={item.href}
+          className="flex flex-col items-center relative"
+        >
+          <div
+            className={cn(
+              "absolute -bottom-2 opacity-0 transition-all duration-200",
+              "rounded-full bg-primary-600 w-3 h-1 mx-auto",
+              selectedClasses(item.href, "opacity-100 bottom-1.5")
+            )}
           />
-        )}
-      </nav>
-    </div>
+          <item.icon
+            className={cn(
+              "w-8 h-8 p-3 box-content rounded-2xl",
+              "transition-all duration-200",
+              "text-gray-300 bg-white",
+              selectedClasses(item.href, "text-primary-600 bg-primary-100 pt-2.5 pb-3.5")
+            )}
+            aria-hidden="true"
+          />
+        </Link>
+      )}
+    </nav>
   )
 }

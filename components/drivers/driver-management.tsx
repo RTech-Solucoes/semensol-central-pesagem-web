@@ -25,6 +25,78 @@ export function DriverManagement() {
       email: "maria@email.com",
       status: "Ativo",
     },
+    {
+      id: 3,
+      name: "Pedro Oliveira",
+      document: "CNH: 5566778899",
+      cpf: "456.789.123-45",
+      phone: "(11) 97777-7777",
+      email: "pedro.oliveira@email.com",
+      status: "Ativo",
+    },
+    {
+      id: 4,
+      name: "Ana Costa",
+      document: "CNH: 1122334455",
+      cpf: "789.123.456-78",
+      phone: "(11) 96666-6666",
+      email: "ana.costa@email.com",
+      status: "Inativo",
+    },
+    {
+      id: 5,
+      name: "Carlos Lima",
+      document: "CNH: 9988776655",
+      cpf: "321.654.987-32",
+      phone: "(11) 95555-5555",
+      email: "carlos.lima@email.com",
+      status: "Ativo",
+    },
+    {
+      id: 6,
+      name: "Fernanda Rocha",
+      document: "CNH: 4433221100",
+      cpf: "654.321.987-65",
+      phone: "(11) 94444-4444",
+      email: "fernanda.rocha@email.com",
+      status: "Ativo",
+    },
+    {
+      id: 7,
+      name: "Roberto Mendes",
+      document: "CNH: 7788990011",
+      cpf: "159.753.486-15",
+      phone: "(11) 93333-3333",
+      email: "roberto.mendes@email.com",
+      status: "Suspenso",
+    },
+    {
+      id: 8,
+      name: "Juliana Ferreira",
+      document: "CNH: 2233445566",
+      cpf: "357.159.753-35",
+      phone: "(11) 92222-2222",
+      email: "juliana.ferreira@email.com",
+      status: "Ativo",
+    },
+    {
+      id: 9,
+      name: "Ricardo Barbosa",
+      document: "CNH: 6677889900",
+      cpf: "741.852.963-74",
+      phone: "(11) 91111-1111",
+      email: "ricardo.barbosa@email.com",
+      status: "Ativo",
+    },
+    {
+      id: 10,
+      name: "Patrícia Alves",
+      document: "CNH: 3344556677",
+      cpf: "852.963.741-85",
+      phone: "(11) 90000-0000",
+      email: "patricia.alves@email.com",
+      status: "Inativo",
+    },
   ];
 
   return (
@@ -42,7 +114,7 @@ export function DriverManagement() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         {drivers.map((driver) => (
           <Card key={driver.id} className="relative">
             <CardHeader className="pb-4">

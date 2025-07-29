@@ -80,20 +80,10 @@ export function Dashboard() {
             Visão geral das operações de pesagem e logística
           </p>
         </div>
-        <div className="flex gap-3">
-          <Button className="bg-primary-900 hover:bg-primary-900/70">
-            <Weight className="h-4 w-4 mr-2"/>
-            Nova Pesagem
-          </Button>
-          <Button variant="outline">
-            <TrendingUp className="h-4 w-4 mr-2"/>
-            Relatórios
-          </Button>
-        </div>
       </div>
 
-      <Card className="grid grid-cols-1 lg:grid-cols-3">
-        <div className="flex flex-col lg:col-span-2 border-r">
+      <Card className="grid grid-cols-1 2xl:grid-cols-3">
+        <div className="flex flex-col 2xl:col-span-2 border-r-0 border-b 2xl:border-b-0 2xl:border-r">
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="text-lg font-semibold flex items-center gap-2">
               <Zap className="h-5 w-5 text-primary-600"/>
@@ -115,30 +105,18 @@ export function Dashboard() {
                     group
                   "
                 >
-                  <div className="
-                    flex items-center justify-center bg-primary-100
-                    flex-shrink-0 h-16 w-16 rounded-2xl
-                    transition-all duration-200 z-10
-                    group-hover:bg-transparent
-                  ">
-                    <action.icon className="
-                      h-10 w-10 text-primary-600 transition-all duration-200
-                      group-hover:h-16 group-hover:w-16
-                    "/>
-                  </div>
-                  <div className="absolute -top-4 -right-4">
-                    <action.icon
-                      className="
-                        text-primary-300
-                        h-16 w-16
-                      "
-                    />
-                  </div>
-                  <div className="flex flex-col transition-all duration-200 z-10">
-                    <h3 className="text-xl font-semibold text-gray-900">
+                  <action.icon
+                    className="
+                      absolute -top-6 -right-6
+                      text-primary-300
+                      h-24 w-24
+                    "
+                  />
+                  <div className="flex flex-col gap-0.5 transition-all duration-200 z-10">
+                    <h3 className=" text-2xl font-semibold text-gray-900 align-bottom">
                       {action.title}
                     </h3>
-                    <p className="text-lg text-gray-600">
+                    <p className="text-md text-gray-600">
                       {action.description}
                     </p>
                   </div>

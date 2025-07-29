@@ -58,36 +58,6 @@ export function Sidebar({navigation} : {navigation: NavItem[]}) {
     )
   }
 
-  const Indicator = () => {
-    return (
-      <div
-        style={
-          selectedLinkIndex === navigation.length - 1
-            ? { top: 'calc(100% - 84px)' }
-            : { top: 52 * selectedLinkIndex }
-        }
-        className="
-            flex items-center justify-start
-            absolute w-full h-[52px] mt-8
-            border-l-4 border-primary-600
-            bg-gradient-to-r from-primary-100 to-transparent
-            transition-all duration-300
-          "
-      />
-    )
-  }
-
-  const SidebarItemList = () => {
-
-    return (
-      <nav className="flex flex-col h-full justify-between relative pb-4">
-        <Indicator />
-        <SidebarItemListSection section="Operações" />
-        <SidebarItemListSection section="Sistema" />
-      </nav>
-    )
-  }
-
   return (
     <div className="hidden lg:flex flex-col min-w-[230px] z-20 sticky min-h-screen gap-y-7 bg-white">
       <div className="flex items-center gap-3 px-6 pt-4 shrink-0">
@@ -103,7 +73,24 @@ export function Sidebar({navigation} : {navigation: NavItem[]}) {
           <p className="text-xs text-gray-500 font-medium">Sistema de pesagem</p>
         </div>
       </div>
-      <SidebarItemList />
+      <nav className="flex flex-col h-full justify-between relative pb-4">
+        <div
+          style={
+            selectedLinkIndex === navigation.length - 1
+              ? { top: 'calc(100% - 100px)' }
+              : { top: 52 * selectedLinkIndex }
+          }
+          className="
+            flex items-center justify-start
+            absolute w-full h-[52px] mt-8
+            border-l-4 border-primary-600
+            bg-gradient-to-r from-primary-100 to-transparent
+            transition-all duration-300
+          "
+        />
+        <SidebarItemListSection section="Operações" />
+        <SidebarItemListSection section="Sistema" />
+      </nav>
     </div>
   )
 }
