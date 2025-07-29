@@ -3,10 +3,29 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Handshake, Plus, Eye, Edit, Trash2, Phone, Mail, MapPin } from "lucide-react";
+import { Building2, Plus, Edit, Phone, Mail, MapPin } from "lucide-react";
+import { FAB } from "@/components/ui/fab";
+import { AddPartnerModal } from "./add-partner-modal";
+import { EditPartnerModal } from "./edit-partner-modal";
+import { useState } from "react";
+
+interface Partner {
+  id: number;
+  name: string;
+  cnpj: string;
+  phone: string;
+  email: string;
+  address: string;
+  city: string;
+  status: "Ativa" | "Inativa";
+  type: string;
+}
 
 export function PartnerManagement() {
-  const partners = [
+  const [addModalOpen, setAddModalOpen] = useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [selectedPartner, setSelectedPartner] = useState<Partner | null>(null);
+  const [partners, setPartners] = useState<Partner[]>([
     {
       id: 1,
       name: "Agro Brasil Ltda",
@@ -29,37 +48,62 @@ export function PartnerManagement() {
       status: "Ativa",
       type: "Transportadora",
     },
-  ];
+  ]);
+
+  const handleNewPartner = () => {
+    setAddModalOpen(true);
+  };
+
+  const handleEditPartner = (partner: Partner) => {
+    setSelectedPartner(partner);
+    setEditModalOpen(true);
+  };
+
+  const handleSavePartner = (newPartner: Omit<Partner, "id">) => {
+    const partner: Partner = {
+      ...newPartner,
+      id: Math.max(...partners.map((p) => p.id)) + 1,
+    };
+    setPartners((prev) => [...prev, partner]);
+  };
+
+  const handleUpdatePartner = (updatedPartner: Partner) => {
+    setPartners((prev) =>
+      prev.map((partner) =>
+        partner.id === updatedPartner.id ? updatedPartner : partner
+      )
+    );
+  };
+
+  const handleDeletePartner = (partnerId: number) => {
+    setPartners((prev) => prev.filter((partner) => partner.id !== partnerId));
+  };
 
   return (
     <div className="flex flex-col w-full space-y-8 page-animation">
-      <div className="flex items-center justify-between">
+      <div>
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-white">
             Empresas parceiras
           </h1>
           <p className="text-gray-200 mt-1">Gerencie as empresas parceiras</p>
         </div>
-        <Button className="bg-primary-900 hover:bg-primary-900/70">
-          <Plus className="h-4 w-4 mr-2" />
-          Nova Empresa
-        </Button>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
         {partners.map((partner) => (
           <Card key={partner.id} className="relative">
             <CardHeader className="pb-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="h-12 w-12 rounded-2xl bg-primary-100 flex items-center justify-center">
-                    <Handshake className="h-6 w-6 text-primary-600" />
+                    <Building2 className="h-6 w-6 text-primary-600" />
                   </div>
                   <div>
                     <CardTitle className="text-lg font-bold">
                       {partner.name}
                     </CardTitle>
-                    <p className="text-sm text-gray-600">CNPJ: {partner.cnpj}</p>
+                    <p className="text-sm text-gray-400">CNPJ: {partner.cnpj}</p>
                   </div>
                 </div>
                 <Badge
@@ -92,27 +136,41 @@ export function PartnerManagement() {
                   <p className="text-sm text-gray-900">{partner.type}</p>
                 </div>
               </div>
-              <div className="flex gap-2 mt-6">
-                <Button variant="outline" size="sm" className="flex-1">
-                  <Eye className="h-4 w-4 mr-2" />
-                  Ver
-                </Button>
-                <Button variant="outline" size="sm" className="flex-1">
-                  <Edit className="h-4 w-4 mr-2" />
-                  Editar
-                </Button>
+              <div className="mt-6">
                 <Button
                   variant="outline"
                   size="sm"
-                  className="text-primary-600 border-primary-200 hover:bg-primary-50"
+                  className="w-full"
+                  onClick={() => handleEditPartner(partner)}
                 >
-                  <Trash2 className="h-4 w-4" />
+                  <Edit className="h-4 w-4 mr-2" />
+                  Editar
                 </Button>
               </div>
             </CardContent>
           </Card>
         ))}
       </div>
+
+      <FAB
+        icon={Plus}
+        label="Nova Empresa"
+        onClick={handleNewPartner}
+      />
+
+      <AddPartnerModal
+        open={addModalOpen}
+        onOpenChange={setAddModalOpen}
+        onSave={handleSavePartner}
+      />
+
+      <EditPartnerModal
+        open={editModalOpen}
+        onOpenChange={setEditModalOpen}
+        partner={selectedPartner}
+        onSave={handleUpdatePartner}
+        onDelete={handleDeletePartner}
+      />
     </div>
   );
 }

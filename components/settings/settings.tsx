@@ -110,7 +110,7 @@ export function SettingsPage() {
     <div className="flex flex-col w-full space-y-8 page-animation">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-white">
+          <h1 className="text-3xl font-bold  text-white">
             Configurações
           </h1>
           <p className="text-gray-200 mt-1">
@@ -215,7 +215,7 @@ export function SettingsPage() {
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <Label>Tara Automática</Label>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-gray-400">
                     Zerar automaticamente a balança antes da pesagem
                   </p>
                 </div>
@@ -232,7 +232,7 @@ export function SettingsPage() {
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <Label>Imprimir Ticket Automaticamente</Label>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-gray-400">
                     Imprimir ticket ao finalizar pesagem
                   </p>
                 </div>
@@ -284,7 +284,7 @@ export function SettingsPage() {
                   <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
                       <Label>Balança Ativa</Label>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-gray-400">
                         Habilitar esta balança para pesagens
                       </p>
                     </div>
@@ -310,7 +310,7 @@ export function SettingsPage() {
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
                     <Label>Alertas por E-mail</Label>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-gray-400">
                       Receber alertas importantes por e-mail
                     </p>
                   </div>
@@ -327,7 +327,7 @@ export function SettingsPage() {
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
                     <Label>Alertas do Sistema</Label>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-gray-400">
                       Notificações de sistema na interface
                     </p>
                   </div>
@@ -344,7 +344,7 @@ export function SettingsPage() {
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
                     <Label>Pesagem Concluída</Label>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-gray-400">
                       Notificar quando uma pesagem for finalizada
                     </p>
                   </div>
@@ -361,7 +361,7 @@ export function SettingsPage() {
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
                     <Label>Balança Offline</Label>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-gray-400">
                       Alertar quando uma balança ficar offline
                     </p>
                   </div>
@@ -378,7 +378,7 @@ export function SettingsPage() {
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
                     <Label>Relatório Diário</Label>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-gray-400">
                       Enviar relatório diário por e-mail
                     </p>
                   </div>
@@ -395,7 +395,7 @@ export function SettingsPage() {
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
                     <Label>Relatório Semanal</Label>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-gray-400">
                       Enviar relatório semanal por e-mail
                     </p>
                   </div>
@@ -427,7 +427,7 @@ export function SettingsPage() {
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <Label>Backup Automático</Label>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-gray-400">
                     Realizar backup automático dos dados
                   </p>
                 </div>
@@ -473,7 +473,7 @@ export function SettingsPage() {
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <Label>Backup na Nuvem</Label>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-gray-400">
                     Enviar backups para armazenamento na nuvem
                   </p>
                 </div>
@@ -569,7 +569,7 @@ export function SettingsPage() {
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <Label>Impressão Automática</Label>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-gray-400">
                     Imprimir automaticamente ao finalizar pesagem
                   </p>
                 </div>

@@ -5,8 +5,13 @@ import { useWeighingHistory } from "@/hooks/use-weighing-history";
 import HistoryHeader from "./components/history-header";
 import Filters from "./components/filters";
 import Table from "./components/table";
+import { FAB } from "@/components/ui/fab";
+import { ExportModal } from "./export-modal";
+import { Download } from "lucide-react";
+import { useState } from "react";
 
 export function WeighingHistory() {
+  const [exportModalOpen, setExportModalOpen] = useState(false);
   const {
     filters,
     setFilters,
@@ -14,12 +19,15 @@ export function WeighingHistory() {
     sortedRecords,
     clearFilters,
     handleSort,
-    handleExport,
   } = useWeighingHistory();
+
+  const handleExport = () => {
+    setExportModalOpen(true);
+  };
 
   return (
     <div className="flex flex-col w-full space-y-8 page-animation">
-      <HistoryHeader onExport={handleExport} />
+      <HistoryHeader />
 
       <Card className="flex flex-col">
         <Filters
@@ -33,6 +41,17 @@ export function WeighingHistory() {
           onSort={handleSort}
         />
       </Card>
+
+      <FAB
+        icon={Download}
+        label="Exportar"
+        onClick={handleExport}
+      />
+
+      <ExportModal
+        open={exportModalOpen}
+        onOpenChange={setExportModalOpen}
+      />
     </div>
   );
 }

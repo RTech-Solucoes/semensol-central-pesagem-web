@@ -72,8 +72,8 @@ export function Dashboard() {
   return (
     <div className="flex flex-col w-full space-y-8 page-animation">
       <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight text-white">
+        <div className="flex flex-col gap-1">
+          <h1 className="text-4xl font-bold  font-display text-white">
             Dashboard
           </h1>
           <p className="text-gray-200 mt-1">
@@ -91,14 +91,14 @@ export function Dashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent className="h-full">
-            <div className="grid grid-cols-1 h-full gap-4 sm:grid-cols-2 auto-rows-fr">
+            <div className="grid grid-cols-1 h-full gap-4 md:grid-cols-2 auto-rows-fr">
               {quickActions.map((action, index) => (
                 <Link
                   href={action.href}
                   key={index}
                   className="
                     flex gap-4 items-center p-6 relative overflow-hidden
-                    rounded-2xl border-2 border-dashed border-primary-300
+                    rounded-2xl border-2 border-dashed border-primary-200
                     transition-all duration-200
                     cursor-pointer brick-animation
                     hover:border-solid hover:bg-primary-100
@@ -108,7 +108,7 @@ export function Dashboard() {
                   <action.icon
                     className="
                       absolute -top-6 -right-6
-                      text-primary-300
+                      text-primary-200
                       h-24 w-24
                     "
                   />
@@ -116,7 +116,7 @@ export function Dashboard() {
                     <h3 className=" text-2xl font-semibold text-gray-900 align-bottom">
                       {action.title}
                     </h3>
-                    <p className="text-md text-gray-600">
+                    <p className="text-md text-gray-400 group-hover:text-gray-600">
                       {action.description}
                     </p>
                   </div>

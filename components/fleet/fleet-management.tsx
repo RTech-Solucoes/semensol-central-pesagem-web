@@ -3,10 +3,27 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Truck, Plus, Eye, Edit, Trash2 } from "lucide-react";
+import { Truck, Plus, Edit } from "lucide-react";
+import { FAB } from "@/components/ui/fab";
+import { AddTruckModal } from "./add-truck-modal";
+import { EditTruckModal } from "./edit-truck-modal";
+import { useState } from "react";
+
+interface Truck {
+  id: number;
+  plate: string;
+  model: string;
+  company: string;
+  capacity: string;
+  status: "Ativo" | "Manutenção" | "Inativo";
+  observations: string;
+}
 
 export function FleetManagement() {
-  const trucks = [
+  const [addModalOpen, setAddModalOpen] = useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [selectedTruck, setSelectedTruck] = useState<Truck | null>(null);
+  const [trucks, setTrucks] = useState<Truck[]>([
     {
       id: 1,
       plate: "ABC-1234",
@@ -25,21 +42,46 @@ export function FleetManagement() {
       status: "Manutenção",
       observations: "Em manutenção preventiva",
     },
-  ];
+  ]);
+
+  const handleNewTruck = () => {
+    setAddModalOpen(true);
+  };
+
+  const handleEditTruck = (truck: Truck) => {
+    setSelectedTruck(truck);
+    setEditModalOpen(true);
+  };
+
+  const handleSaveTruck = (newTruck: Omit<Truck, "id">) => {
+    const truck: Truck = {
+      ...newTruck,
+      id: Math.max(...trucks.map((t) => t.id)) + 1,
+    };
+    setTrucks((prev) => [...prev, truck]);
+  };
+
+  const handleUpdateTruck = (updatedTruck: Truck) => {
+    setTrucks((prev) =>
+      prev.map((truck) =>
+        truck.id === updatedTruck.id ? updatedTruck : truck
+      )
+    );
+  };
+
+  const handleDeleteTruck = (truckId: number) => {
+    setTrucks((prev) => prev.filter((truck) => truck.id !== truckId));
+  };
 
   return (
     <div className="flex flex-col w-full space-y-8 page-animation">
-      <div className="flex items-center justify-between">
+      <div>
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-white">
             Caminhões
           </h1>
           <p className="text-gray-200 mt-1">Gerencie a frota de caminhões</p>
         </div>
-        <Button className="bg-primary-900 hover:bg-primary-900/70">
-          <Plus className="h-4 w-4 mr-2" />
-          Novo Caminhão
-        </Button>
       </div>
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -63,7 +105,9 @@ export function FleetManagement() {
                   className={
                     truck.status === "Ativo"
                       ? "bg-primary-100 text-primary-700"
-                      : "bg-primary-100 text-primary-700"
+                      : truck.status === "Manutenção"
+                      ? "bg-yellow-100 text-yellow-700"
+                      : "bg-gray-100 text-gray-700"
                   }
                 >
                   {truck.status}
@@ -89,27 +133,37 @@ export function FleetManagement() {
                   <p className="text-sm text-gray-900">{truck.observations}</p>
                 </div>
               </div>
-              <div className="flex gap-2 mt-6">
-                <Button variant="outline" size="sm" className="flex-1">
-                  <Eye className="h-4 w-4 mr-2" />
-                  Ver
-                </Button>
-                <Button variant="outline" size="sm" className="flex-1">
-                  <Edit className="h-4 w-4 mr-2" />
-                  Editar
-                </Button>
+              <div className="mt-6">
                 <Button
                   variant="outline"
                   size="sm"
-                  className="text-primary-600 border-primary-200 hover:bg-primary-50"
+                  className="w-full"
+                  onClick={() => handleEditTruck(truck)}
                 >
-                  <Trash2 className="h-4 w-4" />
+                  <Edit className="h-4 w-4 mr-2" />
+                  Editar
                 </Button>
               </div>
             </CardContent>
           </Card>
         ))}
       </div>
+
+      <FAB icon={Plus} label="Novo Caminhão" onClick={handleNewTruck} />
+
+      <AddTruckModal
+        open={addModalOpen}
+        onOpenChange={setAddModalOpen}
+        onSave={handleSaveTruck}
+      />
+
+      <EditTruckModal
+        open={editModalOpen}
+        onOpenChange={setEditModalOpen}
+        truck={selectedTruck}
+        onSave={handleUpdateTruck}
+        onDelete={handleDeleteTruck}
+      />
     </div>
   );
 }

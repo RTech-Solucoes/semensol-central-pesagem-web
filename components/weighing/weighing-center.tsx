@@ -19,7 +19,7 @@ export function WeighingCenter() {
     <div className="flex flex-col w-full space-y-8 page-animation">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-white">
+          <h1 className="text-3xl font-bold  text-white">
             Central de Pesagem
           </h1>
           <p className="text-gray-200 mt-1">

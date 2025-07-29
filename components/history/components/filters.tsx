@@ -22,7 +22,7 @@ interface FiltersCardProps {
   onClearFilters: () => void;
 }
 
-const filtersOptions: SelectOptions[] = {
+const filtersOptions = {
   empresa: [
     { id: 0, value: "all", label: "Todas" },
     { id: 1, value: "Agro Brasil Ltda", label: "Agro Brasil Ltda" },
@@ -46,10 +46,18 @@ export default function Component({ filters, setFilters, onClearFilters }: Filte
           <Filter className="h-5 w-5 text-primary-600" />
           Filtros
         </CardTitle>
+        <Button
+          variant="outline"
+          onClick={onClearFilters}
+          className="mt-auto shrink-0 gap-2"
+        >
+          <X className="h-4 w-4" />
+          Limpar Filtros
+        </Button>
       </CardHeader>
       <CardContent>
         <div className="flex gap-4">
-          <div className="grid grid-cols-6 w-full gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-6 w-full gap-4">
             <div>
               <Label htmlFor="startDate">Data Início</Label>
               <Input
@@ -125,13 +133,6 @@ export default function Component({ filters, setFilters, onClearFilters }: Filte
               </Select>
             </div>
           </div>
-          <Button
-            variant="outline"
-            onClick={onClearFilters}
-            className="mt-auto shrink-0 h-10 w-10 p-0"
-          >
-            <X className="h-4 w-4" />
-          </Button>
         </div>
       </CardContent>
     </div>

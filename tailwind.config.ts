@@ -71,6 +71,9 @@ const config: Config = {
           '5': 'hsl(var(--chart-5))',
         },
       },
+      fontFamily: {
+        sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
+      },
       keyframes: {
         'accordion-down': {
           from: {

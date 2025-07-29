@@ -16,11 +16,11 @@ export function Sidebar({navigation} : {navigation: NavItem[]}) {
       <Link
         href={item.href}
         className={cn(
-          "flex items-center gap-x-3 py-3.5 pr-6 pl-5",
-          "text-sm leading-6 text-gray-700",
+          "flex items-center gap-x-3 py-3.5 pr-6 pl-5 relative z-10",
+          "text-sm leading-6 text-gray-400",
           "from-gray-100 to-transparent",
-          "transition-all duration-500 group font-semibold  box-border",
-          pathname === item.href ? "text-primary-600" :
+          "transition-all duration-500 group font-medium box-border",
+          pathname === item.href ? "text-primary-600 font-bold" :
             "hover:text-black hover:bg-gradient-to-r ",
         )}
       >
@@ -75,17 +75,14 @@ export function Sidebar({navigation} : {navigation: NavItem[]}) {
       </div>
       <nav className="flex flex-col h-full justify-between relative pb-4">
         <div
-          style={
-            selectedLinkIndex === navigation.length - 1
-              ? { top: 'calc(100% - 100px)' }
-              : { top: 52 * selectedLinkIndex }
-          }
+          style={{
+            top: selectedLinkIndex === 0 ? 32 : (52 * selectedLinkIndex) + 32,
+            transform: 'translateZ(0)'
+          }}
           className="
-            flex items-center justify-start
-            absolute w-full h-[52px] mt-8
-            border-l-4 border-primary-600
-            bg-gradient-to-r from-primary-100 to-transparent
-            transition-all duration-300
+            absolute bg-primary-100 w-full h-[52px] z-0
+            border-l-4 border-primary-500
+            transition-all duration-300 ease-in-out will-change-transform
           "
         />
         <SidebarItemListSection section="Operações" />
