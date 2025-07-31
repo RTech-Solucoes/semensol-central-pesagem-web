@@ -160,7 +160,7 @@ export function EditTruckModal({ open, onOpenChange, truck, onSave, onDelete }: 
         <div className="flex justify-between gap-3">
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant="outline" className="text-red-600 bg-red-100 hover:bg-red-200">
+              <Button variant="secondary" className="text-red-600 bg-red-100 hover:bg-red-200">
                 <TrashIcon className="h-4 w-4 mr-2" />
                 Excluir
               </Button>
@@ -183,7 +183,7 @@ export function EditTruckModal({ open, onOpenChange, truck, onSave, onDelete }: 
           </AlertDialog>
 
           <div className="flex gap-3">
-            <Button variant="outline" onClick={() => onOpenChange(false)}>
+            <Button variant="secondary" onClick={() => onOpenChange(false)}>
               Cancelar
             </Button>
             <Button onClick={handleSave} className="bg-primary-900 hover:bg-primary-900/80">

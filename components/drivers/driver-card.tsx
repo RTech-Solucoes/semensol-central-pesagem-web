@@ -91,17 +91,15 @@ export function DriverCard({ driver, onEdit }: DriverCardProps) {
             </div>
           )}
         </div>
-        <div className="mt-6">
-          <Button
-            variant="outline"
-            size="sm"
-            className="w-full"
-            onClick={() => onEdit?.(driver)}
-          >
-            <PencilSimpleLineIcon className="h-4 w-4 mr-2" />
-            Editar
-          </Button>
-        </div>
+        <Button
+          variant="secondary"
+          size="sm"
+          className="ml-auto mt-6"
+          onClick={() => onEdit?.(driver)}
+        >
+          <PencilSimpleLineIcon className="h-4 w-4 mr-2" />
+          Editar
+        </Button>
       </CardContent>
     </Card>
   );

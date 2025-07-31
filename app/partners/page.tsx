@@ -117,7 +117,7 @@ export default function PartnerPage() {
                 </Badge>
               </div>
             </CardHeader>
-            <CardContent>
+            <CardContent className="flex flex-col">
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
                   <PhoneIcon className="h-4 w-4 text-primary-600" />
@@ -139,17 +139,15 @@ export default function PartnerPage() {
                   <p className="text-sm font-medium text-card-foreground">{partner.type}</p>
                 </div>
               </div>
-              <div className="mt-6">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="w-full"
-                  onClick={() => handleEditPartner(partner)}
-                >
-                  <PencilSimpleLineIcon className="h-4 w-4 mr-2" />
-                  Editar
-                </Button>
-              </div>
+              <Button
+                variant="secondary"
+                size="sm"
+                className="ml-auto mt-6"
+                onClick={() => handleEditPartner(partner)}
+              >
+                <PencilSimpleLineIcon className="h-4 w-4 mr-2" />
+                Editar
+              </Button>
             </CardContent>
           </Card>
         ))}

@@ -47,7 +47,7 @@ export default function Component({ filters, setFilters, onClearFilters }: Filte
           Filtros
         </CardTitle>
         <Button
-          variant="outline"
+          variant="secondary"
           onClick={onClearFilters}
           className="mt-auto shrink-0 gap-2"
         >

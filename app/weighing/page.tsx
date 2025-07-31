@@ -146,7 +146,7 @@ export default function WeighingPage() {
               <Button
                 onClick={() => {
                 }}
-                variant="outline"
+                variant="secondary"
                 className={cn(
                   "flex items-center gap-2"
                 )}

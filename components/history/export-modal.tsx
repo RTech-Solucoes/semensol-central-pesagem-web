@@ -145,7 +145,7 @@ export function ExportModal({ open, onOpenChange }: ExportModalProps) {
             <div className="grid grid-cols-2 gap-2">
               <Popover>
                 <PopoverTrigger asChild>
-                  <Button variant="outline" className="justify-start text-left font-normal">
+                  <Button variant="secondary" className="justify-start text-left font-normal">
                     <CalendarIcon className="mr-2 h-4 w-4" />
                     {dateRange.from ? format(dateRange.from, "dd/MM/yyyy", { locale: ptBR }) : "Data início"}
                   </Button>
@@ -162,7 +162,7 @@ export function ExportModal({ open, onOpenChange }: ExportModalProps) {
 
               <Popover>
                 <PopoverTrigger asChild>
-                  <Button variant="outline" className="justify-start text-left font-normal">
+                  <Button variant="secondary" className="justify-start text-left font-normal">
                     <CalendarIcon className="mr-2 h-4 w-4" />
                     {dateRange.to ? format(dateRange.to, "dd/MM/yyyy", { locale: ptBR }) : "Data fim"}
                   </Button>
@@ -213,7 +213,7 @@ export function ExportModal({ open, onOpenChange }: ExportModalProps) {
         </div>
 
         <div className="flex justify-end gap-3">
-          <Button variant="outline" onClick={() => onOpenChange(false)}>
+          <Button variant="secondary" onClick={() => onOpenChange(false)}>
             Cancelar
           </Button>
           <Button onClick={handleExport} className="bg-primary-900 hover:bg-primary-900/80">

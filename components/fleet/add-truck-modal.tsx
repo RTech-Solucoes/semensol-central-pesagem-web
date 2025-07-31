@@ -138,7 +138,7 @@ export function AddTruckModal({ open, onOpenChange, onSave }: AddTruckModalProps
         </div>
 
         <div className="flex justify-end gap-3">
-          <Button variant="outline" onClick={() => onOpenChange(false)}>
+          <Button variant="secondary" onClick={() => onOpenChange(false)}>
             Cancelar
           </Button>
           <Button onClick={handleSave} className="bg-primary-900 hover:bg-primary-900/80">
