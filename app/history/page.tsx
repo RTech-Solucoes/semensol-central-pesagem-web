@@ -42,11 +42,11 @@ export default function HistoryPage() {
         />
       </Card>
 
-      <FAB
-        icon={DownloadSimpleIcon}
-        label="Exportar"
-        onClick={handleExport}
-      />
+      {/*<FAB*/}
+      {/*  icon={DownloadSimpleIcon}*/}
+      {/*  label="Exportar"*/}
+      {/*  onClick={handleExport}*/}
+      {/*/>*/}
 
       <ExportModal
         open={exportModalOpen}

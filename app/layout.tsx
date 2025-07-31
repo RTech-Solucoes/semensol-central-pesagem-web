@@ -1,7 +1,7 @@
 "use client";
 
 import "./globals.css";
-import {Poppins as Font} from "next/font/google";
+import {Outfit as Font} from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import {Toaster} from "@/components/ui/toaster";
 import {cn} from "@/lib/utils";
@@ -28,7 +28,7 @@ const font = Font({
     "600",
     "700",
     "800",
-    // "900"
+    "900"
   ],
   variable: "--font-sans",
   subsets: ["latin"],

@@ -29,7 +29,7 @@ export default function WeighingPage() {
       </div>
 
       <Card className="grid grid-cols-1 lg:grid-cols-2">
-        <div className="border-b lg:border-r border-dashed">
+        <div className="border-b lg:border-b-0 lg:border-r border-dashed">
           <CardHeader>
             <CardTitle className="text-lg font-semibold flex items-center gap-2">
               <ScalesIcon className="h-5 w-5"/>

@@ -27,7 +27,7 @@ export function FAB({
       className={cn(
         "fixed z-50",
         "bottom-28 right-4",
-        "xl:bottom-8 xl:right-8",
+        "xl:bottom-12 xl:right-14",
         "transition-all duration-500",
         "h-fit w-fit p-5 rounded-full",
         "flex items-center group",
