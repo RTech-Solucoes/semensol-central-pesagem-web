@@ -1,9 +1,10 @@
+import React from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { LucideIcon } from "lucide-react";
+import { Icon as PhosphorIcon } from "@phosphor-icons/react";
 
 interface FABProps {
-  icon: LucideIcon;
+  icon: PhosphorIcon;
   label: string;
   onClick?: () => void;
   className?: string;
@@ -25,13 +26,12 @@ export function FAB({
       variant={variant}
       size={size}
       className={cn(
-        "fixed z-50 shadow-lg hover:shadow-xl",
-        "bottom-24 right-4",
-        "sm:bottom-28 lg:bottom-16",
-        "sm:right-6 lg:right-16",
-        "transition-all duration-200 ease-in-out",
+        "fixed z-50",
+        "bottom-28 right-4",
+        "xl:bottom-8 xl:right-8",
+        "transition-all duration-200",
         "bg-primary-900 hover:bg-primary-900",
-        "h-fit w-fit p-5 rounded-2xl",
+        "h-fit w-fit p-5 rounded-full",
         "flex items-center group",
         className
       )}

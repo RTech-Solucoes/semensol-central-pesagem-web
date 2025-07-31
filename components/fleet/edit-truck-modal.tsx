@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { useState, useEffect } from "react";
-import { Trash2 } from "lucide-react";
+import { TrashIcon } from "@phosphor-icons/react";
 
 interface Truck {
   id: number;
@@ -160,8 +160,8 @@ export function EditTruckModal({ open, onOpenChange, truck, onSave, onDelete }: 
         <div className="flex justify-between gap-3">
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant="outline" className="text-red-600 border-red-200 hover:bg-red-50">
-                <Trash2 className="h-4 w-4 mr-2" />
+              <Button variant="outline" className="text-red-600 bg-red-100 hover:bg-red-200">
+                <TrashIcon className="h-4 w-4 mr-2" />
                 Excluir
               </Button>
             </AlertDialogTrigger>
@@ -175,6 +175,7 @@ export function EditTruckModal({ open, onOpenChange, truck, onSave, onDelete }: 
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancelar</AlertDialogCancel>
                 <AlertDialogAction onClick={handleDelete} className="bg-red-600 hover:bg-red-700">
+  <TrashIcon className="h-4 w-4 mr-2" />
                   Excluir
                 </AlertDialogAction>
               </AlertDialogFooter>

@@ -1,8 +1,8 @@
-import { LucideIcon } from "lucide-react";
+import { Icon } from "@phosphor-icons/react";
 
 export interface NavItem {
   name: string;
   href: string;
-  icon: LucideIcon;
+  icon: Icon;
   section: string;
 }

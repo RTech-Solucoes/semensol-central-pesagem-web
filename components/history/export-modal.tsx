@@ -5,7 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { CalendarIcon, Download } from "lucide-react";
+import { CalendarIcon, DownloadSimpleIcon } from "@phosphor-icons/react";
 import { useState } from "react";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
@@ -120,7 +120,7 @@ export function ExportModal({ open, onOpenChange }: ExportModalProps) {
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Download className="h-5 w-5" />
+            <DownloadSimpleIcon className="h-5 w-5" />
             Exportar Histórico
           </DialogTitle>
         </DialogHeader>
@@ -217,7 +217,7 @@ export function ExportModal({ open, onOpenChange }: ExportModalProps) {
             Cancelar
           </Button>
           <Button onClick={handleExport} className="bg-primary-900 hover:bg-primary-900/80">
-            <Download className="h-4 w-4 mr-2" />
+            <DownloadSimpleIcon className="h-4 w-4 mr-2" />
             Exportar
           </Button>
         </div>

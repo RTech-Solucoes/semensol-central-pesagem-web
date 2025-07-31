@@ -14,7 +14,6 @@ export const useViewport = () => {
       });
     };
 
-    // Set initial values
     handleResize();
 
     window.addEventListener('resize', handleResize);

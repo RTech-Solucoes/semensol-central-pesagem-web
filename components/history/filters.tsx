@@ -5,7 +5,7 @@ import {Button} from "@/components/ui/button";
 import {Input} from "@/components/ui/input";
 import {Label} from "@/components/ui/label";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue,} from "@/components/ui/select";
-import {Filter, X} from "lucide-react";
+import {FunnelSimpleIcon, XIcon} from "@phosphor-icons/react";
 
 interface FilterState {
   startDate: string;
@@ -43,7 +43,7 @@ export default function Component({ filters, setFilters, onClearFilters }: Filte
     <div className="w-full h-fit">
       <CardHeader className="flex flex-row justify-between pb-4">
         <CardTitle className="text-lg font-semibold flex items-center gap-2">
-          <Filter className="h-5 w-5 text-primary-600" />
+          <FunnelSimpleIcon className="h-5 w-5"/>
           Filtros
         </CardTitle>
         <Button
@@ -51,7 +51,7 @@ export default function Component({ filters, setFilters, onClearFilters }: Filte
           onClick={onClearFilters}
           className="mt-auto shrink-0 gap-2"
         >
-          <X className="h-4 w-4" />
+          <XIcon className="h-4 w-4" />
           Limpar Filtros
         </Button>
       </CardHeader>
