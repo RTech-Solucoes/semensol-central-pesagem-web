@@ -33,16 +33,16 @@ const config: Config = {
         primary: {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',
-          50: 'hsl(30, 45%, 95%)',
-          100: 'hsl(30, 44%, 90%)',
-          200: 'hsl(30, 41%, 80%)',
-          300: 'hsl(30, 45%, 70%)',
-          400: 'hsl(30, 45%, 60%)',
-          500: 'hsl(30, 45%, 50%)',
-          600: 'hsl(30, 45%, 35%)',
-          700: 'hsl(30, 51%, 20%)',
-          800: 'hsl(30, 53%, 10%)',
-          900: 'hsl(30, 54%, 5%)',
+          50: 'hsl(var(--primary-50))', //#F8F2ED
+          100: 'hsl(var(--primary-100))', //#F1E6DA
+          200: 'hsl(var(--primary-200))', //#E1CCB7
+          300: 'hsl(var(--primary-300))', //#D5B390
+          400: 'hsl(var(--primary-400))', //#C7996B
+          500: 'hsl(var(--primary-500))', //#B98046
+          600: 'hsl(var(--primary-600))', //#815931
+          700: 'hsl(var(--primary-700))', //#4D3319
+          800: 'hsl(var(--primary-800))', //#271A0C
+          900: 'hsl(var(--primary-900))', //#140D06
         },
         secondary: {
           DEFAULT: 'hsl(var(--secondary))',

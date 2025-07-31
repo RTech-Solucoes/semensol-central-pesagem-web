@@ -132,10 +132,10 @@ export default function Home() {
                       "
                     />
                     <div className="flex flex-col transition-all duration-200">
-                      <h3 className="text-xl sm:text-2xl font-semibold text-gray-900 align-bottom group-hover:text-primary-600 transition-colors duration-200">
+                      <h3 className="text-xl sm:text-2xl font-semibold text-card-foreground align-bottom group-hover:text-primary-600 transition-colors duration-200">
                         {action.title}
                       </h3>
-                      <p className="text-sm sm:text-md text-medium text-gray-400 group-hover:text-gray-900 transition-colors duration-200">
+                      <p className="text-sm sm:text-md text-medium text-gray-400 group-hover:text-card-foreground transition-colors duration-200">
                         {action.description}
                       </p>
                     </div>
@@ -160,7 +160,7 @@ export default function Home() {
                     <div className="h-2 w-2 rounded-full mt-2 bg-primary-600"/>
                     <div className="flex flex-col">
                       <div className="flex items-start justify-between">
-                        <p className="text-sm font-medium text-gray-900">
+                        <p className="text-sm font-medium text-card-foreground">
                           {activity.title}
                         </p>
                       </div>
@@ -198,7 +198,7 @@ export default function Home() {
               <div className="space-y-3">
                 {systemStatus.map((system, index) => (
                   <div key={index} className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-gray-900">
+                    <span className="text-sm font-medium text-card-foreground">
                       {system.name}
                     </span>
                     <Badge

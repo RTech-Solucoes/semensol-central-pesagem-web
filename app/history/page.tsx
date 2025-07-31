@@ -35,11 +35,11 @@ export default function HistoryPage() {
           setFilters={setFilters}
           onClearFilters={clearFilters}
         />
-        {/*<Table*/}
-        {/*  records={sortedRecords}*/}
-        {/*  sortConfig={sortConfig}*/}
-        {/*  onSort={handleSort}*/}
-        {/*/>*/}
+        <Table
+          records={sortedRecords}
+          sortConfig={sortConfig}
+          onSort={handleSort}
+        />
       </Card>
 
       <FAB

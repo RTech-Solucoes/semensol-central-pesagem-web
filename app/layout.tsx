@@ -5,9 +5,8 @@ import {Poppins as Font} from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import {Toaster} from "@/components/ui/toaster";
 import {cn} from "@/lib/utils";
-import {Navbar} from "@/components/layout/navigation/navbar";
-import {Bottombar} from "@/components/layout/navigation/bottombar";
-import {NavItem} from "@/types/NavItem";
+import {Navbar} from "@/components/layout/navbar";
+import {NavItem} from "@/types/nav-item";
 import {
   ClockIcon,
   HandshakeIcon,
@@ -75,11 +74,11 @@ export default function RootLayout({children}: {
               size: 32,
               weight: "bold",
               mirrored: false,
+              "aria-hidden": true,
             }}
           >
-            <Navbar navigation={navigation}/>
-            <Bottombar navigation={navigation}/>
             {children}
+            <Navbar navigation={navigation}/>
             <Toaster/>
           </IconContext.Provider>
         </ThemeProvider>

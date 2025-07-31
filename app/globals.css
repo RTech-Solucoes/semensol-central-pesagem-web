@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@tailwind screens;
 
 @layer base {
   :root {
@@ -12,6 +13,16 @@
     --popover-foreground: 0 0 15%;
     --primary: 30 45% 35%;
     --primary-foreground: 0 0% 98%;
+    --primary-50: 30 45% 95%; /*#F8F2ED*/
+    --primary-100: 30 44% 90%; /*#F1E6DA*/
+    --primary-200: 30 41% 80%; /*#E1CCB7*/
+    --primary-300: 30 45% 70%; /*#D5B390*/
+    --primary-400: 30 45% 60%; /*#C7996B*/
+    --primary-500: 30 45% 50%; /*#B98046*/
+    --primary-600: 30 45% 35%; /*#815931*/
+    --primary-700: 30 51% 20%; /*#4D3319*/
+    --primary-800: 30 53% 10%; /*#271A0C*/
+    --primary-900: 30 54% 5%; /*#140D06*/
     --secondary: 0 0% 96.1%;
     --secondary-foreground: 0 0% 9%;
     --muted: 0 0% 96.1%;
@@ -36,7 +47,7 @@
   }
 
   *::-webkit-scrollbar {
-    @apply w-4 ;
+    @apply w-5 ;
   }
 
   *::-webkit-scrollbar-track {
@@ -45,7 +56,10 @@
 
   *::-webkit-scrollbar-thumb {
     @apply
-    bg-background
+    bg-gradient-to-t
+    from-popover/5
+    via-popover/20
+    to-popover/5
     rounded-full
     border-4
     border-solid
@@ -54,7 +68,8 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+    text-rendering: optimizeLegibility;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 
@@ -65,16 +80,6 @@
     px-4 py-8 pb-32
     xl:pb-8 sm:px-6 lg:px-12 xl:pt-32;
     animation: fadeIn 0.5s ease-out;
-  }
-
-  @media (max-width: 1024px) {
-    * {
-      scrollbar-width: none;
-    }
-
-    *::-webkit-scrollbar {
-        display: none;
-    }
   }
 }
 
@@ -98,7 +103,7 @@
   .waves-background {
     @apply bg-primary-700;
     background-image: url("/images/background.svg");
-    object-fit: cover;
+    background-size: cover;
     background-repeat: no-repeat;
   }
 
@@ -110,4 +115,116 @@
       opacity: 1;
     }
   }
+
+  .bg-card {
+    /*background: linear-gradient(to bottom right, #FFFFFF05, #FFFFFF50);*/
+    /*border-top: 1px solid #FFFFFF50;*/
+    /*border-left: 1px solid #FFFFFF50;*/
+    /*@apply backdrop-blur-xl;*/
+  }
 }
+
+  @media (max-width: theme('screens.xl')) {
+    * {
+      scrollbar-width: none;
+    }
+
+    *::-webkit-scrollbar {
+      display: none;
+    }
+
+    .navbar {
+      @apply
+      flex px-4 fixed z-20 left-0 right-0 bottom-4;
+    }
+
+    .navbar-logo {
+      @apply hidden;
+    }
+
+    .navbar-inner {
+      @apply
+      flex items-center justify-between
+      w-full h-fit p-3 pb-3 mx-auto
+      max-w-md rounded-3xl
+      bg-popover drop-shadow-2xl;
+    }
+
+    .navbar-link {
+      @apply
+      flex flex-col items-center relative
+      after:absolute after:-bottom-2 after:opacity-0
+      after:w-3 after:h-1 after:mx-auto
+      after:rounded-full after:bg-primary-600
+      after:transition-all after:duration-200;
+    }
+
+    .navbar-link[data-active="true"] {
+      @apply
+      after:opacity-100 after:bottom-1.5;
+    }
+
+    .navbar-icon {
+      @apply
+      w-8 h-8 p-3 box-content rounded-2xl
+      transition-all duration-200
+      text-gray-300 bg-popover;
+    }
+
+    .navbar-icon[data-active="true"] {
+      @apply
+      text-primary-600 bg-primary-100 pt-2.5 pb-3.5;
+    }
+  }
+
+  @media (min-width: theme('screens.xl')) {
+    .navbar {
+      @apply
+      flex-row w-full px-4 py-6 sm:px-6 lg:px-12
+      flex justify-between
+      fixed z-20;
+    }
+
+    .navbar-logo {
+      @apply flex;
+    }
+
+    .navbar-inner {
+      @apply
+      flex h-fit justify-between relative
+      rounded-2xl p-2 shadow-lg gap-2 overflow-hidden
+      bg-gradient-to-r from-popover/5 to-popover/20 backdrop-blur-sm;
+    }
+
+    .navbar-link {
+      @apply
+      flex items-center gap-2 py-2 px-4
+      rounded-xl relative z-10 shrink-0
+      text-sm leading-6 text-gray-50
+      transition-colors duration-200 font-medium box-border
+      after:[content:var(--item-name)];
+    }
+
+    .navbar-link[data-active="true"] {
+      @apply
+      bg-primary-600 text-white
+    }
+
+    .navbar-link[data-active="false"] {
+      @apply
+      hover:bg-primary-100 hover:text-primary-600;
+    }
+
+    .navbar-icon {
+      @apply
+      h-5 w-5 shrink-0 transition-colors;
+
+    }
+
+    .navbar-icon[data-active="true"] {
+      @apply
+      text-white;
+    }
+
+  }
+

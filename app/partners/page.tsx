@@ -120,23 +120,23 @@ export default function PartnerPage() {
             <CardContent>
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
-                  <PhoneIcon className="h-4 w-4 text-gray-400" />
-                  <p className="text-sm text-gray-900">{partner.phone}</p>
+                  <PhoneIcon className="h-4 w-4 text-primary-600" />
+                  <p className="text-sm font-medium text-card-foreground">{partner.phone}</p>
                 </div>
                 <div className="flex items-center gap-2">
-                  <EnvelopeSimpleIcon className="h-4 w-4 text-gray-400" />
-                  <p className="text-sm text-gray-900">{partner.email}</p>
+                  <EnvelopeSimpleIcon className="h-4 w-4 text-primary-600" />
+                  <p className="text-sm font-medium text-card-foreground">{partner.email}</p>
                 </div>
                 <div className="flex items-start gap-2">
-                  <MapPinIcon className="h-4 w-4 text-gray-400 mt-0.5" />
+                  <MapPinIcon className="h-4 w-4 text-primary-600 mt-0.5" />
                   <div>
-                    <p className="text-sm text-gray-900">{partner.address}</p>
+                    <p className="text-sm font-medium text-card-foreground">{partner.address}</p>
                     <p className="text-sm text-gray-600">{partner.city}</p>
                   </div>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Tipo</p>
-                  <p className="text-sm text-gray-900">{partner.type}</p>
+                  <p className="text-sm font-semibold text-primary-600">Tipo</p>
+                  <p className="text-sm font-medium text-card-foreground">{partner.type}</p>
                 </div>
               </div>
               <div className="mt-6">

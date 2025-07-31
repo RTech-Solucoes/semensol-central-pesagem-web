@@ -1,9 +1,10 @@
 import Image from "next/image";
+import {cn} from "@/lib/utils";
 
-export default function Logo() {
+export default function Logo({className} : {className?: string}) {
 
   return (
-    <div className="flex items-center gap-3 shrink-0">
+    <div className={cn("flex items-center gap-3 shrink-0", className)}>
       <Image
         src="/images/logo.png"
         alt="Logo"

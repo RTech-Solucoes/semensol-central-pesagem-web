@@ -17,20 +17,18 @@ export function FAB({
   label,
   onClick,
   className,
-  variant = "default",
   size = "default"
 }: FABProps) {
   return (
     <Button
       onClick={onClick}
-      variant={variant}
+      variant="fab"
       size={size}
       className={cn(
         "fixed z-50",
         "bottom-28 right-4",
         "xl:bottom-8 xl:right-8",
-        "transition-all duration-200",
-        "bg-primary-900 hover:bg-primary-900",
+        "transition-all duration-500",
         "h-fit w-fit p-5 rounded-full",
         "flex items-center group",
         className

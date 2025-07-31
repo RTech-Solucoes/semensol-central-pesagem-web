@@ -25,7 +25,9 @@ export const useBreakpoint = () => {
     width,
     current: getCurrentBreakpoint(),
     isMobile: width < 768,
-    isTablet: width >= 768 && width < 1024,
+    isTablet: width >= 768,
     isDesktop: width >= 1024,
+    isDesktopXL: width >= 1280,
+    isDesktop2XL: width >= 1536,
   };
 };

@@ -47,7 +47,7 @@ export function DriverCard({ driver, onEdit }: DriverCardProps) {
               <h3 className="text-lg font-bold">
                 {driver.name}
               </h3>
-              <p className="text-sm text-gray-600">{driver.document}</p>
+              <p className="text-sm text-gray-400">{driver.document}</p>
             </div>
           </div>
           <Badge
@@ -61,33 +61,33 @@ export function DriverCard({ driver, onEdit }: DriverCardProps) {
       <CardContent className="flex-1 flex flex-col">
         <div className="space-y-3 flex-1">
           <div>
-            <p className="text-sm font-medium text-gray-600">CPF</p>
-            <p className="text-sm text-gray-900">{driver.cpf}</p>
+            <p className="text-sm font-semibold text-primary-600">CPF</p>
+            <p className="text-sm font-medium text-card-foreground">{driver.cpf}</p>
           </div>
           <div className="flex items-center gap-2">
-            <PhoneIcon className="h-4 w-4 text-gray-400" />
-            <p className="text-sm text-gray-900">{driver.phone}</p>
+            <PhoneIcon className="h-4 w-4 text-primary-600" />
+            <p className="text-sm font-medium text-card-foreground">{driver.phone}</p>
           </div>
           <div className="flex items-center gap-2">
-            <EnvelopeSimpleIcon className="h-4 w-4 text-gray-400" />
-            <p className="text-sm text-gray-900">{driver.email}</p>
+            <EnvelopeSimpleIcon className="h-4 w-4 text-primary-600" />
+            <p className="text-sm font-medium text-card-foreground">{driver.email}</p>
           </div>
           {driver.company && (
             <div>
-              <p className="text-sm font-medium text-gray-600">Empresa</p>
-              <p className="text-sm text-gray-900">{driver.company}</p>
+              <p className="text-sm font-semibold text-primary-600">Empresa</p>
+              <p className="text-sm font-medium text-card-foreground">{driver.company}</p>
             </div>
           )}
           {driver.experience && (
             <div>
-              <p className="text-sm font-medium text-gray-600">Experiência</p>
-              <p className="text-sm text-gray-900">{driver.experience}</p>
+              <p className="text-sm font-semibold text-primary-600">Experiência</p>
+              <p className="text-sm font-medium text-card-foreground">{driver.experience}</p>
             </div>
           )}
           {driver.category && (
             <div>
-              <p className="text-sm font-medium text-gray-600">Categoria CNH</p>
-              <p className="text-sm text-gray-900">{driver.category}</p>
+              <p className="text-sm font-medium text-primary-600">Categoria CNH</p>
+              <p className="text-sm font-medium text-card-foreground">{driver.category}</p>
             </div>
           )}
         </div>

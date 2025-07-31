@@ -36,7 +36,6 @@ export function AddDriverModal({ open, onOpenChange, onSave }: AddDriverModalPro
       document: `CNH: ${formData.document}`,
     });
 
-    // Reset form
     setFormData({
       name: "",
       document: "",

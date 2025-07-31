@@ -1,6 +1,68 @@
-<svg width="1920" height="1080" viewBox="0 0 1920 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path
-        d="M0 241.999C128 259.199 384 363.599 640 327.999C896 292.399 1024 58.9991 1280 63.9991C1536 68.9991 1792 295.199 1920 352.999V0H0V241.999Z"
-        fill="#271A0C"
-    />
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 2560 1440">
+    <defs>
+        <filter id="grain" x="0" y="0" width="100%" height="100%">
+            <feFlood flood-color="#ffffff" result="neutral-gray"/>
+            <feTurbulence in="neutral-gray" type="fractalNoise" baseFrequency="1.5" numOctaves="100"/>
+            <feColorMatrix in="noise" type="saturate" values="0" result="destaturatedNoise"/>
+            <feComponentTransfer in="desaturatedNoise" result="theNoise">
+                <feFuncA type="table" tableValues="0 0 0.1 0"/>
+            </feComponentTransfer>
+            <feBlend in="SourceGraphic" in2="theNoise" mode="soft-light" result="noisy-image"/>
+        </filter>
+        <pattern id="pattern-svg" x="0" y="0" width="512" height="512" patternUnits="userSpaceOnUse"
+                 patternTransform="rotate(0) translate(146, 146) skewX(0) skewY(0)">
+            <g opacity="1">
+                <g clip-path="url(#radius-clip)" transform="scale(0.5)">
+                    <svg width="366" height="366" viewBox="0 0 100 100">
+                        <g clip-path="url(#clip0)">
+                            <path d="M24.9756 100.827C24.9894 100.839 25.0033 100.85 25.0172 100.862C58.3505 72.8139 58.3505 28.9105 25.0172 0.862305C25.0033 0.873977 24.9894 0.885657 24.9756 0.897337V100.827Z"
+                                  fill="#4D3319"/>
+                            <path opacity="0.2"
+                                  d="M25.0592 0.897339C25.0453 0.885659 25.0315 0.873981 25.0176 0.862305C-8.31576 28.9105 -8.31576 72.8139 25.0176 100.862C25.0315 100.85 25.0453 100.839 25.0592 100.827L25.0592 0.897339Z"
+                                  fill="#4D3319"/>
+                            <path d="M74.958 100.827C74.9719 100.839 74.9857 100.85 74.9996 100.862C108.333 72.8139 108.333 28.9105 74.9996 0.862305C74.9857 0.873977 74.9719 0.885657 74.958 0.897337V100.827Z"
+                                  fill="#4D3319"/>
+                            <path opacity="0.2"
+                                  d="M75.0416 0.897339C75.0278 0.885659 75.0139 0.873981 75 0.862305C41.6667 28.9105 41.6667 72.8139 75 100.862C75.0139 100.85 75.0278 100.839 75.0416 100.827L75.0416 0.897339Z"
+                                  fill="#4D3319"/>
+                        </g>
+                        <defs>
+                            <clipPath id="clip0">
+                                <rect width="100" height="100" fill="#4D3319"/>
+                            </clipPath>
+                        </defs>
+                    </svg>
+                </g>
+                <g clip-path="url(#radius-clip)" transform="translate(256, 256) scale(0.5)">
+                    <svg width="366" height="366" viewBox="0 0 100 100">
+                        <g clip-path="url(#clip0)">
+                            <path d="M24.9756 100.827C24.9894 100.839 25.0033 100.85 25.0172 100.862C58.3505 72.8139 58.3505 28.9105 25.0172 0.862305C25.0033 0.873977 24.9894 0.885657 24.9756 0.897337V100.827Z"
+                                  fill="#4D3319"/>
+                            <path opacity="0.2"
+                                  d="M25.0592 0.897339C25.0453 0.885659 25.0315 0.873981 25.0176 0.862305C-8.31576 28.9105 -8.31576 72.8139 25.0176 100.862C25.0315 100.85 25.0453 100.839 25.0592 100.827L25.0592 0.897339Z"
+                                  fill="#4D3319"/>
+                            <path d="M74.958 100.827C74.9719 100.839 74.9857 100.85 74.9996 100.862C108.333 72.8139 108.333 28.9105 74.9996 0.862305C74.9857 0.873977 74.9719 0.885657 74.958 0.897337V100.827Z"
+                                  fill="#4D3319"/>
+                            <path opacity="0.2"
+                                  d="M75.0416 0.897339C75.0278 0.885659 75.0139 0.873981 75 0.862305C41.6667 28.9105 41.6667 72.8139 75 100.862C75.0139 100.85 75.0278 100.839 75.0416 100.827L75.0416 0.897339Z"
+                                  fill="#4D3319"/>
+                        </g>
+                        <defs>
+                            <clipPath id="clip0">
+                                <rect width="100" height="100" fill="#4D3319"/>
+                            </clipPath>
+                        </defs>
+                    </svg>
+                </g>
+            </g>
+        </pattern>
+    </defs>
+    <rect x="0" y="0" width="100%" height="100%" fill="#271a0c"/>
+    <g>
+        <g filter="url(#grain)">
+            <g>
+                <rect x="0" y="0" width="100%" height="100%" fill="url(#pattern-svg)"/>
+            </g>
+        </g>
+    </g>
 </svg>

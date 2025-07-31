@@ -97,7 +97,7 @@ export default function FleetPage() {
                     <h3 className="text-lg font-bold">
                       {truck.plate}
                     </h3>
-                    <p className="text-sm text-gray-600">{truck.model}</p>
+                    <p className="text-sm text-gray-400">{truck.model}</p>
                   </div>
                 </div>
                 <Badge
@@ -116,20 +116,20 @@ export default function FleetPage() {
             <CardContent>
               <div className="space-y-3">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Empresa</p>
-                  <p className="text-sm text-gray-900">{truck.company}</p>
+                  <p className="text-sm font-semibold text-primary-600">Empresa</p>
+                  <p className="text-sm font-medium text-card-foreground">{truck.company}</p>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-gray-600">
+                  <p className="text-sm font-semibold text-primary-600">
                     Capacidade
                   </p>
-                  <p className="text-sm text-gray-900">{truck.capacity}</p>
+                  <p className="text-sm font-medium text-card-foreground">{truck.capacity}</p>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-gray-600">
+                  <p className="text-sm font-semibold text-primary-600">
                     Observações
                   </p>
-                  <p className="text-sm text-gray-900">{truck.observations}</p>
+                  <p className="text-sm font-medium text-card-foreground">{truck.observations}</p>
                 </div>
               </div>
               <div className="mt-6">
