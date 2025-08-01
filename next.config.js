@@ -6,6 +6,9 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ["@phosphor-icons/react"],
     // Configure Turbopack for better development experience
+  },
+
+  config: {
     turbo: {
       rules: {
         '*.svg': {
@@ -13,8 +16,9 @@ const nextConfig = {
           as: '*.js',
         },
       },
-    },
+    }
   },
+
   devIndicators: false,
 
   // PWA Configuration

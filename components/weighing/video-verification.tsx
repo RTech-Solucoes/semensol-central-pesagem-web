@@ -7,7 +7,7 @@ import {Input} from "@/components/ui/input";
 import {Label} from "@/components/ui/label";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {Badge} from "@/components/ui/badge";
-import {CameraIcon, UserCheck, Car, CheckCircleIcon} from "@phosphor-icons/react";
+import {CameraIcon, UserCheck, Car, CheckCircleIcon, CameraRotate} from "@phosphor-icons/react";
 import {apiClient} from "@/lib/api";
 import {cn} from "@/lib/utils";
 import {useToast} from "@/hooks/use-toast";
@@ -25,7 +25,11 @@ interface VideoVerificationProps {
     placa: string;
     motorista_id: string;
   };
-  setFormData: (data: any) => void;
+  setFormData: React.Dispatch<React.SetStateAction<{
+    placa: string;
+    motorista_id: string;
+    peso: string;
+  }>>;
   motoristas: Motorista[];
   verificationComplete: boolean;
   ciclosAbertos: any[];
@@ -50,6 +54,7 @@ export function VideoVerification({
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isStreaming, setIsStreaming] = useState(false);
+  const [facingMode, setFacingMode] = useState<'user' | 'environment'>('user');
   const [verificationState, setVerificationState] = useState<{
     driver: { verified: boolean; name?: string; confidence?: number };
     plate: { detected: boolean; value?: string };
@@ -69,7 +74,7 @@ export function VideoVerification({
         video: {
           width: { ideal: 640 },
           height: { ideal: 480 },
-          facingMode: 'user'
+          facingMode
         }
       });
 
@@ -85,7 +90,7 @@ export function VideoVerification({
         variant: "destructive",
       });
     }
-  }, [toast]);
+  }, [facingMode, toast]);
 
   const stopCamera = useCallback(() => {
     if (videoRef.current?.srcObject) {
@@ -288,6 +293,43 @@ export function VideoVerification({
     }
   }, [captureImage, onDriverVerified, onPlateDetected, onVerificationComplete, toast]);
 
+  const flipCamera = useCallback(async () => {
+    if (isStreaming) {
+      // Stop current stream
+      stopCamera();
+      // Toggle facing mode
+      const newFacingMode = facingMode === 'user' ? 'environment' : 'user';
+      setFacingMode(newFacingMode);
+
+      // Small delay to ensure camera is properly stopped
+      setTimeout(async () => {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({
+            video: {
+              width: { ideal: 640 },
+              height: { ideal: 480 },
+              facingMode: newFacingMode
+            }
+          });
+
+          if (videoRef.current) {
+            videoRef.current.srcObject = stream;
+            setIsStreaming(true);
+          }
+        } catch (error) {
+          console.error('Erro ao trocar câmera:', error);
+          toast({
+            title: "Erro ao trocar câmera",
+            description: "Não foi possível trocar a câmera. Tente novamente.",
+            variant: "destructive",
+          });
+          // Revert facing mode if failed
+          setFacingMode(facingMode);
+        }
+      }, 500);
+    }
+  }, [isStreaming, facingMode, stopCamera, toast]);
+
   return (
     <Card className="w-full max-w-none">
       <CardHeader>
@@ -314,6 +356,20 @@ export function VideoVerification({
               style={{ transform: 'scaleX(-1)' }}
             />
             <canvas ref={canvasRef} className="hidden" />
+
+            {/* Floating Flip Camera Button */}
+            {isStreaming && (
+              <Button
+                onClick={flipCamera}
+                size="sm"
+                variant="secondary"
+                className="absolute bottom-2 right-2 w-10 h-10 p-0 rounded-full shadow-lg hover:shadow-xl transition-shadow bg-white/90 backdrop-blur-sm border border-gray-200"
+                disabled={verificationState.loading}
+                title="Trocar câmera"
+              >
+                <CameraRotate className="h-4 w-4 text-gray-700" />
+              </Button>
+            )}
 
             {!isStreaming && (
               <div className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-lg">
@@ -458,7 +514,7 @@ export function VideoVerification({
                   <Button
                     size="sm"
                     variant="outline"
-                    disabled={!isConnected || loading}
+                    disabled={!isConnected || initialLoading}
                     onClick={() => onRegistrarSaida(ciclo.id_pesagem)}
                   >
                     Registrar Saída
