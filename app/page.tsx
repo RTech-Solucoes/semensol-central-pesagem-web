@@ -106,7 +106,7 @@ export default function Home() {
       </div>
 
       <Card className="w-full max-w-none">
-        <div className="grid grid-cols-1 2xl:grid-cols-3 min-h-[600px]">
+        <div className="grid grid-cols-1 2xl:grid-cols-3 min-h-[350px]">
           <div className="flex flex-col 2xl:col-span-2 border-r-0 border-b 2xl:border-b-0 2xl:border-r border-dashed">
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle className="text-lg font-semibold flex items-center gap-2">

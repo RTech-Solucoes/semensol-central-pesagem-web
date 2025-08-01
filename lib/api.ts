@@ -3,6 +3,8 @@ const BASE_URL = 'https://14533dbc8cb2.ngrok-free.app/api';
 interface ApiResponse<T> {
   data?: T;
   error?: string;
+  message?: string;
+  warning?: string;
 }
 
 class ApiClient {
@@ -21,10 +23,21 @@ class ApiClient {
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        return { error: errorData.error || errorData.erro || `Erro ${response.status}: ${response.statusText}` };
+        return {
+          error: errorData.error || errorData.erro || errorData.message || `Erro ${response.status}: ${response.statusText}`
+        };
       }
 
       const data = await response.json();
+
+      // Check if the response contains a warning message
+      if (data && typeof data === 'object' && data.message) {
+        return {
+          data,
+          warning: data.message
+        };
+      }
+
       return { data };
     } catch (error) {
       console.error('API Error:', error);
@@ -130,6 +143,28 @@ class ApiClient {
     placa: string;
   }>> {
     return this.request('/reconhecimento/placa', {
+      method: 'POST',
+      body: formData,
+    });
+  }
+
+  async getCaminhoes(): Promise<ApiResponse<{
+    id: number;
+    placa: string;
+  }[]>> {
+    return this.request('/caminhoes');
+  }
+
+  async reconhecerCaminhao(placa: string): Promise<ApiResponse<{
+    id_caminhao: number;
+    placa: string;
+    modelo: string;
+    empresa: string;
+  }>> {
+    const formData = new FormData();
+    formData.append('placa', placa);
+
+    return this.request('/reconhecimento/caminhao', {
       method: 'POST',
       body: formData,
     });

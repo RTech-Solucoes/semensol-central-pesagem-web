@@ -24,10 +24,10 @@ import {useToast} from "@/hooks/use-toast";
 import {LoadingSpinner} from "@/components/ui/loading-spinner";
 
 interface Truck {
-  id_caminhao: number;
+  id: number;
   placa: string;
-  modelo: string;
-  empresa: string;
+  modelo?: string;
+  empresa?: string;
 }
 
 export default function FleetPage() {
@@ -47,21 +47,19 @@ export default function FleetPage() {
     loadTrucks();
   }, []);
 
-  const loadTrucks = () => {
-    const savedTrucks = localStorage.getItem('semensol-trucks');
-    if (savedTrucks) {
-      try {
-        setTrucks(JSON.parse(savedTrucks));
-      } catch (error) {
-        console.error('Error loading trucks from localStorage:', error);
-      }
+  const loadTrucks = async () => {
+    setLoading(true);
+    const response = await apiClient.getCaminhoes();
+    if (response.error) {
+      toast({
+        title: "Erro ao carregar veículos",
+        description: response.error,
+        variant: "destructive",
+      });
+    } else if (response.data) {
+      setTrucks(response.data);
     }
     setLoading(false);
-  };
-
-  const saveTrucks = (newTrucks: Truck[]) => {
-    setTrucks(newTrucks);
-    localStorage.setItem('semensol-trucks', JSON.stringify(newTrucks));
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -92,16 +90,9 @@ export default function FleetPage() {
         title: "Veículo cadastrado",
         description: "Veículo cadastrado com sucesso!",
       });
-      const newTruck = {
-        id_caminhao: response.data?.id_caminhao ?? 0,
-        placa: formData.placa,
-        modelo: formData.modelo,
-        empresa: formData.empresa,
-      };
-      const updatedTrucks = [...trucks, newTruck];
-      saveTrucks(updatedTrucks);
       setFormData({ placa: "", modelo: "", empresa: "", imagem: null });
       setIsModalOpen(false);
+      loadTrucks(); // Reload trucks from API
     }
     setSubmitLoading(false);
   };
@@ -129,16 +120,9 @@ export default function FleetPage() {
         title: "Veículo cadastrado",
         description: `Veículo com placa ${response.data.placa} cadastrado com sucesso!`,
       });
-      const newTruck = {
-        id_caminhao: response.data?.id_caminhao ?? 0,
-        placa: response.data?.placa ?? "",
-        modelo: formData.modelo,
-        empresa: formData.empresa,
-      };
-      const updatedTrucks = [...trucks, newTruck];
-      saveTrucks(updatedTrucks);
       setFormData({ placa: "", modelo: "", empresa: "", imagem: null });
       setIsModalOpen(false);
+      loadTrucks(); // Reload trucks from API
     }
     setSubmitLoading(false);
   };
@@ -317,22 +301,26 @@ export default function FleetPage() {
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {trucks.map((truck) => (
-                <Card key={truck.id_caminhao} className="border border-gray-200">
+                <Card key={truck.id} className="border border-gray-200">
                   <CardContent className="p-4">
                     <div className="flex flex-col items-center text-center space-y-3">
-                      <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
-                        <TruckIcon className="h-8 w-8 text-blue-600" />
+                      <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
+                        <TruckIcon className="h-8 w-8 text-gray-400" />
                       </div>
                       <div>
-                        <h3 className="font-bold text-xl text-blue-600">
+                        <h3 className="font-bold text-xl text-card-foreground">
                           {truck.placa}
                         </h3>
-                        <p className="font-medium text-gray-900">
-                          {truck.modelo}
-                        </p>
-                        <p className="text-sm text-gray-500">
-                          {truck.empresa}
-                        </p>
+                        {truck.modelo && (
+                          <p className="font-medium text-gray-900">
+                            {truck.modelo}
+                          </p>
+                        )}
+                        {truck.empresa && (
+                          <p className="text-sm text-gray-500">
+                            {truck.empresa}
+                          </p>
+                        )}
                       </div>
                     </div>
                   </CardContent>

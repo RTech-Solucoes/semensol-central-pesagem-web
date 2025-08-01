@@ -228,7 +228,7 @@ export default function DriversPage() {
                 <Card key={driver.id} className="border border-gray-200">
                   <CardContent className="p-4">
                     <div className="flex flex-col items-center text-center space-y-3">
-                      <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center">
+                      <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
                         {driver.imagem_path ? (
                           <img
                             src={driver.imagem_path}

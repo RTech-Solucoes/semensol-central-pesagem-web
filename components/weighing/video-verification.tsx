@@ -3,22 +3,49 @@
 import {useState, useRef, useCallback} from "react";
 import {Button} from "@/components/ui/button";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
+import {Input} from "@/components/ui/input";
+import {Label} from "@/components/ui/label";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {Badge} from "@/components/ui/badge";
-import {CameraIcon, CheckCircleIcon, XCircleIcon, IdentificationCardIcon} from "@phosphor-icons/react";
+import {CameraIcon, UserCheck, Car, CheckCircleIcon} from "@phosphor-icons/react";
 import {apiClient} from "@/lib/api";
 import {cn} from "@/lib/utils";
 import {useToast} from "@/hooks/use-toast";
+
+interface Motorista {
+  id: number;
+  nome: string;
+}
 
 interface VideoVerificationProps {
   onDriverVerified: (driverId: number, driverName: string) => void;
   onPlateDetected: (plate: string) => void;
   onVerificationComplete: (success: boolean) => void;
+  formData: {
+    placa: string;
+    motorista_id: string;
+  };
+  setFormData: (data: any) => void;
+  motoristas: Motorista[];
+  verificationComplete: boolean;
+  ciclosAbertos: any[];
+  isConnected: boolean;
+  loading: boolean;
+  onRegistrarSaida: (eventoId: number) => void;
 }
 
 export function VideoVerification({
   onDriverVerified,
   onPlateDetected,
-  onVerificationComplete
+  onVerificationComplete,
+  formData,
+  setFormData,
+  motoristas,
+  verificationComplete: initialVerificationComplete,
+  ciclosAbertos: initialCiclosAbertos,
+  isConnected,
+  loading: initialLoading,
+  onRegistrarSaida
 }: VideoVerificationProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -32,6 +59,8 @@ export function VideoVerification({
     plate: { detected: false },
     loading: false
   });
+  const [verificationComplete, setVerificationComplete] = useState(initialVerificationComplete);
+  const [ciclosAbertos, setCiclosAbertos] = useState<any[]>(initialCiclosAbertos);
   const { toast } = useToast();
 
   const startCamera = useCallback(async () => {
@@ -78,7 +107,11 @@ export function VideoVerification({
 
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
-    context.drawImage(video, 0, 0);
+
+    // Flip the image horizontally before sending to API
+    context.translate(canvas.width, 0);
+    context.scale(-1, 1);
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
     return new Promise((resolve) => {
       canvas.toBlob((blob) => {
@@ -238,6 +271,8 @@ export function VideoVerification({
       const success = response.data.motorista_reconhecido && response.data.placa_valida;
       onVerificationComplete(success);
 
+      setVerificationComplete(true);
+
       if (success) {
         toast({
           title: "Verificação completa",
@@ -254,133 +289,185 @@ export function VideoVerification({
   }, [captureImage, onDriverVerified, onPlateDetected, onVerificationComplete, toast]);
 
   return (
-    <Card className="w-full">
+    <Card className="w-full max-w-none">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+        <CardTitle className="text-lg font-semibold flex items-center gap-2">
           <CameraIcon className="h-5 w-5"/>
-          Verificação por Vídeo
+          Verificação e Entrada
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="relative">
-          <video
-            ref={videoRef}
-            autoPlay
-            playsInline
-            muted
-            className="w-full h-64 bg-gray-100 rounded-lg object-cover"
-          />
-          <canvas
-            ref={canvasRef}
-            className="hidden"
-          />
+      <CardContent className="flex flex-col xl:flex-row gap-6">
+        {/* Video Verification Section */}
+        <div className="flex flex-col w-full h-full space-y-4">
+          <h3 className="text-md font-medium flex items-center gap-2">
+            <CameraIcon className="h-4 w-4"/>
+            Entrada por Vídeo
+          </h3>
 
-          {!isStreaming && (
-            <div className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-lg">
-              <div className="text-center">
-                <CameraIcon className="h-12 w-12 text-gray-400 mx-auto mb-2"/>
-                <p className="text-gray-500">Câmera desativada</p>
+          <div className="relative">
+            <video
+              ref={videoRef}
+              autoPlay
+              playsInline
+              muted
+              className="w-full aspect-video bg-gray-100 rounded-lg object-cover"
+              style={{ transform: 'scaleX(-1)' }}
+            />
+            <canvas ref={canvasRef} className="hidden" />
+
+            {!isStreaming && (
+              <div className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-lg">
+                <div className="text-center">
+                  <CameraIcon className="h-12 w-12 text-gray-400 mx-auto mb-2"/>
+                  <p className="text-gray-500">Câmera desligada</p>
+                  <p className="text-xs text-gray-400">Clique em <strong>Iniciar Câmera</strong> para começar</p>
+                </div>
               </div>
-            </div>
-          )}
-        </div>
-
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="text-sm font-medium">Motorista:</span>
-              <Badge
-                variant="secondary"
-                className={cn(
-                  verificationState.driver.verified
-                    ? "bg-green-100 text-green-700"
-                    : "bg-gray-100 text-gray-700"
-                )}
-              >
-                {verificationState.driver.verified ? (
-                  <CheckCircleIcon className="w-3 h-3 mr-1"/>
-                ) : (
-                  <XCircleIcon className="w-3 h-3 mr-1"/>
-                )}
-                {verificationState.driver.verified ? "Verificado" : "Não verificado"}
-              </Badge>
-            </div>
-            {verificationState.driver.name && (
-              <p className="text-sm text-gray-600">{verificationState.driver.name}</p>
-            )}
-            {verificationState.driver.confidence && (
-              <p className="text-xs text-gray-500">
-                Confiança: {Math.round(verificationState.driver.confidence * 100)}%
-              </p>
             )}
           </div>
 
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="text-sm font-medium">Placa:</span>
-              <Badge
-                variant="secondary"
-                className={cn(
-                  verificationState.plate.detected
-                    ? "bg-green-100 text-green-700"
-                    : "bg-gray-100 text-gray-700"
-                )}
-              >
-                {verificationState.plate.detected ? (
-                  <CheckCircleIcon className="w-3 h-3 mr-1"/>
-                ) : (
-                  <XCircleIcon className="w-3 h-3 mr-1"/>
-                )}
-                {verificationState.plate.detected ? "Detectada" : "Não detectada"}
-              </Badge>
-            </div>
-            {verificationState.plate.value && (
-              <p className="text-sm font-medium">{verificationState.plate.value}</p>
-            )}
-          </div>
-        </div>
-
-        <div className="flex flex-col sm:flex-row gap-2">
-          {!isStreaming ? (
-            <Button onClick={startCamera} className="flex-1">
-              <CameraIcon className="w-4 h-4 mr-2"/>
-              Ativar Câmera
+          {/* Camera Controls */}
+          <div className="grid grid-cols-1 gap-2">
+            <Button
+              onClick={isStreaming ? stopCamera : startCamera}
+              variant={isStreaming ? "destructive" : "default"}
+              className="flex items-center gap-2"
+              disabled={verificationState.loading}
+            >
+              <CameraIcon className="h-4 w-4"/>
+              {isStreaming ? "Parar Câmera" : "Iniciar Câmera"}
             </Button>
-          ) : (
-            <>
-              <Button
-                onClick={stopCamera}
-                variant="outline"
-                className="flex-1"
-              >
-                Parar Câmera
-              </Button>
-              <Button
-                onClick={verifyDriver}
-                disabled={verificationState.loading}
-                variant="secondary"
-                className="flex-1"
-              >
-                {verificationState.loading ? "Verificando..." : "Verificar Motorista"}
-              </Button>
-              <Button
-                onClick={detectPlate}
-                disabled={verificationState.loading}
-                variant="secondary"
-                className="flex-1"
-              >
-                {verificationState.loading ? "Detectando..." : "Detectar Placa"}
-              </Button>
-              <Button
-                onClick={performCompleteVerification}
-                disabled={verificationState.loading}
-                className="flex-1"
-              >
-                {verificationState.loading ? "Verificando..." : "Verificar Ambos"}
-              </Button>
-            </>
-          )}
+          </div>
+
+          {/* Individual Verification Buttons */}
+          <div className="grid grid-cols-2 gap-2">
+            <Button
+              onClick={verifyDriver}
+              disabled={!isStreaming || verificationState.loading}
+              variant="outline"
+              size="sm"
+              className="flex items-center gap-2"
+            >
+              <UserCheck className="h-3 w-3"/>
+              Verificar Motorista
+            </Button>
+
+            <Button
+              onClick={detectPlate}
+              disabled={!isStreaming || verificationState.loading}
+              variant="outline"
+              size="sm"
+              className="flex items-center gap-2"
+            >
+              <Car className="h-3 w-3"/>
+              Verificar Placa
+            </Button>
+          </div>
         </div>
+
+        {/* Manual Input Section */}
+        <div className="flex flex-col w-full h-full space-y-4">
+          <h3 className="text-md font-medium flex items-center gap-2">
+            <UserCheck className="h-4 w-4"/>
+            Entrada Manual
+          </h3>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="sm:col-span-2">
+              <Label htmlFor="placa">Placa do Veículo</Label>
+              <Input
+                id="placa"
+                placeholder="ABC-1234"
+                value={formData.placa}
+                onChange={(e) => setFormData(prev => ({ ...prev, placa: e.target.value.toUpperCase() }))}
+                className={cn(
+                  formData.placa && "border-green-500 bg-green-50"
+                )}
+              />
+            </div>
+            <div className="sm:col-span-2">
+              <Label htmlFor="driver">Motorista</Label>
+              <Select value={formData.motorista_id} onValueChange={(value) => setFormData(prev => ({ ...prev, motorista_id: value }))}>
+                <SelectTrigger className={cn(
+                  formData.motorista_id && "border-green-500 bg-green-50"
+                )}>
+                  <SelectValue placeholder="Selecione o motorista"/>
+                </SelectTrigger>
+                <SelectContent>
+                  {motoristas.map((motorista) => (
+                    <SelectItem key={motorista.id} value={motorista.id.toString()}>
+                      {motorista.nome}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        </div>
+
+        {/* Verification Status */}
+        {(verificationState.driver.verified || verificationState.plate.detected) && (
+          <div className="space-y-2">
+            <h4 className="text-sm font-medium">Status da Verificação</h4>
+            <div className="space-y-2">
+              {verificationState.driver.verified && (
+                <div className="flex items-center gap-2 p-2 bg-green-50 border border-green-200 rounded">
+                  <UserCheck className="h-4 w-4 text-green-600"/>
+                  <span className="text-sm text-green-800">
+                    Motorista: {verificationState.driver.name}
+                    {verificationState.driver.confidence && (
+                      <span className="text-xs ml-1">({Math.round(verificationState.driver.confidence * 100)}%)</span>
+                    )}
+                  </span>
+                </div>
+              )}
+
+              {verificationState.plate.detected && (
+                <div className="flex items-center gap-2 p-2 bg-green-50 border border-green-200 rounded">
+                  <Car className="h-4 w-4 text-green-600"/>
+                  <span className="text-sm text-green-800">
+                    Placa: {verificationState.plate.value}
+                  </span>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Verification Complete Status */}
+        {verificationComplete && (
+          <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
+            <div className="flex items-center gap-2">
+              <CheckCircleIcon className="h-5 w-5 text-green-600"/>
+              <span className="text-green-800 font-medium">Verificação realizada com sucesso!</span>
+            </div>
+          </div>
+        )}
+
+        {/* Active Cycles */}
+        {ciclosAbertos.length > 0 && (
+          <div className="space-y-3">
+            <Label>Ciclos em Andamento</Label>
+            <div className="space-y-2">
+              {ciclosAbertos.map((ciclo) => (
+                <div key={ciclo.id_pesagem} className="flex items-center justify-between p-3 border rounded-lg">
+                  <div>
+                    <p className="font-medium">{ciclo.placa}</p>
+                    <p className="text-sm text-gray-500">{ciclo.motorista}</p>
+                  </div>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    disabled={!isConnected || loading}
+                    onClick={() => onRegistrarSaida(ciclo.id_pesagem)}
+                  >
+                    Registrar Saída
+                  </Button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </CardContent>
     </Card>
   );
