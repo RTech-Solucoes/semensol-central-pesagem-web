@@ -255,25 +255,27 @@ export default function WeighingPage() {
                 </div>
               )}
             </div>
-            <div className="flex flex-row gap-3 mt-6">
-              <Button
-                variant="secondary"
-                className="w-full"
-                onClick={() => setCurrentWeight(0)}
-              >
-                Zerar Peso
-              </Button>
-              <Button
-                onClick={() => setIsConnected(!isConnected)}
-                variant={isConnected ? "destructive" : "default"}
-                className={cn(
-                  !isConnected && "bg-green-700 hover:bg-green-700/90",
-                  "flex w-full items-center gap-2"
-                )}
-              >
-                {isConnected ? <PlugsIcon className="h-4 w-4"/> : <PlugsConnectedIcon className="h-4 w-4"/>}
-                {isConnected ? "Desconectar" : "Conectar Balança"}
-              </Button>
+            <div className="flex flex-col gap-3 mt-6">
+              <div className="flex flex-row gap-3">
+                <Button
+                  variant="secondary"
+                  className="w-full"
+                  onClick={() => setCurrentWeight(0)}
+                >
+                  Zerar Peso
+                </Button>
+                <Button
+                  onClick={() => setIsConnected(!isConnected)}
+                  variant={isConnected ? "destructive" : "default"}
+                  className={cn(
+                    !isConnected && "bg-green-700 hover:bg-green-700/90",
+                    "flex w-full items-center gap-2"
+                  )}
+                >
+                  {isConnected ? <PlugsIcon className="h-4 w-4"/> : <PlugsConnectedIcon className="h-4 w-4"/>}
+                  {isConnected ? "Desconectar" : "Conectar Balança"}
+                </Button>
+              </div>
               <Button
                 className="w-full"
                 disabled={!isConnected || !formData.placa || !formData.motorista_id || loading}

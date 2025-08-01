@@ -87,7 +87,7 @@ export function PWAInstaller() {
               <p className="text-xs text-gray-600 mb-3">
                 Instale o app para acesso rápido e uso offline
               </p>
-              <div className="flex gap-2">
+              <div className="flex justify-end gap-2">
                 <Button
                   onClick={handleInstallClick}
                   size="sm"
