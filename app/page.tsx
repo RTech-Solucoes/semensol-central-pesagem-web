@@ -9,9 +9,9 @@ import {
   HandshakeIcon,
   IdentificationCardIcon,
   TruckIcon,
-  BarbellIcon,
   LightningIcon,
 } from "@phosphor-icons/react";
+import WeightIcon from "@/components/icons/WeightIcon";
 import {cn} from "@/lib/utils";
 import Link from "next/link";
 
@@ -21,7 +21,7 @@ export default function Home() {
     {
       title: "Iniciar Pesagem",
       description: "Iniciar novo ciclo de pesagem",
-      icon: BarbellIcon,
+      icon: WeightIcon,
       color: "green",
       href: "/weighing",
     },

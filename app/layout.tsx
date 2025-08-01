@@ -14,8 +14,8 @@ import {
   IdentificationCardIcon,
   GearIcon,
   TruckIcon,
-  BarbellIcon
 } from "@phosphor-icons/react";
+import WeightIcon from "@/components/icons/WeightIcon";
 import { IconContext } from "@phosphor-icons/react";
 import ptBR from 'antd/locale/pt_BR';
 import {ConfigProvider} from "antd";
@@ -39,7 +39,7 @@ const font = Font({
 
 const navigation: NavItem[] = [
   {name: "Tela Inicial", href: "/", section: "Operações", icon: HouseIcon},
-  {name: "Pesagem Ativa", href: "/weighing", section: "Operações", icon: BarbellIcon},
+  {name: "Pesagem Ativa", href: "/weighing", section: "Operações", icon: WeightIcon},
   {name: "Histórico", href: "/history", section: "Operações", icon: ClockIcon},
   {name: "Frota", href: "/fleet", section: "Operações", icon: TruckIcon},
   {name: "Motoristas", href: "/drivers", section: "Operações", icon: IdentificationCardIcon},

@@ -6,7 +6,8 @@ import {Button} from "@/components/ui/button";
 import {Input} from "@/components/ui/input";
 import {Label} from "@/components/ui/label";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue,} from "@/components/ui/select";
-import {CheckCircleIcon, ClockIcon, PlayIcon, PlugsConnectedIcon, ScalesIcon, SquareIcon, PlugsIcon, BarbellIcon,} from "@phosphor-icons/react";
+import {CheckCircleIcon, ClockIcon, PlayIcon, PlugsConnectedIcon, ScalesIcon, SquareIcon, PlugsIcon} from "@phosphor-icons/react";
+import WeightIcon from "@/components/icons/WeightIcon";
 import {cn} from "@/lib/utils";
 import {Badge} from "@/components/ui/badge";
 
@@ -105,7 +106,7 @@ export default function WeighingPage() {
         <div className="flex flex-col h-full">
           <CardHeader className="flex-row justify-between">
             <CardTitle className="text-lg font-semibold flex items-center gap-2">
-              <BarbellIcon className="h-5 w-5"/>
+              <WeightIcon className="h-5 w-5"/>
               Balança
             </CardTitle>
             <Badge
@@ -136,7 +137,7 @@ export default function WeighingPage() {
             <div className="text-center my-auto">
               {!isConnected ?
                 <>
-                  <BarbellIcon className="h-16 w-16 text-gray-300 mx-auto mb-4"/>
+                  <WeightIcon className="h-16 w-16 text-gray-300 mx-auto mb-4"/>
                   <p className="text-gray-500">Balança desconectada</p>
                 </> :
                 <p className="text-7xl font-bold">20 kg</p>

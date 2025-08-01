@@ -8,7 +8,8 @@ import {Switch} from "@/components/ui/switch";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
 import {Badge} from "@/components/ui/badge";
-import {BarbellIcon, BellIcon, DatabaseIcon, FloppyDiskIcon, PrinterIcon, ScalesIcon,} from "@phosphor-icons/react";
+import {BellIcon, DatabaseIcon, FloppyDiskIcon, PrinterIcon, ScalesIcon} from "@phosphor-icons/react";
+import WeightIcon from "@/components/icons/WeightIcon";
 import {FAB} from "@/components/ui/fab";
 
 export default function SettingsPage() {
@@ -16,7 +17,7 @@ export default function SettingsPage() {
     {
       id: "weighing",
       label: "Pesagem",
-      icon: BarbellIcon,
+      icon: WeightIcon,
     },
     {
       id: "scales",
