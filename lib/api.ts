@@ -142,7 +142,7 @@ class ApiClient {
   async reconhecerPlaca(formData: FormData): Promise<ApiResponse<{
     placa: string;
   }>> {
-    return this.request('/reconhecimento/placa', {
+    return this.request('/reconhecimento/caminhao', {
       method: 'POST',
       body: formData,
     });
