@@ -114,9 +114,9 @@ class ApiClient {
   }
 
   async reconhecimentoCompleto(formData: FormData): Promise<ApiResponse<{
-    motorista_reconhecido: boolean;
+    id_motorista: number;
     motorista_id?: number;
-    motorista_nome?: string;
+    nome?: string;
     confianca_motorista?: number;
     placa_reconhecida?: string;
     placa_valida: boolean;
@@ -128,9 +128,9 @@ class ApiClient {
   }
 
   async reconhecerMotorista(formData: FormData): Promise<ApiResponse<{
-    motorista_reconhecido: boolean;
+    id_motorista: number;
     motorista_id?: number;
-    motorista_nome?: string;
+    nome?: string;
     confianca?: number;
   }>> {
     return this.request('/reconhecimento/motorista', {

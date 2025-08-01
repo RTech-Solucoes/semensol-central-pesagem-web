@@ -148,20 +148,20 @@ export function VideoVerification({
         variant: "destructive",
       });
       setVerificationState(prev => ({ ...prev, driver: { verified: false }, loading: false }));
-    } else if (response.data?.motorista_reconhecido) {
+    } else if (response.data?.id_motorista) {
       const driverData = {
         verified: true,
-        name: response.data.motorista_nome,
+        name: response.data.nome,
         confidence: response.data.confianca
       };
 
       setVerificationState(prev => ({ ...prev, driver: driverData, loading: false }));
 
-      if (response.data.motorista_id && response.data.motorista_nome) {
-        onDriverVerified(response.data.motorista_id, response.data.motorista_nome);
+      if (response.data.motorista_id && response.data.nome) {
+        onDriverVerified(response.data.motorista_id, response.data.nome);
         toast({
           title: "Motorista verificado",
-          description: `${response.data.motorista_nome} identificado com sucesso!`,
+          description: `${response.data.nome} identificado com sucesso!`,
         });
       }
     } else {
@@ -250,8 +250,8 @@ export function VideoVerification({
     } else if (response.data) {
       const newState = {
         driver: {
-          verified: response.data.motorista_reconhecido,
-          name: response.data.motorista_nome,
+          verified: response.data.id_motorista,
+          name: response.data.nome,
           confidence: response.data.confianca_motorista
         },
         plate: {
@@ -263,15 +263,15 @@ export function VideoVerification({
 
       setVerificationState(newState);
 
-      if (response.data.motorista_reconhecido && response.data.motorista_id && response.data.motorista_nome) {
-        onDriverVerified(response.data.motorista_id, response.data.motorista_nome);
+      if (response.data.id_motorista && response.data.motorista_id && response.data.nome) {
+        onDriverVerified(response.data.motorista_id, response.data.nome);
       }
 
       if (response.data.placa_reconhecida) {
         onPlateDetected(response.data.placa_reconhecida);
       }
 
-      const success = response.data.motorista_reconhecido && response.data.placa_valida;
+      const success = response.data.id_motorista && response.data.placa_valida;
       onVerificationComplete(success);
 
       setVerificationComplete(true);
