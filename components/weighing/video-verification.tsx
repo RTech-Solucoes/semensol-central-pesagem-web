@@ -141,10 +141,10 @@ export function VideoVerification({
 
     const response = await apiClient.reconhecerMotorista(formData);
 
-    if (response.error) {
+    if (response.error || response.message) {
       toast({
         title: "Erro na verificação",
-        description: response.error,
+        description: response.error || response.message,
         variant: "destructive",
       });
       setVerificationState(prev => ({ ...prev, driver: { verified: false }, loading: false }));
