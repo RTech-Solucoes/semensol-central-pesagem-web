@@ -1,5 +1,5 @@
-import { forwardRef, ReactElement } from "react";
-import { Icon, IconBase, IconWeight } from "@phosphor-icons/react";
+import {forwardRef, ReactElement} from "react";
+import {Icon, IconWeight, ScalesIcon} from "@phosphor-icons/react";
 
 const weights = new Map<IconWeight, ReactElement>([
   [
@@ -13,7 +13,7 @@ const weights = new Map<IconWeight, ReactElement>([
 ]);
 
 const WeightIcon: Icon = forwardRef((props, ref) => (
-  <IconBase ref={ref} {...props} weights={weights} />
+  <ScalesIcon ref={ref} {...props} />
 ));
 
 WeightIcon.displayName = "WeightIcon";
