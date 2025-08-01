@@ -89,20 +89,20 @@ export function PWAInstaller() {
               </p>
               <div className="flex justify-end gap-2">
                 <Button
-                  onClick={handleInstallClick}
-                  size="sm"
-                  className="flex items-center gap-1 text-xs"
-                >
-                  <DownloadIcon className="h-3 w-3" />
-                  Instalar
-                </Button>
-                <Button
                   onClick={handleDismiss}
                   variant="outline"
                   size="sm"
                   className="text-xs"
                 >
                   Agora não
+                </Button>
+                <Button
+                  onClick={handleInstallClick}
+                  size="sm"
+                  className="flex items-center gap-1 text-xs"
+                >
+                  <DownloadIcon className="h-3 w-3" />
+                  Instalar
                 </Button>
               </div>
             </div>

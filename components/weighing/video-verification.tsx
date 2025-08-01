@@ -113,9 +113,7 @@ export function VideoVerification({
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
 
-    // Flip the image horizontally before sending to API
-    context.translate(canvas.width, 0);
-    context.scale(-1, 1);
+    // Draw the image directly without flipping
     context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
     return new Promise((resolve) => {
