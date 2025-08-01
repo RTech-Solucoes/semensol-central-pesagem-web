@@ -1,166 +1,302 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { TruckIcon, PlusIcon, PencilSimpleLineIcon } from "@phosphor-icons/react";
-import { FAB } from "@/components/ui/fab";
-import { AddTruckModal } from "@/components/fleet/add-truck-modal";
-import { EditTruckModal } from "@/components/fleet/edit-truck-modal";
 import { useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { PlusIcon, TruckIcon, CameraIcon } from "@phosphor-icons/react";
+import { apiClient } from "@/lib/api";
 
 interface Truck {
-  id: number;
-  plate: string;
-  model: string;
-  company: string;
-  capacity: string;
-  status: "Ativo" | "Manutenção" | "Inativo";
-  observations: string;
+  id_caminhao: number;
+  placa: string;
+  modelo: string;
+  empresa: string;
 }
 
 export default function FleetPage() {
-  const [addModalOpen, setAddModalOpen] = useState(false);
-  const [editModalOpen, setEditModalOpen] = useState(false);
-  const [selectedTruck, setSelectedTruck] = useState<Truck | null>(null);
-  const [trucks, setTrucks] = useState<Truck[]>([
-    {
-      id: 1,
-      plate: "ABC-1234",
-      model: "Mercedes-Benz Axor 2644",
-      company: "Agro Brasil Ltda",
-      capacity: "30.000 kg",
-      status: "Ativo",
-      observations: "Caminhão em perfeitas condições",
-    },
-    {
-      id: 2,
-      plate: "DEF-5678",
-      model: "Volvo FH 540",
-      company: "Transportes Campo",
-      capacity: "45.000 kg",
-      status: "Manutenção",
-      observations: "Em manutenção preventiva",
-    },
-  ]);
+  const [trucks, setTrucks] = useState<Truck[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    placa: "",
+    modelo: "",
+    empresa: "",
+    imagem: null as File | null,
+  });
 
-  const handleNewTruck = () => {
-    setAddModalOpen(true);
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setFormData((prev) => ({ ...prev, imagem: e.target.files![0] }));
+    }
   };
 
-  const handleEditTruck = (truck: Truck) => {
-    setSelectedTruck(truck);
-    setEditModalOpen(true);
+  const handleManualSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.placa || !formData.modelo || !formData.empresa) return;
+
+    setLoading(true);
+    const response = await apiClient.cadastrarCaminhaoManual({
+      placa: formData.placa,
+      modelo: formData.modelo,
+      empresa: formData.empresa,
+    });
+
+    if (response.data) {
+      setTrucks((prev) => [
+        ...prev,
+        {
+          id_caminhao: response.data?.id_caminhao ?? 0,
+          placa: formData.placa,
+          modelo: formData.modelo,
+          empresa: formData.empresa,
+        },
+      ]);
+      setFormData({ placa: "", modelo: "", empresa: "", imagem: null });
+      setIsModalOpen(false);
+    }
+    setLoading(false);
   };
 
-  const handleSaveTruck = (newTruck: Omit<Truck, "id">) => {
-    const truck: Truck = {
-      ...newTruck,
-      id: Math.max(...trucks.map((t) => t.id)) + 1,
-    };
-    setTrucks((prev) => [...prev, truck]);
-  };
+  const handleImageSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.modelo || !formData.empresa || !formData.imagem) return;
 
-  const handleUpdateTruck = (updatedTruck: Truck) => {
-    setTrucks((prev) =>
-      prev.map((truck) =>
-        truck.id === updatedTruck.id ? updatedTruck : truck
-      )
-    );
-  };
+    setLoading(true);
+    const form = new FormData();
+    form.append("modelo", formData.modelo);
+    form.append("empresa", formData.empresa);
+    form.append("imagem", formData.imagem);
 
-  const handleDeleteTruck = (truckId: number) => {
-    setTrucks((prev) => prev.filter((truck) => truck.id !== truckId));
+    const response = await apiClient.cadastrarCaminhaoPorImagem(form);
+
+    if (response.data) {
+      setTrucks((prev) => [
+        ...prev,
+        {
+          id_caminhao: response.data?.id_caminhao ?? 0,
+          placa: response.data?.placa ?? "",
+          modelo: formData.modelo,
+          empresa: formData.empresa,
+        },
+      ]);
+      setFormData({ placa: "", modelo: "", empresa: "", imagem: null });
+      setIsModalOpen(false);
+    }
+    setLoading(false);
   };
 
   return (
-    <main>
-      <div>
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight text-white">
-            Caminhões
-          </h1>
-          <p className="text-gray-200 mt-1">Gerencie a frota de caminhões</p>
-        </div>
+    <main className="p-4 md:p-6">
+      <div className="flex flex-col gap-2 mb-6">
+        <h1 className="text-3xl font-bold text-white">
+          Gerenciamento da Frota
+        </h1>
+        <p className="text-gray-200">Cadastre e gerencie os veículos da frota</p>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {trucks.map((truck) => (
-          <Card key={truck.id} className="relative">
-            <CardHeader className="pb-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="h-12 w-12 rounded-2xl bg-primary-100 flex items-center justify-center">
-                    <TruckIcon className="h-6 w-6 text-primary-600" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold">
-                      {truck.plate}
-                    </h3>
-                    <p className="text-sm text-gray-400">{truck.model}</p>
-                  </div>
-                </div>
-                <Badge
-                  className={
-                    truck.status === "Ativo"
-                      ? "bg-green-100 text-green-700 border-green-200"
-                      : truck.status === "Manutenção"
-                        ? "bg-yellow-100 text-yellow-700 border-yellow-200"
-                        : "bg-red-100 text-red-700 border-red-200"
-                  }
-                >
-                  {truck.status}
-                </Badge>
-              </div>
-            </CardHeader>
-            <CardContent className="flex flex-col">
-              <div className="space-y-3">
-                <div>
-                  <p className="text-sm font-semibold text-primary-600">Empresa</p>
-                  <p className="text-sm font-medium text-card-foreground">{truck.company}</p>
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-primary-600">
-                    Capacidade
-                  </p>
-                  <p className="text-sm font-medium text-card-foreground">{truck.capacity}</p>
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-primary-600">
-                    Observações
-                  </p>
-                  <p className="text-sm font-medium text-card-foreground">{truck.observations}</p>
-                </div>
-              </div>
-              <Button
-                variant="secondary"
-                size="sm"
-                className="ml-auto mt-6"
-                onClick={() => handleEditTruck(truck)}
-              >
-                <PencilSimpleLineIcon className="h-4 w-4 mr-2" />
-                Editar
-              </Button>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+      <Card className="w-full max-w-none">
+        <CardHeader>
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <CardTitle className="text-lg font-semibold flex items-center gap-2">
+              <TruckIcon className="h-5 w-5" />
+              Veículos Cadastrados
+            </CardTitle>
 
-      <FAB icon={PlusIcon} label="Novo Caminhão" onClick={handleNewTruck} />
+            <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+              <DialogTrigger asChild>
+                <Button className="flex items-center gap-2">
+                  <PlusIcon className="h-4 w-4" />
+                  Novo Veículo
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-md">
+                <DialogHeader>
+                  <DialogTitle>Cadastrar Novo Veículo</DialogTitle>
+                </DialogHeader>
 
-      <AddTruckModal
-        open={addModalOpen}
-        onOpenChange={setAddModalOpen}
-        onSave={handleSaveTruck}
-      />
+                <Tabs defaultValue="manual" className="w-full">
+                  <TabsList className="grid w-full grid-cols-2">
+                    <TabsTrigger value="manual">Manual</TabsTrigger>
+                    <TabsTrigger value="image">Por Imagem</TabsTrigger>
+                  </TabsList>
 
-      <EditTruckModal
-        open={editModalOpen}
-        onOpenChange={setEditModalOpen}
-        truck={selectedTruck}
-        onSave={handleUpdateTruck}
-        onDelete={handleDeleteTruck}
-      />
+                  <TabsContent value="manual" className="mt-4">
+                    <form onSubmit={handleManualSubmit} className="space-y-4">
+                      <div>
+                        <Label htmlFor="placa-manual">Placa</Label>
+                        <Input
+                          id="placa-manual"
+                          placeholder="ABC-1234"
+                          value={formData.placa}
+                          onChange={(e) =>
+                            setFormData((prev) => ({
+                              ...prev,
+                              placa: e.target.value.toUpperCase(),
+                            }))
+                          }
+                          required
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="modelo-manual">Modelo</Label>
+                        <Input
+                          id="modelo-manual"
+                          placeholder="Modelo do veículo"
+                          value={formData.modelo}
+                          onChange={(e) =>
+                            setFormData((prev) => ({ ...prev, modelo: e.target.value }))
+                          }
+                          required
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="empresa-manual">Empresa</Label>
+                        <Input
+                          id="empresa-manual"
+                          placeholder="Nome da empresa"
+                          value={formData.empresa}
+                          onChange={(e) =>
+                            setFormData((prev) => ({ ...prev, empresa: e.target.value }))
+                          }
+                          required
+                        />
+                      </div>
+                      <div className="flex gap-2 pt-4">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={() => setIsModalOpen(false)}
+                          className="flex-1"
+                        >
+                          Cancelar
+                        </Button>
+                        <Button type="submit" disabled={loading} className="flex-1">
+                          {loading ? "Cadastrando..." : "Cadastrar"}
+                        </Button>
+                      </div>
+                    </form>
+                  </TabsContent>
+
+                  <TabsContent value="image" className="mt-4">
+                    <form onSubmit={handleImageSubmit} className="space-y-4">
+                      <div>
+                        <Label htmlFor="modelo-image">Modelo</Label>
+                        <Input
+                          id="modelo-image"
+                          placeholder="Modelo do veículo"
+                          value={formData.modelo}
+                          onChange={(e) =>
+                            setFormData((prev) => ({ ...prev, modelo: e.target.value }))
+                          }
+                          required
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="empresa-image">Empresa</Label>
+                        <Input
+                          id="empresa-image"
+                          placeholder="Nome da empresa"
+                          value={formData.empresa}
+                          onChange={(e) =>
+                            setFormData((prev) => ({ ...prev, empresa: e.target.value }))
+                          }
+                          required
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="imagem-placa">Foto da Placa</Label>
+                        <div className="flex items-center gap-2">
+                          <Input
+                            id="imagem-placa"
+                            type="file"
+                            accept="image/*"
+                            onChange={handleImageChange}
+                            required
+                            className="flex-1"
+                          />
+                          <CameraIcon className="h-5 w-5 text-gray-400" />
+                        </div>
+                        {formData.imagem && (
+                          <p className="text-sm text-green-600 mt-1">
+                            Imagem selecionada: {formData.imagem.name}
+                          </p>
+                        )}
+                        <p className="text-xs text-gray-500 mt-1">
+                          A placa será reconhecida automaticamente
+                        </p>
+                      </div>
+                      <div className="flex gap-2 pt-4">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={() => setIsModalOpen(false)}
+                          className="flex-1"
+                        >
+                          Cancelar
+                        </Button>
+                        <Button type="submit" disabled={loading} className="flex-1">
+                          {loading ? "Processando..." : "Cadastrar"}
+                        </Button>
+                      </div>
+                    </form>
+                  </TabsContent>
+                </Tabs>
+              </DialogContent>
+            </Dialog>
+          </div>
+        </CardHeader>
+        <CardContent>
+          {trucks.length === 0 ? (
+            <div className="text-center py-12">
+              <TruckIcon className="h-16 w-16 text-gray-300 mx-auto mb-4" />
+              <p className="text-gray-500 mb-4">Nenhum veículo cadastrado</p>
+              <p className="text-sm text-gray-400">
+                Clique em <strong>Novo Veículo</strong> para começar
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              {trucks.map((truck) => (
+                <Card key={truck.id_caminhao} className="border border-gray-200">
+                  <CardContent className="p-4">
+                    <div className="flex flex-col items-center text-center space-y-3">
+                      <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
+                        <TruckIcon className="h-8 w-8 text-blue-600" />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-xl text-blue-600">
+                          {truck.placa}
+                        </h3>
+                        <p className="font-medium text-gray-900">
+                          {truck.modelo}
+                        </p>
+                        <p className="text-sm text-gray-500">
+                          {truck.empresa}
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
     </main>
   );
 }

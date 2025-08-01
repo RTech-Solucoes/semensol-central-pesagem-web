@@ -43,8 +43,6 @@ const navigation: NavItem[] = [
   {name: "Histórico", href: "/history", section: "Operações", icon: ClockIcon},
   {name: "Frota", href: "/fleet", section: "Operações", icon: TruckIcon},
   {name: "Motoristas", href: "/drivers", section: "Operações", icon: IdentificationCardIcon},
-  {name: "Parceiros", href: "/partners", section: "Operações", icon: HandshakeIcon},
-  // {name: "Configurações", href: "/settings", section: "Sistema", icon: GearIcon},
 ];
 
 export default function RootLayout({children}: {
