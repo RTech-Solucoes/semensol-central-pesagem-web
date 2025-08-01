@@ -150,15 +150,15 @@ export function VideoVerification({
       setVerificationState(prev => ({ ...prev, driver: { verified: false }, loading: false }));
     } else if (response.data?.id_motorista) {
       const driverData = {
-        verified: true,
+        verified: true, // Convert to boolean - if id_motorista exists, verification succeeded
         name: response.data.nome,
         confidence: response.data.confianca
       };
 
       setVerificationState(prev => ({ ...prev, driver: driverData, loading: false }));
 
-      if (response.data.motorista_id && response.data.nome) {
-        onDriverVerified(response.data.motorista_id, response.data.nome);
+      if (response.data.id_motorista && response.data.nome) {
+        onDriverVerified(response.data.id_motorista, response.data.nome);
         toast({
           title: "Motorista verificado",
           description: `${response.data.nome} identificado com sucesso!`,
@@ -250,12 +250,12 @@ export function VideoVerification({
     } else if (response.data) {
       const newState = {
         driver: {
-          verified: response.data.id_motorista,
+          verified: Boolean(response.data.id_motorista), // Convert to boolean
           name: response.data.nome,
           confidence: response.data.confianca_motorista
         },
         plate: {
-          detected: response.data.placa_valida,
+          detected: Boolean(response.data.placa_valida), // Ensure it's boolean
           value: response.data.placa_reconhecida
         },
         loading: false
@@ -263,15 +263,15 @@ export function VideoVerification({
 
       setVerificationState(newState);
 
-      if (response.data.id_motorista && response.data.motorista_id && response.data.nome) {
-        onDriverVerified(response.data.motorista_id, response.data.nome);
+      if (response.data.id_motorista && response.data.nome) {
+        onDriverVerified(response.data.id_motorista, response.data.nome);
       }
 
       if (response.data.placa_reconhecida) {
         onPlateDetected(response.data.placa_reconhecida);
       }
 
-      const success = response.data.id_motorista && response.data.placa_valida;
+      const success = Boolean(response.data.id_motorista) && Boolean(response.data.placa_valida);
       onVerificationComplete(success);
 
       setVerificationComplete(true);
