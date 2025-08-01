@@ -72,7 +72,7 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
+        sans: ['var(--font-sans)', 'system-ui', 'sans-serif !important'],
       },
       keyframes: {
         'accordion-down': {

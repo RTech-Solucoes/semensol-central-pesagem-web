@@ -43,8 +43,7 @@
   }
 
   * {
-    @apply border-border scroll-smooth;
-    font-family: 'Poppins', sans-serif !important;
+    @apply border-border scroll-smooth font-sans;
   }
 
   *::-webkit-scrollbar {

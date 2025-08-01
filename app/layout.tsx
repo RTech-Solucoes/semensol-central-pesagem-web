@@ -17,6 +17,8 @@ import {
   BarbellIcon
 } from "@phosphor-icons/react";
 import { IconContext } from "@phosphor-icons/react";
+import ptBR from 'antd/locale/pt_BR';
+import {ConfigProvider} from "antd";
 
 const font = Font({
   weight: [
@@ -59,7 +61,7 @@ export default function RootLayout({children}: {
       </head>
       <body
         className={cn(
-          font.className,
+          font.variable,
           "flex flex-col min-h-screen max-h-screen waves-background relative"
         )}
       >
@@ -69,18 +71,20 @@ export default function RootLayout({children}: {
           enableSystem={false}
           disableTransitionOnChange
         >
-          <IconContext.Provider
-            value={{
-              size: 32,
-              weight: "bold",
-              mirrored: false,
-              "aria-hidden": true,
-            }}
-          >
-            {children}
-            <Navbar navigation={navigation}/>
-            <Toaster/>
-          </IconContext.Provider>
+          <ConfigProvider locale={ptBR}>
+            <IconContext.Provider
+              value={{
+                size: 32,
+                weight: "bold",
+                mirrored: false,
+                "aria-hidden": true,
+              }}
+            >
+              {children}
+              <Navbar navigation={navigation}/>
+              <Toaster/>
+            </IconContext.Provider>
+          </ConfigProvider>
         </ThemeProvider>
       </body>
     </html>
