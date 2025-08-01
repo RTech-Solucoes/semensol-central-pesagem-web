@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -20,6 +20,8 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PlusIcon, TruckIcon, CameraIcon } from "@phosphor-icons/react";
 import { apiClient } from "@/lib/api";
+import {useToast} from "@/hooks/use-toast";
+import {LoadingSpinner} from "@/components/ui/loading-spinner";
 
 interface Truck {
   id_caminhao: number;
@@ -30,7 +32,8 @@ interface Truck {
 
 export default function FleetPage() {
   const [trucks, setTrucks] = useState<Truck[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [submitLoading, setSubmitLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState({
     placa: "",
@@ -38,6 +41,28 @@ export default function FleetPage() {
     empresa: "",
     imagem: null as File | null,
   });
+  const { toast } = useToast();
+
+  useEffect(() => {
+    loadTrucks();
+  }, []);
+
+  const loadTrucks = () => {
+    const savedTrucks = localStorage.getItem('semensol-trucks');
+    if (savedTrucks) {
+      try {
+        setTrucks(JSON.parse(savedTrucks));
+      } catch (error) {
+        console.error('Error loading trucks from localStorage:', error);
+      }
+    }
+    setLoading(false);
+  };
+
+  const saveTrucks = (newTrucks: Truck[]) => {
+    setTrucks(newTrucks);
+    localStorage.setItem('semensol-trucks', JSON.stringify(newTrucks));
+  };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -49,34 +74,43 @@ export default function FleetPage() {
     e.preventDefault();
     if (!formData.placa || !formData.modelo || !formData.empresa) return;
 
-    setLoading(true);
+    setSubmitLoading(true);
     const response = await apiClient.cadastrarCaminhaoManual({
       placa: formData.placa,
       modelo: formData.modelo,
       empresa: formData.empresa,
     });
 
-    if (response.data) {
-      setTrucks((prev) => [
-        ...prev,
-        {
-          id_caminhao: response.data?.id_caminhao ?? 0,
-          placa: formData.placa,
-          modelo: formData.modelo,
-          empresa: formData.empresa,
-        },
-      ]);
+    if (response.error) {
+      toast({
+        title: "Erro ao cadastrar veículo",
+        description: response.error,
+        variant: "destructive",
+      });
+    } else if (response.data) {
+      toast({
+        title: "Veículo cadastrado",
+        description: "Veículo cadastrado com sucesso!",
+      });
+      const newTruck = {
+        id_caminhao: response.data?.id_caminhao ?? 0,
+        placa: formData.placa,
+        modelo: formData.modelo,
+        empresa: formData.empresa,
+      };
+      const updatedTrucks = [...trucks, newTruck];
+      saveTrucks(updatedTrucks);
       setFormData({ placa: "", modelo: "", empresa: "", imagem: null });
       setIsModalOpen(false);
     }
-    setLoading(false);
+    setSubmitLoading(false);
   };
 
   const handleImageSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.modelo || !formData.empresa || !formData.imagem) return;
 
-    setLoading(true);
+    setSubmitLoading(true);
     const form = new FormData();
     form.append("modelo", formData.modelo);
     form.append("empresa", formData.empresa);
@@ -84,20 +118,29 @@ export default function FleetPage() {
 
     const response = await apiClient.cadastrarCaminhaoPorImagem(form);
 
-    if (response.data) {
-      setTrucks((prev) => [
-        ...prev,
-        {
-          id_caminhao: response.data?.id_caminhao ?? 0,
-          placa: response.data?.placa ?? "",
-          modelo: formData.modelo,
-          empresa: formData.empresa,
-        },
-      ]);
+    if (response.error) {
+      toast({
+        title: "Erro ao cadastrar veículo por imagem",
+        description: response.error,
+        variant: "destructive",
+      });
+    } else if (response.data) {
+      toast({
+        title: "Veículo cadastrado",
+        description: `Veículo com placa ${response.data.placa} cadastrado com sucesso!`,
+      });
+      const newTruck = {
+        id_caminhao: response.data?.id_caminhao ?? 0,
+        placa: response.data?.placa ?? "",
+        modelo: formData.modelo,
+        empresa: formData.empresa,
+      };
+      const updatedTrucks = [...trucks, newTruck];
+      saveTrucks(updatedTrucks);
       setFormData({ placa: "", modelo: "", empresa: "", imagem: null });
       setIsModalOpen(false);
     }
-    setLoading(false);
+    setSubmitLoading(false);
   };
 
   return (
@@ -185,8 +228,8 @@ export default function FleetPage() {
                         >
                           Cancelar
                         </Button>
-                        <Button type="submit" disabled={loading} className="flex-1">
-                          {loading ? "Cadastrando..." : "Cadastrar"}
+                        <Button type="submit" disabled={submitLoading} className="flex-1">
+                          {submitLoading ? "Cadastrando..." : "Cadastrar"}
                         </Button>
                       </div>
                     </form>
@@ -249,8 +292,8 @@ export default function FleetPage() {
                         >
                           Cancelar
                         </Button>
-                        <Button type="submit" disabled={loading} className="flex-1">
-                          {loading ? "Processando..." : "Cadastrar"}
+                        <Button type="submit" disabled={submitLoading} className="flex-1">
+                          {submitLoading ? "Processando..." : "Cadastrar"}
                         </Button>
                       </div>
                     </form>
@@ -261,7 +304,9 @@ export default function FleetPage() {
           </div>
         </CardHeader>
         <CardContent>
-          {trucks.length === 0 ? (
+          {loading ? (
+            <LoadingSpinner text="Carregando veículos..." />
+          ) : trucks.length === 0 ? (
             <div className="text-center py-12">
               <TruckIcon className="h-16 w-16 text-gray-300 mx-auto mb-4" />
               <p className="text-gray-500 mb-4">Nenhum veículo cadastrado</p>

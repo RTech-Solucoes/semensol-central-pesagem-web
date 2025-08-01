@@ -15,6 +15,8 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { ClockIcon, DownloadIcon } from "@phosphor-icons/react";
 import { apiClient } from "@/lib/api";
+import { useToast } from "@/hooks/use-toast";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 interface HistoricoItem {
   id: number;
@@ -37,6 +39,7 @@ export default function HistoryPage() {
     dataFim: "",
     status: "",
   });
+  const { toast } = useToast();
 
   useEffect(() => {
     loadHistorico();
@@ -45,7 +48,13 @@ export default function HistoryPage() {
   const loadHistorico = async () => {
     setLoading(true);
     const response = await apiClient.getHistorico();
-    if (response.data) {
+    if (response.error) {
+      toast({
+        title: "Erro ao carregar histórico",
+        description: response.error,
+        variant: "destructive",
+      });
+    } else if (response.data) {
       setHistorico(response.data);
     }
     setLoading(false);
@@ -62,22 +71,35 @@ export default function HistoryPage() {
   });
 
   const exportarDados = () => {
-    const csvContent = [
-      "Placa,Motorista,Peso Entrada,Peso Saída,Data Entrada,Data Saída,Status",
-      ...historicoFiltrado.map((item) =>
-        `${item.placa},${item.motorista},${item.peso_entrada},${
-          item.peso_saida || ""
-        },${item.data_entrada},${item.data_saida || ""},${item.status}`
-      ),
-    ].join("\n");
+    try {
+      const csvContent = [
+        "Placa,Motorista,Peso Entrada,Peso Saída,Data Entrada,Data Saída,Status",
+        ...historicoFiltrado.map((item) =>
+          `${item.placa},${item.motorista},${item.peso_entrada},${
+            item.peso_saida || ""
+          },${item.data_entrada},${item.data_saida || ""},${item.status}`
+        ),
+      ].join("\n");
 
-    const blob = new Blob([csvContent], { type: "text/csv" });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "historico-pesagem.csv";
-    a.click();
-    window.URL.revokeObjectURL(url);
+      const blob = new Blob([csvContent], { type: "text/csv" });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "historico-pesagem.csv";
+      a.click();
+      window.URL.revokeObjectURL(url);
+
+      toast({
+        title: "Exportação concluída",
+        description: "Arquivo CSV exportado com sucesso!",
+      });
+    } catch (error) {
+      toast({
+        title: "Erro na exportação",
+        description: "Não foi possível exportar o arquivo CSV.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -169,9 +191,7 @@ export default function HistoryPage() {
           </div>
 
           {loading ? (
-            <div className="text-center py-8">
-              <p className="text-gray-500">Carregando histórico...</p>
-            </div>
+            <LoadingSpinner text="Carregando histórico..." />
           ) : historicoFiltrado.length === 0 ? (
             <div className="text-center py-8">
               <ClockIcon className="h-16 w-16 text-gray-300 mx-auto mb-4" />

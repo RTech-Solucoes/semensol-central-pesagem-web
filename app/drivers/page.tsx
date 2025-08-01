@@ -18,6 +18,8 @@ import {
   CameraIcon,
 } from "@phosphor-icons/react";
 import {apiClient} from "@/lib/api";
+import {useToast} from "@/hooks/use-toast";
+import {LoadingSpinner} from "@/components/ui/loading-spinner";
 
 interface Driver {
   id: number;
@@ -37,6 +39,33 @@ export default function DriversPage() {
     cnh: "",
     imagem: null as File | null,
   });
+  const { toast } = useToast();
+
+  useEffect(() => {
+    loadDrivers();
+  }, []);
+
+  const loadDrivers = async () => {
+    setLoading(true);
+    const response = await apiClient.getMotoristas();
+    if (response.error) {
+      toast({
+        title: "Erro ao carregar motoristas",
+        description: response.error,
+        variant: "destructive",
+      });
+    } else if (response.data) {
+      const mappedDrivers = response.data.map((motorista) => ({
+        id: motorista.id,
+        nome: motorista.nome,
+        cpf: "",
+        cnh: "",
+        imagem_path: undefined,
+      }));
+      setDrivers(mappedDrivers);
+    }
+    setLoading(false);
+  };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -46,8 +75,7 @@ export default function DriversPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.nome || !formData.cpf || !formData.cnh || !formData.imagem)
-      return;
+    if (!formData.nome || !formData.cpf || !formData.cnh || !formData.imagem) return;
 
     setLoading(true);
     const form = new FormData();
@@ -58,10 +86,21 @@ export default function DriversPage() {
 
     const response = await apiClient.cadastrarMotorista(form);
 
-    if (response.data) {
+    if (response.error) {
+      toast({
+        title: "Erro ao cadastrar motorista",
+        description: response.error,
+        variant: "destructive",
+      });
+    } else if (response.data) {
+      toast({
+        title: "Motorista cadastrado",
+        description: "Motorista cadastrado com sucesso!",
+      });
       setDrivers((prev) => [...prev, response.data]);
       setFormData({nome: "", cpf: "", cnh: "", imagem: null});
       setIsModalOpen(false);
+      loadDrivers();
     }
     setLoading(false);
   };
@@ -111,7 +150,7 @@ export default function DriversPage() {
                     <Label htmlFor="cpf">CPF</Label>
                     <Input
                       id="cpf"
-                      placeholder="000.000.000-00"
+                      placeholder="CPF do motorista"
                       value={formData.cpf}
                       onChange={(e) =>
                         setFormData((prev) => ({...prev, cpf: e.target.value}))
@@ -123,7 +162,7 @@ export default function DriversPage() {
                     <Label htmlFor="cnh">CNH</Label>
                     <Input
                       id="cnh"
-                      placeholder="Número da CNH"
+                      placeholder="CNH do motorista"
                       value={formData.cnh}
                       onChange={(e) =>
                         setFormData((prev) => ({...prev, cnh: e.target.value}))
@@ -173,12 +212,14 @@ export default function DriversPage() {
           </div>
         </CardHeader>
         <CardContent>
-          {drivers.length === 0 ? (
+          {loading ? (
+            <LoadingSpinner text="Carregando motoristas..." />
+          ) : drivers.length === 0 ? (
             <div className="text-center py-12">
               <IdentificationCardIcon className="h-16 w-16 text-gray-300 mx-auto mb-4" />
               <p className="text-gray-500 mb-4">Nenhum motorista cadastrado</p>
               <p className="text-sm text-gray-400">
-                Clique em "Novo Motorista" para começar
+                Clique em <strong>Novo Motorista</strong> para começar
               </p>
             </div>
           ) : (
@@ -200,8 +241,8 @@ export default function DriversPage() {
                       </div>
                       <div>
                         <h3 className="font-semibold text-lg">{driver.nome}</h3>
-                        <p className="text-sm text-gray-500">CPF: {driver.cpf}</p>
-                        <p className="text-sm text-gray-500">CNH: {driver.cnh}</p>
+                        {/*<p className="text-sm text-gray-500">CPF: {driver.cpf}</p>*/}
+                        {/*<p className="text-sm text-gray-500">CNH: {driver.cnh}</p>*/}
                       </div>
                     </div>
                   </CardContent>

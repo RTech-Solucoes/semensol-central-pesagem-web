@@ -7,6 +7,7 @@ import {Badge} from "@/components/ui/badge";
 import {CameraIcon, CheckCircleIcon, XCircleIcon, IdentificationCardIcon} from "@phosphor-icons/react";
 import {apiClient} from "@/lib/api";
 import {cn} from "@/lib/utils";
+import {useToast} from "@/hooks/use-toast";
 
 interface VideoVerificationProps {
   onDriverVerified: (driverId: number, driverName: string) => void;
@@ -31,6 +32,7 @@ export function VideoVerification({
     plate: { detected: false },
     loading: false
   });
+  const { toast } = useToast();
 
   const startCamera = useCallback(async () => {
     try {
@@ -48,8 +50,13 @@ export function VideoVerification({
       }
     } catch (error) {
       console.error('Erro ao acessar câmera:', error);
+      toast({
+        title: "Erro de câmera",
+        description: "Não foi possível acessar a câmera. Verifique as permissões.",
+        variant: "destructive",
+      });
     }
-  }, []);
+  }, [toast]);
 
   const stopCamera = useCallback(() => {
     if (videoRef.current?.srcObject) {
@@ -82,7 +89,14 @@ export function VideoVerification({
 
   const verifyDriver = useCallback(async () => {
     const imageBlob = await captureImage();
-    if (!imageBlob) return;
+    if (!imageBlob) {
+      toast({
+        title: "Erro na captura",
+        description: "Não foi possível capturar a imagem da câmera.",
+        variant: "destructive",
+      });
+      return;
+    }
 
     setVerificationState(prev => ({ ...prev, loading: true }));
 
@@ -91,7 +105,14 @@ export function VideoVerification({
 
     const response = await apiClient.reconhecerMotorista(formData);
 
-    if (response.data?.motorista_reconhecido) {
+    if (response.error) {
+      toast({
+        title: "Erro na verificação",
+        description: response.error,
+        variant: "destructive",
+      });
+      setVerificationState(prev => ({ ...prev, driver: { verified: false }, loading: false }));
+    } else if (response.data?.motorista_reconhecido) {
       const driverData = {
         verified: true,
         name: response.data.motorista_nome,
@@ -102,19 +123,31 @@ export function VideoVerification({
 
       if (response.data.motorista_id && response.data.motorista_nome) {
         onDriverVerified(response.data.motorista_id, response.data.motorista_nome);
+        toast({
+          title: "Motorista verificado",
+          description: `${response.data.motorista_nome} identificado com sucesso!`,
+        });
       }
     } else {
-      setVerificationState(prev => ({
-        ...prev,
-        driver: { verified: false },
-        loading: false
-      }));
+      toast({
+        title: "Motorista não reconhecido",
+        description: "Não foi possível identificar o motorista na imagem.",
+        variant: "destructive",
+      });
+      setVerificationState(prev => ({ ...prev, driver: { verified: false }, loading: false }));
     }
-  }, [captureImage, onDriverVerified]);
+  }, [captureImage, onDriverVerified, toast]);
 
   const detectPlate = useCallback(async () => {
     const imageBlob = await captureImage();
-    if (!imageBlob) return;
+    if (!imageBlob) {
+      toast({
+        title: "Erro na captura",
+        description: "Não foi possível capturar a imagem da câmera.",
+        variant: "destructive",
+      });
+      return;
+    }
 
     setVerificationState(prev => ({ ...prev, loading: true }));
 
@@ -123,7 +156,14 @@ export function VideoVerification({
 
     const response = await apiClient.reconhecerPlaca(formData);
 
-    if (response.data?.placa) {
+    if (response.error) {
+      toast({
+        title: "Erro na detecção de placa",
+        description: response.error,
+        variant: "destructive",
+      });
+      setVerificationState(prev => ({ ...prev, plate: { detected: false }, loading: false }));
+    } else if (response.data?.placa) {
       const plateData = {
         detected: true,
         value: response.data.placa
@@ -131,18 +171,30 @@ export function VideoVerification({
 
       setVerificationState(prev => ({ ...prev, plate: plateData, loading: false }));
       onPlateDetected(response.data.placa);
+      toast({
+        title: "Placa detectada",
+        description: `Placa ${response.data.placa} identificada com sucesso!`,
+      });
     } else {
-      setVerificationState(prev => ({
-        ...prev,
-        plate: { detected: false },
-        loading: false
-      }));
+      toast({
+        title: "Placa não detectada",
+        description: "Não foi possível identificar a placa na imagem.",
+        variant: "destructive",
+      });
+      setVerificationState(prev => ({ ...prev, plate: { detected: false }, loading: false }));
     }
-  }, [captureImage, onPlateDetected]);
+  }, [captureImage, onPlateDetected, toast]);
 
   const performCompleteVerification = useCallback(async () => {
     const imageBlob = await captureImage();
-    if (!imageBlob) return;
+    if (!imageBlob) {
+      toast({
+        title: "Erro na captura",
+        description: "Não foi possível capturar a imagem da câmera.",
+        variant: "destructive",
+      });
+      return;
+    }
 
     setVerificationState(prev => ({ ...prev, loading: true }));
 
@@ -152,7 +204,14 @@ export function VideoVerification({
 
     const response = await apiClient.reconhecimentoCompleto(formData);
 
-    if (response.data) {
+    if (response.error) {
+      toast({
+        title: "Erro na verificação completa",
+        description: response.error,
+        variant: "destructive",
+      });
+      setVerificationState(prev => ({ ...prev, loading: false }));
+    } else if (response.data) {
       const newState = {
         driver: {
           verified: response.data.motorista_reconhecido,
@@ -176,11 +235,23 @@ export function VideoVerification({
         onPlateDetected(response.data.placa_reconhecida);
       }
 
-      onVerificationComplete(response.data.motorista_reconhecido && response.data.placa_valida);
-    }
+      const success = response.data.motorista_reconhecido && response.data.placa_valida;
+      onVerificationComplete(success);
 
-    setVerificationState(prev => ({ ...prev, loading: false }));
-  }, [captureImage, onDriverVerified, onPlateDetected, onVerificationComplete]);
+      if (success) {
+        toast({
+          title: "Verificação completa",
+          description: "Motorista e placa verificados com sucesso!",
+        });
+      } else {
+        toast({
+          title: "Verificação parcial",
+          description: "Nem todos os elementos foram verificados com sucesso.",
+          variant: "destructive",
+        });
+      }
+    }
+  }, [captureImage, onDriverVerified, onPlateDetected, onVerificationComplete, toast]);
 
   return (
     <Card className="w-full">
@@ -305,7 +376,7 @@ export function VideoVerification({
                 disabled={verificationState.loading}
                 className="flex-1"
               >
-                {verificationState.loading ? "Verificando..." : "Verificação Completa"}
+                {verificationState.loading ? "Verificando..." : "Verificar Ambos"}
               </Button>
             </>
           )}

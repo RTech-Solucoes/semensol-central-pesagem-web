@@ -21,13 +21,14 @@ class ApiClient {
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        return { error: errorData.error || errorData.erro || 'Erro na requisição' };
+        return { error: errorData.error || errorData.erro || `Erro ${response.status}: ${response.statusText}` };
       }
 
       const data = await response.json();
       return { data };
     } catch (error) {
-      return { error: 'Erro de conexão com o servidor' };
+      console.error('API Error:', error);
+      return { error: 'Erro de conexão com o servidor. Verifique sua internet e tente novamente.' };
     }
   }
 

@@ -12,6 +12,7 @@ import {cn} from "@/lib/utils";
 import {Badge} from "@/components/ui/badge";
 import {apiClient} from "@/lib/api";
 import {VideoVerification} from "@/components/weighing/video-verification";
+import {useToast} from "@/hooks/use-toast";
 
 interface Motorista {
   id: number;
@@ -31,12 +32,14 @@ export default function WeighingPage() {
   const [motoristas, setMotoristas] = useState<Motorista[]>([]);
   const [ciclosAbertos, setCiclosAbertos] = useState<CicloAberto[]>([]);
   const [loading, setLoading] = useState(false);
+  const [initialLoading, setInitialLoading] = useState(true);
   const [formData, setFormData] = useState({
     placa: "",
     motorista_id: "",
     peso: ""
   });
   const [verificationComplete, setVerificationComplete] = useState(false);
+  const { toast } = useToast();
 
   useEffect(() => {
     loadMotoristas();
@@ -45,14 +48,26 @@ export default function WeighingPage() {
 
   const loadMotoristas = async () => {
     const response = await apiClient.getMotoristas();
-    if (response.data) {
+    if (response.error) {
+      toast({
+        title: "Erro ao carregar motoristas",
+        description: response.error,
+        variant: "destructive",
+      });
+    } else if (response.data) {
       setMotoristas(response.data);
     }
   };
 
   const loadCiclosAbertos = async () => {
     const response = await apiClient.getCiclosAbertos();
-    if (response.data) {
+    if (response.error) {
+      toast({
+        title: "Erro ao carregar ciclos",
+        description: response.error,
+        variant: "destructive",
+      });
+    } else if (response.data) {
       setCiclosAbertos(response.data);
     }
   };
@@ -79,7 +94,17 @@ export default function WeighingPage() {
       peso: currentWeight
     });
 
-    if (response.data) {
+    if (response.error) {
+      toast({
+        title: "Erro ao registrar entrada",
+        description: response.error,
+        variant: "destructive",
+      });
+    } else if (response.data) {
+      toast({
+        title: "Entrada registrada",
+        description: "Entrada registrada com sucesso!",
+      });
       setFormData({ placa: "", motorista_id: "", peso: "" });
       setCurrentWeight(0);
       setVerificationComplete(false);
@@ -97,7 +122,17 @@ export default function WeighingPage() {
       peso: currentWeight
     });
 
-    if (response.data !== undefined) {
+    if (response.error) {
+      toast({
+        title: "Erro ao registrar saída",
+        description: response.error,
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Saída registrada",
+        description: "Saída registrada com sucesso!",
+      });
       setCurrentWeight(0);
       loadCiclosAbertos();
     }
@@ -168,7 +203,7 @@ export default function WeighingPage() {
                   <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
                     <div className="flex items-center gap-2">
                       <CheckCircleIcon className="h-5 w-5 text-green-600"/>
-                      <span className="text-green-800 font-medium">Verificação completa realizada com sucesso!</span>
+                      <span className="text-green-800 font-medium">Verificação realizada com sucesso!</span>
                     </div>
                   </div>
                 )}

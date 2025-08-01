@@ -16,6 +16,7 @@ import WeightIcon from "@/components/icons/WeightIcon";
 import {cn} from "@/lib/utils";
 import Link from "next/link";
 import {apiClient} from "@/lib/api";
+import {LoadingSpinner} from "@/components/ui/loading-spinner";
 
 interface CicloAberto {
   id_pesagem: number;
@@ -105,7 +106,7 @@ export default function Home() {
       </div>
 
       <Card className="w-full max-w-none">
-        <div className="grid grid-cols-1 2xl:grid-cols-3 min-h-[400px]">
+        <div className="grid grid-cols-1 2xl:grid-cols-3 min-h-[600px]">
           <div className="flex flex-col 2xl:col-span-2 border-r-0 border-b 2xl:border-b-0 2xl:border-r border-dashed">
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle className="text-lg font-semibold flex items-center gap-2">
@@ -173,9 +174,7 @@ export default function Home() {
               </CardHeader>
               <CardContent>
                 {loading ? (
-                  <div className="text-center py-4">
-                    <p className="text-gray-500">Carregando...</p>
-                  </div>
+                  <LoadingSpinner size="sm" text="Carregando atividades..." />
                 ) : recentActivity.length === 0 ? (
                   <div className="text-center py-4">
                     <p className="text-gray-500">Nenhuma atividade recente</p>
@@ -223,9 +222,7 @@ export default function Home() {
               </CardHeader>
               <CardContent>
                 {loading ? (
-                  <div className="text-center py-4">
-                    <p className="text-gray-500">Carregando...</p>
-                  </div>
+                  <LoadingSpinner size="sm" text="Carregando ciclos..." />
                 ) : ciclosAbertos.length === 0 ? (
                   <div className="text-center py-4">
                     <p className="text-gray-500">Nenhum ciclo em andamento</p>
