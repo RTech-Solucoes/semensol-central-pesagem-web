@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { DownloadIcon, XIcon } from "@phosphor-icons/react";
+import { DownloadSimpleIcon, XIcon } from "@phosphor-icons/react";
 
 export function PWAInstaller() {
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
@@ -81,12 +81,24 @@ export function PWAInstaller() {
         <CardContent className="p-4">
           <div className="flex items-start justify-between gap-3">
             <div className="flex-1">
-              <h3 className="font-semibold text-sm mb-1">
-                Instalar Semensol Agro
-              </h3>
-              <p className="text-xs text-gray-600 mb-3">
-                Instale o app para acesso rápido e uso offline
-              </p>
+              <div className="flex items-start justify-between">
+                <div className="flex flex-col">
+                  <h3 className="font-semibold text-sm mb-1">
+                    Instalar Semensol Agro
+                  </h3>
+                  <p className="text-xs text-gray-600 mb-3">
+                    Instale o app para acesso rápido e uso offline
+                  </p>
+                </div>
+                <Button
+                  onClick={handleDismiss}
+                  variant="ghost"
+                  size="sm"
+                  className="h-6 w-6 p-0"
+                >
+                  <XIcon className="h-3 w-3" />
+                </Button>
+              </div>
               <div className="flex justify-end gap-2">
                 <Button
                   onClick={handleDismiss}
@@ -101,19 +113,11 @@ export function PWAInstaller() {
                   size="sm"
                   className="flex items-center gap-1 text-xs"
                 >
-                  <DownloadIcon className="h-3 w-3" />
+                  <DownloadSimpleIcon className="h-3 w-3" />
                   Instalar
                 </Button>
               </div>
             </div>
-            <Button
-              onClick={handleDismiss}
-              variant="ghost"
-              size="sm"
-              className="h-6 w-6 p-0"
-            >
-              <XIcon className="h-3 w-3" />
-            </Button>
           </div>
         </CardContent>
       </Card>

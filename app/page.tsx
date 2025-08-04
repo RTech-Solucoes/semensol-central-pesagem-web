@@ -95,7 +95,7 @@ export default function Home() {
   ];
 
   return (
-    <main className="p-4 md:p-6">
+    <section className="p-4 md:p-6">
       <div className="flex flex-col gap-2 mb-6">
         <h1 className="text-4xl font-bold font-display text-white">
           Dashboard
@@ -105,9 +105,9 @@ export default function Home() {
         </p>
       </div>
 
-      <Card className="w-full max-w-none">
-        <div className="grid grid-cols-1 2xl:grid-cols-3 min-h-[350px]">
-          <div className="flex flex-col 2xl:col-span-2 border-r-0 border-b 2xl:border-b-0 2xl:border-r border-dashed">
+      <Card className="w-full">
+        <div className="grid grid-cols-1">
+          <div className="flex flex-col border-b border-dashed">
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle className="text-lg font-semibold flex items-center gap-2">
                 <LightningIcon className="h-5 w-5"/>
@@ -115,7 +115,7 @@ export default function Home() {
               </CardTitle>
             </CardHeader>
             <CardContent className="h-full">
-              <div className="grid grid-cols-1 h-full gap-4 md:grid-cols-2 auto-rows-fr">
+              <div className="grid grid-cols-1 h-full gap-6 md:grid-cols-2 auto-rows-fr">
                 {quickActions.map((action, index) => (
                   <Link
                     href={action.href}
@@ -135,8 +135,9 @@ export default function Home() {
                         -top-8 -right-8
                         h-24 w-24
                         2xl:-top-14 2xl:-right-12
-                        2xl:h-44 2xl:w-44
+                        2xl:h-36 2xl:w-36
                         group-hover:text-primary-200
+                        transition-colors duration-200
                       "
                     />
                     <div className="flex items-center gap-4 relative">
@@ -164,8 +165,8 @@ export default function Home() {
             </CardContent>
           </div>
 
-          <div className="flex flex-col">
-            <div className="flex-1 border-b border-dashed">
+          <div className="grid grid-cols-1 md:grid-cols-2">
+            <div className="flex-1 border-b 2xl:border-r 2xl:border-b-0 border-dashed">
               <CardHeader>
                 <CardTitle className="text-lg font-semibold flex items-center gap-2">
                   <ClockIcon className="h-5 w-5"/>
@@ -251,6 +252,6 @@ export default function Home() {
           </div>
         </div>
       </Card>
-    </main>
+    </section>
   );
 }

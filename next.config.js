@@ -5,19 +5,17 @@ const nextConfig = {
   },
   experimental: {
     optimizePackageImports: ["@phosphor-icons/react"],
-    // Configure Turbopack for better development experience
   },
 
-  config: {
-    turbo: {
-      rules: {
-        '*.svg': {
-          loaders: ['@svgr/webpack'],
-          as: '*.js',
-        },
+  turbopack: {
+    rules: {
+      '*.svg': {
+        loaders: ['@svgr/webpack'],
+        as: '*.js',
       },
-    }
+    },
   },
+
 
   devIndicators: false,
 

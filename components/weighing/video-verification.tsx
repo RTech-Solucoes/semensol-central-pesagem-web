@@ -336,7 +336,7 @@ export function VideoVerification({
           Verificação e Entrada
         </CardTitle>
       </CardHeader>
-      <CardContent className="flex flex-col xl:flex-row gap-6">
+      <CardContent className="flex flex-col gap-6">
         {/* Video Verification Section */}
         <div className="flex flex-col w-full h-full space-y-4">
           <h3 className="text-md font-medium flex items-center gap-2">
@@ -427,7 +427,7 @@ export function VideoVerification({
           </h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="sm:col-span-2">
+            <div>
               <Label htmlFor="placa">Placa do Veículo</Label>
               <Input
                 id="placa"
@@ -439,7 +439,7 @@ export function VideoVerification({
                 )}
               />
             </div>
-            <div className="sm:col-span-2">
+            <div>
               <Label htmlFor="driver">Motorista</Label>
               <Select value={formData.motorista_id} onValueChange={(value) => setFormData(prev => ({ ...prev, motorista_id: value }))}>
                 <SelectTrigger className={cn(

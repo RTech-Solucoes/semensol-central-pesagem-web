@@ -2,21 +2,13 @@
 
 import "./globals.css";
 import {Outfit as Font} from "next/font/google";
-import { ThemeProvider } from "next-themes";
+import {ThemeProvider} from "next-themes";
 import {Toaster} from "@/components/ui/toaster";
 import {cn} from "@/lib/utils";
 import {Navbar} from "@/components/layout/navbar";
 import {NavItem} from "@/types/nav-item";
-import {
-  ClockIcon,
-  HandshakeIcon,
-  HouseIcon,
-  IdentificationCardIcon,
-  GearIcon,
-  TruckIcon,
-} from "@phosphor-icons/react";
+import {ClockIcon, HouseIcon, IconContext, IdentificationCardIcon, TruckIcon,} from "@phosphor-icons/react";
 import WeightIcon from "@/components/icons/WeightIcon";
-import { IconContext } from "@phosphor-icons/react";
 import ptBR from 'antd/locale/pt_BR';
 import {ConfigProvider} from "antd";
 import {PWAInstaller} from "@/components/ui/pwa-installer";
@@ -51,7 +43,7 @@ export default function RootLayout({children}: {
 }) {
 
   return (
-    <html lang="pt-BR" suppressHydrationWarning>
+    <html lang="pt-BR">
       <head>
         <meta name="mobile-web-app-status-bar-style" content="black-translucent"/>
         <meta name="mobile-web-app-capable" content="yes"/>
@@ -59,7 +51,7 @@ export default function RootLayout({children}: {
         <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
         <meta name="apple-mobile-web-app-title" content="Semensol Agro"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <meta name="theme-color" content="#059669"/>
+        <meta name="theme-color" content="#4D3319"/>
         <link rel="icon" href="/images/favicon.ico"/>
         <link rel="apple-touch-icon" href="/images/logo.png"/>
         <link rel="manifest" href="/manifest.json"/>
@@ -68,7 +60,7 @@ export default function RootLayout({children}: {
       <body
         className={cn(
           font.variable,
-          "flex flex-col min-h-screen max-h-screen waves-background relative"
+          "min-h-screen max-h-screen svg-background relative"
         )}
       >
         <ThemeProvider
@@ -86,8 +78,10 @@ export default function RootLayout({children}: {
                 "aria-hidden": true,
               }}
             >
-              {children}
-              <Navbar navigation={navigation}/>
+              <main>
+                <Navbar navigation={navigation}/>
+                {children}
+              </main>
               <Toaster/>
               <PWAInstaller/>
             </IconContext.Provider>

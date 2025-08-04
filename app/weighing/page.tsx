@@ -186,7 +186,7 @@ export default function WeighingPage() {
   };
 
   return (
-    <main className="p-4 md:p-6">
+    <section className="p-4 md:p-6">
       <div className="flex flex-col gap-2 mb-6">
         <h1 className="text-3xl font-bold text-white">
           Central de Pesagem
@@ -294,6 +294,6 @@ export default function WeighingPage() {
           </CardContent>
         </Card>
       </div>
-    </main>
+    </section>
   );
 }
