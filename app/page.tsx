@@ -166,7 +166,7 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2">
-            <div className="flex-1 border-b 2xl:border-r 2xl:border-b-0 border-dashed">
+            <div className="flex-1 border-b sm:border-r sm:border-b-0 border-dashed">
               <CardHeader>
                 <CardTitle className="text-lg font-semibold flex items-center gap-2">
                   <ClockIcon className="h-5 w-5"/>
