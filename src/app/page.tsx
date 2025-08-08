@@ -137,7 +137,7 @@ export default function Home() {
                         2xl:-top-14 2xl:-right-12
                         2xl:h-36 2xl:w-36
                         group-hover:text-primary-200
-                        transition-colors duration-200
+                        transition-all duration-200
                       "
                     />
                     <div className="flex items-center gap-4 relative">
@@ -147,14 +147,14 @@ export default function Home() {
                           bg-primary-100
                           group-hover:bg-primary-200
                           box-border rounded-2xl
-                          transition-colors duration-200
+                          transition-all duration-200
                         "
                       />
                       <div className="flex flex-col transition-all duration-200">
-                        <h3 className="text-lg sm:text-xl font-semibold text-card-foreground align-bottom group-hover:text-primary-600 transition-colors duration-200">
+                        <h3 className="text-lg sm:text-xl font-semibold text-card-foreground align-bottom group-hover:text-primary-600 transition-all duration-200">
                           {action.title}
                         </h3>
-                        <p className="text-sm text-gray-400 group-hover:text-card-foreground transition-colors duration-200">
+                        <p className="text-sm text-gray-400 group-hover:text-card-foreground transition-all duration-200">
                           {action.description}
                         </p>
                       </div>
