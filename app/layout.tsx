@@ -74,7 +74,6 @@ export default function RootLayout({children}: {
               value={{
                 size: 32,
                 weight: "bold",
-                mirrored: false,
                 "aria-hidden": true,
               }}
             >
