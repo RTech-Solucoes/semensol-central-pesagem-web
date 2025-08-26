@@ -1,16 +1,11 @@
 "use client";
 
+import Header from "@/components/layout/header";
+
 export default function PartnersPage() {
   return (
     <section className="p-4 md:p-6">
-      <div className="flex flex-col gap-2 mb-6">
-        <h1 className="text-3xl font-bold text-white">
-          Gerenciamento de Parceiros
-        </h1>
-        <p className="text-gray-200">
-          Funcionalidade em desenvolvimento
-        </p>
-      </div>
+      <Header title="Gerenciamento de Parceiros" subtitle="Funcionalidade em desenvolvimento" />
 
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="text-center">

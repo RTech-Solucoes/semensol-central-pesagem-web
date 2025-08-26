@@ -20,8 +20,9 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PlusIcon, TruckIcon, CameraIcon } from "@phosphor-icons/react";
 import { apiClient } from "@/lib/api";
-import {useToast} from "@/hooks/use-toast";
-import {LoadingSpinner} from "@/components/ui/loading-spinner";
+import { useToast } from "@/hooks/use-toast";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import Header from "@/components/layout/header";
 
 interface Truck {
   id: number;
@@ -129,12 +130,7 @@ export default function FleetPage() {
 
   return (
     <section className="p-4 md:p-6">
-      <div className="flex flex-col gap-2 mb-6">
-        <h1 className="text-3xl font-bold text-white">
-          Gerenciamento da Frota
-        </h1>
-        <p className="text-gray-200">Cadastre e gerencie os veículos da frota</p>
-      </div>
+      <Header title="Gerenciamento da Frota" subtitle="Cadastre e gerencie os veículos da frota" />
 
       <Card className="w-full max-w-none">
         <CardHeader>

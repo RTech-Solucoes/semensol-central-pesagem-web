@@ -17,6 +17,7 @@ import { ClockIcon, DownloadIcon } from "@phosphor-icons/react";
 import { apiClient } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import Header from "@/components/layout/header";
 
 interface HistoricoItem {
   id: number;
@@ -75,8 +76,7 @@ export default function HistoryPage() {
       const csvContent = [
         "Placa,Motorista,Peso Entrada,Peso Saída,Data Entrada,Data Saída,Status",
         ...historicoFiltrado.map((item) =>
-          `${item.placa},${item.motorista},${item.peso_entrada},${
-            item.peso_saida || ""
+          `${item.placa},${item.motorista},${item.peso_entrada},${item.peso_saida || ""
           },${item.data_entrada},${item.data_saida || ""},${item.status}`
         ),
       ].join("\n");
@@ -104,14 +104,7 @@ export default function HistoryPage() {
 
   return (
     <section className="p-4 md:p-6">
-      <div className="flex flex-col gap-2 mb-6">
-        <h1 className="text-3xl font-bold text-white">
-          Histórico de Pesagem
-        </h1>
-        <p className="text-gray-200">
-          Consulte e exporte o histórico completo das operações de pesagem
-        </p>
-      </div>
+      <Header title="Histórico de Pesagem" subtitle="Consulte e exporte o histórico completo das operações de pesagem" />
 
       <Card className="w-full max-w-none">
         <CardHeader>

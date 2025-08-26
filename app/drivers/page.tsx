@@ -1,10 +1,10 @@
 "use client";
 
-import {useState, useEffect} from "react";
-import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
-import {Button} from "@/components/ui/button";
-import {Input} from "@/components/ui/input";
-import {Label} from "@/components/ui/label";
+import { useState, useEffect } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Dialog,
   DialogContent,
@@ -17,9 +17,10 @@ import {
   IdentificationCardIcon,
   CameraIcon,
 } from "@phosphor-icons/react";
-import {apiClient} from "@/lib/api";
-import {useToast} from "@/hooks/use-toast";
-import {LoadingSpinner} from "@/components/ui/loading-spinner";
+import { apiClient } from "@/lib/api";
+import { useToast } from "@/hooks/use-toast";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import Header from "@/components/layout/header";
 
 interface Driver {
   id: number;
@@ -69,7 +70,7 @@ export default function DriversPage() {
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setFormData((prev) => ({...prev, imagem: e.target.files![0]}));
+      setFormData((prev) => ({ ...prev, imagem: e.target.files![0] }));
     }
   };
 
@@ -98,7 +99,7 @@ export default function DriversPage() {
         description: "Motorista cadastrado com sucesso!",
       });
       setDrivers((prev) => [...prev, response.data]);
-      setFormData({nome: "", cpf: "", cnh: "", imagem: null});
+      setFormData({ nome: "", cpf: "", cnh: "", imagem: null });
       setIsModalOpen(false);
       loadDrivers();
     }
@@ -107,13 +108,7 @@ export default function DriversPage() {
 
   return (
     <section className="p-4 md:p-6">
-      <div className="flex flex-col gap-2 mb-6">
-        <h1 className="text-3xl font-bold text-white">
-          Gerenciamento de Motoristas
-        </h1>
-        <p className="text-gray-200">Cadastre e gerencie os motoristas autorizados</p>
-      </div>
-
+      <Header title="Gerenciamento de Motoristas" subtitle="Cadastre e gerencie os motoristas autorizados" />
       <Card className="w-full max-w-none">
         <CardHeader>
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -141,7 +136,7 @@ export default function DriversPage() {
                       placeholder="Nome do motorista"
                       value={formData.nome}
                       onChange={(e) =>
-                        setFormData((prev) => ({...prev, nome: e.target.value}))
+                        setFormData((prev) => ({ ...prev, nome: e.target.value }))
                       }
                       required
                     />
@@ -153,7 +148,7 @@ export default function DriversPage() {
                       placeholder="CPF do motorista"
                       value={formData.cpf}
                       onChange={(e) =>
-                        setFormData((prev) => ({...prev, cpf: e.target.value}))
+                        setFormData((prev) => ({ ...prev, cpf: e.target.value }))
                       }
                       required
                     />
@@ -165,7 +160,7 @@ export default function DriversPage() {
                       placeholder="CNH do motorista"
                       value={formData.cnh}
                       onChange={(e) =>
-                        setFormData((prev) => ({...prev, cnh: e.target.value}))
+                        setFormData((prev) => ({ ...prev, cnh: e.target.value }))
                       }
                       required
                     />
