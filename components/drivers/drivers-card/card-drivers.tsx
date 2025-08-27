@@ -17,7 +17,7 @@ interface Driver {
   imagem_path?: string;
 }
 
-export default function DriversCard() {
+export default function CardDrivers() {
   const [drivers, setDrivers] = useState<Driver[]>([]);
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();

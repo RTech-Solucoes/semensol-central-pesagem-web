@@ -1,4 +1,4 @@
-export default function SettingsCard() {
+export default function CardSettings() {
   return (
     <div className="flex items-center justify-center min-h-[400px]">
       <div className="text-center">
