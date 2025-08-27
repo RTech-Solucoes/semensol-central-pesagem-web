@@ -1,19 +1,21 @@
-"use client";
-
 import { Card, CardContent } from "@/components/ui/card";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { IdentificationCardIcon } from "@phosphor-icons/react";
 
-interface DriverCardContentProps {
-  drivers: {
-    id: number;
-    nome: string;
-    imagem_path?: string;
-  }[];
-  loading?: boolean;
+interface Driver {
+  id: number;
+  nome: string;
+  cpf: string;
+  cnh: string;
+  imagem_path?: string;
 }
 
-export default function DriverCardContent({ drivers, loading }: DriverCardContentProps) {
+interface DriverContentProps {
+  drivers: Driver[];
+  loading: boolean;
+}
+
+export default function DriverContent({ drivers, loading }: DriverContentProps) {
   return (
     <CardContent>
       {loading ? (
