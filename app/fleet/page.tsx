@@ -8,7 +8,6 @@ export default function FleetPage() {
   return (
     <section className="p-4 md:p-6">
       <Header title="Gerenciamento da Frota" subtitle="Cadastre e gerencie os veículos da frota" />
-
       <CardFleet />
     </section>
   );
