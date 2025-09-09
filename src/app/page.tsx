@@ -1,16 +1,15 @@
 "use client";
 
-import {useState, useEffect} from "react";
+import {useEffect, useState} from "react";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import {Badge} from "@/components/ui/badge";
 import {
   ActivityIcon,
   CheckCircleIcon,
   ClockIcon,
-  HandshakeIcon,
   IdentificationCardIcon,
-  TruckIcon,
   LightningIcon,
+  TruckIcon
 } from "@phosphor-icons/react";
 import WeightIcon from "@/components/icons/WeightIcon";
 import {cn} from "@/lib/utils";

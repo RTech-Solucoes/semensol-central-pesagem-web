@@ -1,17 +1,13 @@
-"use client";
-
 import "./globals.css";
 import {Outfit as Font} from "next/font/google";
 import {ThemeProvider} from "next-themes";
 import {Toaster} from "@/components/ui/toaster";
 import {cn} from "@/lib/utils";
-import {Navbar} from "@/components/layout/navbar";
-import {NavItem} from "@/types/nav-item";
-import {ClockIcon, HouseIcon, IconContext, IdentificationCardIcon, TruckIcon,} from "@phosphor-icons/react";
-import WeightIcon from "@/components/icons/WeightIcon";
+import {NavigationWrapper} from "@/components/layout/navigation-wrapper";
 import ptBR from 'antd/locale/pt_BR';
 import {ConfigProvider} from "antd";
 import {PWAInstaller} from "@/components/ui/pwa-installer";
+import {IconProvider} from "@/components/providers/icon-provider";
 
 const font = Font({
   weight: [
@@ -29,14 +25,6 @@ const font = Font({
   subsets: ["latin"],
   display: "swap",
 });
-
-const navigation: NavItem[] = [
-  {name: "Tela Inicial", href: "/", section: "Operações", icon: HouseIcon},
-  {name: "Pesagem Ativa", href: "/weighing", section: "Operações", icon: WeightIcon},
-  {name: "Histórico", href: "/history", section: "Operações", icon: ClockIcon},
-  {name: "Frota", href: "/fleet", section: "Operações", icon: TruckIcon},
-  {name: "Motoristas", href: "/drivers", section: "Operações", icon: IdentificationCardIcon},
-];
 
 export default function RootLayout({children}: {
   children: React.ReactNode;
@@ -70,20 +58,14 @@ export default function RootLayout({children}: {
           disableTransitionOnChange
         >
           <ConfigProvider locale={ptBR}>
-            <IconContext.Provider
-              value={{
-                size: 32,
-                weight: "bold",
-                "aria-hidden": true,
-              }}
-            >
+            <IconProvider>
               <main>
-                <Navbar navigation={navigation}/>
+                <NavigationWrapper />
                 {children}
               </main>
               <Toaster/>
               <PWAInstaller/>
-            </IconContext.Provider>
+            </IconProvider>
           </ConfigProvider>
         </ThemeProvider>
       </body>
