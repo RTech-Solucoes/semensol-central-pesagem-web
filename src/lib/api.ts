@@ -46,7 +46,7 @@ class ApiClient {
   }
 
   async getMotoristas(): Promise<ApiResponse<{ id: number; nome: string }[]>> {
-    return this.request('/balanca/motoristas');
+    return this.request('/motorista/listar');
   }
 
   async registrarEntrada(data: {
@@ -152,22 +152,7 @@ class ApiClient {
     id: number;
     placa: string;
   }[]>> {
-    return this.request('/caminhoes');
-  }
-
-  async reconhecerCaminhao(placa: string): Promise<ApiResponse<{
-    id_caminhao: number;
-    placa: string;
-    modelo: string;
-    empresa: string;
-  }>> {
-    const formData = new FormData();
-    formData.append('placa', placa);
-
-    return this.request('/reconhecimento/caminhao', {
-      method: 'POST',
-      body: formData,
-    });
+    return this.request('/caminhao/listar');
   }
 }
 
