@@ -1,13 +1,7 @@
 import "./globals.css";
 import {Outfit as Font} from "next/font/google";
-import {ThemeProvider} from "next-themes";
-import {Toaster} from "@/components/ui/toaster";
 import {cn} from "@/lib/utils";
-import {NavigationWrapper} from "@/components/layout/navigation-wrapper";
-import ptBR from 'antd/locale/pt_BR';
-import {ConfigProvider} from "antd";
-import {PWAInstaller} from "@/components/ui/pwa-installer";
-import {IconProvider} from "@/components/providers/icon-provider";
+import {ClientProviders} from "@/components/providers/client-providers";
 
 const font = Font({
   weight: [
@@ -51,23 +45,9 @@ export default function RootLayout({children}: {
           "min-h-screen max-h-screen svg-background relative"
         )}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem={false}
-          disableTransitionOnChange
-        >
-          <ConfigProvider locale={ptBR}>
-            <IconProvider>
-              <main>
-                <NavigationWrapper />
-                {children}
-              </main>
-              <Toaster/>
-              <PWAInstaller/>
-            </IconProvider>
-          </ConfigProvider>
-        </ThemeProvider>
+        <ClientProviders>
+          {children}
+        </ClientProviders>
       </body>
     </html>
   );
