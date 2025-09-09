@@ -28,8 +28,8 @@ export function ClientProviders({ children }: ClientProvidersProps) {
             <NavigationWrapper />
             {children}
           </main>
-          <Toaster/>
-          <PWAInstaller/>
+          <Toaster />
+          <PWAInstaller />
         </IconProvider>
       </ConfigProvider>
     );
@@ -48,8 +48,8 @@ export function ClientProviders({ children }: ClientProvidersProps) {
             <NavigationWrapper />
             {children}
           </main>
-          <Toaster/>
-          <PWAInstaller/>
+          <Toaster />
+          <PWAInstaller />
         </IconProvider>
       </ConfigProvider>
     </ThemeProvider>

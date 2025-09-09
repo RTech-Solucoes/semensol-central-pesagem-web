@@ -1,4 +1,4 @@
-import {useViewport} from "@/hooks/use-viewport";
+import { useViewport } from "@/hooks/use-viewport";
 
 export const useBreakpoint = () => {
   const { width } = useViewport();

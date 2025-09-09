@@ -1,8 +1,8 @@
 "use client";
 
-import {useEffect, useState} from "react";
-import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
-import {Badge} from "@/components/ui/badge";
+import { useEffect, useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import {
   ActivityIcon,
   CheckCircleIcon,
@@ -12,10 +12,10 @@ import {
   TruckIcon
 } from "@phosphor-icons/react";
 import WeightIcon from "@/components/icons/WeightIcon";
-import {cn} from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import Link from "next/link";
-import {apiClient} from "@/lib/api";
-import {LoadingSpinner} from "@/components/ui/loading-spinner";
+import { apiClient } from "@/lib/api";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 interface CicloAberto {
   id_pesagem: number;
@@ -109,7 +109,7 @@ export default function Home() {
           <div className="flex flex-col border-b border-dashed">
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle className="text-lg font-semibold flex items-center gap-2">
-                <LightningIcon className="h-5 w-5"/>
+                <LightningIcon className="h-5 w-5" />
                 Ações Rápidas
               </CardTitle>
             </CardHeader>
@@ -168,7 +168,7 @@ export default function Home() {
             <div className="flex-1 border-b md:border-r md:border-b-0 border-dashed">
               <CardHeader>
                 <CardTitle className="text-lg font-semibold flex items-center gap-2">
-                  <ClockIcon className="h-5 w-5"/>
+                  <ClockIcon className="h-5 w-5" />
                   Atividade Recente
                 </CardTitle>
               </CardHeader>
@@ -183,7 +183,7 @@ export default function Home() {
                   <div className="space-y-4">
                     {recentActivity.map((activity) => (
                       <div key={activity.id} className="flex items-start gap-3">
-                        <div className="h-2 w-2 rounded-full mt-2 bg-primary-600"/>
+                        <div className="h-2 w-2 rounded-full mt-2 bg-primary-600" />
                         <div className="flex flex-col flex-1">
                           <p className="text-sm font-medium text-card-foreground">
                             {activity.placa} - {activity.motorista}
@@ -201,9 +201,9 @@ export default function Home() {
                           )}
                         >
                           {activity.status === "concluido" ? (
-                            <CheckCircleIcon className="w-3 h-3"/>
+                            <CheckCircleIcon className="w-3 h-3" />
                           ) : (
-                            <ClockIcon className="w-3 h-3"/>
+                            <ClockIcon className="w-3 h-3" />
                           )}
                         </Badge>
                       </div>
@@ -216,7 +216,7 @@ export default function Home() {
             <div className="flex-1">
               <CardHeader>
                 <CardTitle className="text-lg font-semibold flex items-center gap-2">
-                  <ActivityIcon className="h-5 w-5"/>
+                  <ActivityIcon className="h-5 w-5" />
                   Ciclos em Andamento
                 </CardTitle>
               </CardHeader>
@@ -239,7 +239,7 @@ export default function Home() {
                           variant="secondary"
                           className="bg-amber-100 text-amber-700"
                         >
-                          <ClockIcon className="w-3 h-3 mr-1"/>
+                          <ClockIcon className="w-3 h-3 mr-1" />
                           Em Andamento
                         </Badge>
                       </div>

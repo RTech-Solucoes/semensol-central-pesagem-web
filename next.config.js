@@ -5,6 +5,7 @@ const nextConfig = {
   },
   experimental: {
     optimizePackageImports: ["@phosphor-icons/react"],
+    webpackBuildWorker: true,
   },
 
   turbopack: {

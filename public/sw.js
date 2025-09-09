@@ -13,22 +13,22 @@ const urlsToCache = [
 // Install event - cache resources
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache) => {
-        return cache.addAll(urlsToCache);
-      })
+    caches.open(CACHE_NAME).then((cache) => {
+      return cache.addAll(urlsToCache);
+    })
   );
+
+  // 👇 força o novo SW a assumir imediatamente
+  self.skipWaiting();
 });
 
 // Fetch event - serve from cache when offline
 self.addEventListener('fetch', (event) => {
   event.respondWith(
-    caches.match(event.request)
-      .then((response) => {
-        // Return cached version or fetch from network
-        return response || fetch(event.request);
-      }
-    )
+    caches.match(event.request).then((response) => {
+      // Return cached version or fetch from network
+      return response || fetch(event.request);
+    })
   );
 });
 
@@ -43,6 +43,9 @@ self.addEventListener('activate', (event) => {
           }
         })
       );
+    }).then(() => {
+      // 👇 garante que todas as abas usem o novo SW
+      return self.clients.claim();
     })
   );
 });
