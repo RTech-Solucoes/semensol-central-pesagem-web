@@ -90,7 +90,6 @@ export function CameraCapture({
 
     canvasRef.current.toBlob((blob) => {
       if (blob) {
-        // Convert Blob to File
         const file = new File([blob], 'camera-capture.jpg', {
           type: 'image/jpeg',
           lastModified: Date.now()
@@ -173,7 +172,6 @@ export function CameraCapture({
         </DialogHeader>
 
         <div className="space-y-4">
-          {/* Camera Preview or Captured Image */}
           <div className="relative aspect-video bg-gray-100 rounded-lg overflow-hidden">
             {capturedImage ? (
               <img
@@ -192,7 +190,6 @@ export function CameraCapture({
                 />
                 <canvas ref={canvasRef} className="hidden" />
 
-                {/* Floating Flip Camera Button */}
                 {isStreaming && (
                   <Button
                     onClick={flipCamera}
@@ -227,7 +224,6 @@ export function CameraCapture({
             )}
           </div>
 
-          {/* Action Buttons */}
           <div className="flex flex-col gap-2">
             {capturedImage ? (
               <div className="flex gap-2">
@@ -271,7 +267,6 @@ export function CameraCapture({
                   )}
                 </div>
 
-                {/* File Upload Alternative */}
                 <div className="text-center">
                   <p className="text-sm text-gray-500 mb-2">ou</p>
                   <Button

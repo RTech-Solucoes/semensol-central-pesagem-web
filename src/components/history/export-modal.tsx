@@ -37,7 +37,6 @@ export function ExportModal({ open, onOpenChange }: ExportModalProps) {
   });
 
   const handleExport = () => {
-    // Simulate export functionality
     const exportData = {
       format: exportFormat,
       dateRange,
@@ -48,7 +47,6 @@ export function ExportModal({ open, onOpenChange }: ExportModalProps) {
 
     console.log("Exportando dados:", exportData);
 
-    // Create a mock CSV content
     const csvContent = generateMockCSV();
     downloadFile(csvContent, `historico-pesagens.${exportFormat}`, exportFormat);
 

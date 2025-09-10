@@ -51,7 +51,7 @@ export default function DriversPage() {
     if (response.error) {
       toast({
         title: "Erro ao carregar motoristas",
-        //description: response.error?.message,
+        description: response.error?.message,
         variant: "destructive",
       });
     } else if (response.data) {
@@ -89,7 +89,7 @@ export default function DriversPage() {
     if (response.error) {
       toast({
         title: "Erro ao cadastrar motorista",
-        //description: response.error?.message,
+        description: response.error?.message,
         variant: "destructive",
       });
     } else if (response.data) {

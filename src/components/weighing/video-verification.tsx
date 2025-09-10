@@ -140,10 +140,10 @@ export function VideoVerification({
 
     const response = await apiClient.reconhecerMotorista(formData);
 
-    if (response.error || response.message) {
+    if (response.error) {
       toast({
         title: "Erro na verificação",
-        //description: response.error?.message || response.message,
+        description: response.error?.message,
         variant: "destructive",
       });
       setVerificationState(prev => ({ ...prev, driver: { verified: false }, loading: false }));
@@ -194,7 +194,7 @@ export function VideoVerification({
     if (response.error) {
       toast({
         title: "Erro na detecção de placa",
-        //description: response.error?.message,
+        description: response.error?.message,
         variant: "destructive",
       });
       setVerificationState(prev => ({ ...prev, plate: { detected: false }, loading: false }));
@@ -242,7 +242,7 @@ export function VideoVerification({
     if (response.error) {
       toast({
         title: "Erro na verificação completa",
-        //description: response.error?.message,
+        description: response.error?.message,
         variant: "destructive",
       });
       setVerificationState(prev => ({ ...prev, loading: false }));
@@ -332,7 +332,6 @@ export function VideoVerification({
         </CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-6">
-        {/* Video Verification Section */}
         <div className="flex flex-col w-full h-full space-y-4">
           <h3 className="text-md font-medium flex items-center gap-2">
             <CameraIcon className="h-4 w-4" />
@@ -350,7 +349,6 @@ export function VideoVerification({
             />
             <canvas ref={canvasRef} className="hidden" />
 
-            {/* Floating Flip Camera Button */}
             {isStreaming && (
               <Button
                 onClick={flipCamera}
@@ -375,7 +373,6 @@ export function VideoVerification({
             )}
           </div>
 
-          {/* Camera Controls */}
           <div className="grid grid-cols-1 gap-2">
             <Button
               onClick={isStreaming ? stopCamera : startCamera}
@@ -388,7 +385,6 @@ export function VideoVerification({
             </Button>
           </div>
 
-          {/* Individual Verification Buttons */}
           <div className="grid grid-cols-2 gap-2">
             <Button
               onClick={verifyDriver}
@@ -414,7 +410,6 @@ export function VideoVerification({
           </div>
         </div>
 
-        {/* Manual Input Section */}
         <div className="flex flex-col w-full h-full space-y-4">
           <h3 className="text-md font-medium flex items-center gap-2">
             <UserCheck className="h-4 w-4" />
@@ -454,7 +449,6 @@ export function VideoVerification({
           </div>
         </div>
 
-        {/* Verification Status */}
         {(verificationState.driver.verified || verificationState.plate.detected) && (
           <div className="space-y-2">
             <h4 className="text-sm font-medium">Status da Verificação</h4>
@@ -483,7 +477,6 @@ export function VideoVerification({
           </div>
         )}
 
-        {/* Verification Complete Status */}
         {verificationComplete && (
           <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
             <div className="flex items-center gap-2">
@@ -493,7 +486,6 @@ export function VideoVerification({
           </div>
         )}
 
-        {/* Active Cycles */}
         {ciclosAbertos.length > 0 && (
           <div className="space-y-3">
             <Label>Ciclos em Andamento</Label>

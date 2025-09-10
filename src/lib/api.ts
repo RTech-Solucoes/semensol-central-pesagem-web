@@ -2,8 +2,10 @@ const BASE_URL = 'https://58bb6fdf3d98.ngrok-free.app/api';
 
 interface ApiResponse<T> {
   data?: T;
-  error?: string;
-  message?: string;
+  error?: {
+    code?: number;
+    message: string
+  };
   warning?: string;
 }
 
@@ -30,7 +32,6 @@ class ApiClient {
 
       const data = await response.json();
 
-      // Check if the response contains a warning message
       if (data && typeof data === 'object' && data.message) {
         return {
           data,
@@ -41,7 +42,7 @@ class ApiClient {
       return { data };
     } catch (error) {
       console.error('API Error:', error);
-      return { error: 'Erro de conexão com o servidor. Verifique sua internet e tente novamente.' };
+      return { error: { message:'Erro de conexão com o servidor. Verifique sua internet e tente novamente.'} };
     }
   }
 

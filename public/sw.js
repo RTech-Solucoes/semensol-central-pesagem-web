@@ -1,6 +1,6 @@
 const CACHE_NAME = 'semensol-agro-v1';
 const urlsToCache = [
-  '/',             // homepage
+  '/',
   '/weighing',
   '/history',
   '/drivers',
@@ -10,26 +10,22 @@ const urlsToCache = [
   '/manifest.json'
 ];
 
-// Install event - pré-cache das rotas/imagens definidas
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return cache.addAll(urlsToCache);
     })
   );
-  self.skipWaiting(); // novo SW assume imediatamente
+  self.skipWaiting();
 });
 
-// Fetch event - Stale-While-Revalidate, ignorando bundles do Next
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
-  // não intercepta requests do Next.js (_next/*)
   if (url.pathname.startsWith('/_next/')) {
-    return; // deixa o navegador buscar da rede/CDN
+    return;
   }
 
-  // intercepta apenas imagens, ícones, manifest e páginas básicas
   if (
     url.pathname.startsWith('/images/') ||
     url.pathname === '/manifest.json' ||
@@ -45,7 +41,7 @@ self.addEventListener('fetch', (event) => {
               }
               return networkResponse;
             })
-            .catch(() => cachedResponse); // fallback offline
+            .catch(() => cachedResponse);
 
           return cachedResponse || fetchPromise;
         })
@@ -54,7 +50,6 @@ self.addEventListener('fetch', (event) => {
   }
 });
 
-// Activate event - limpa caches antigos
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) =>

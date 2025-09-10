@@ -53,7 +53,7 @@ export default function FleetPage() {
     if (response.error) {
       toast({
         title: "Erro ao carregar veículos",
-        //description: response.error?.message,
+        description: response.error?.message,
         variant: "destructive",
       });
     } else if (response.data) {
@@ -82,7 +82,7 @@ export default function FleetPage() {
     if (response.error) {
       toast({
         title: "Erro ao cadastrar veículo",
-        //description: response.error?.message,
+        description: response.error?.message,
         variant: "destructive",
       });
     } else if (response.data) {
@@ -92,7 +92,7 @@ export default function FleetPage() {
       });
       setFormData({ placa: "", modelo: "", empresa: "", imagem: null });
       setIsModalOpen(false);
-      loadTrucks(); // Reload trucks from API
+      loadTrucks();
     }
     setSubmitLoading(false);
   };
@@ -112,7 +112,7 @@ export default function FleetPage() {
     if (response.error) {
       toast({
         title: "Erro ao cadastrar veículo por imagem",
-        //description: response.error?.message,
+        description: response.error?.message,
         variant: "destructive",
       });
     } else if (response.data) {
@@ -122,7 +122,7 @@ export default function FleetPage() {
       });
       setFormData({ placa: "", modelo: "", empresa: "", imagem: null });
       setIsModalOpen(false);
-      loadTrucks(); // Reload trucks from API
+      loadTrucks();
     }
     setSubmitLoading(false);
   };

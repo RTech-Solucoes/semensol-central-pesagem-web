@@ -3,9 +3,6 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  typescript: {
-    ignoreBuildErrors: true,
-  },
   experimental: {
     optimizePackageImports: ["@phosphor-icons/react"],
     webpackBuildWorker: true,

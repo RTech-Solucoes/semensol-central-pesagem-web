@@ -46,7 +46,6 @@ export function AddTruckModal({ open, onOpenChange, onSave }: AddTruckModalProps
 
     onSave(formData);
 
-    // Reset form
     setFormData({
       plate: "",
       model: "",
@@ -88,7 +87,6 @@ export function AddTruckModal({ open, onOpenChange, onSave }: AddTruckModalProps
           </DialogHeader>
 
           <div className="grid gap-4 py-4">
-            {/* Photo Section */}
             <div className="space-y-2">
               <Label>Foto do Veículo</Label>
               <div className="flex items-center gap-4">
@@ -211,7 +209,6 @@ export function AddTruckModal({ open, onOpenChange, onSave }: AddTruckModalProps
         </DialogContent>
       </Dialog>
 
-      {/* Camera Capture Dialog */}
       {cameraOpen && (
         <CameraCapture
           open={cameraOpen}

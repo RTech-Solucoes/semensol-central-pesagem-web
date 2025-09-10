@@ -11,7 +11,6 @@ export function PWAInstaller() {
   const [isInstalled, setIsInstalled] = useState(false);
 
   useEffect(() => {
-    // Register service worker
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker
         .register('/sw.js')
@@ -23,21 +22,18 @@ export function PWAInstaller() {
         });
     }
 
-    // Listen for beforeinstallprompt event
     const handleBeforeInstallPrompt = (e: any) => {
       e.preventDefault();
       setDeferredPrompt(e);
       setShowInstallPrompt(true);
     };
 
-    // Listen for appinstalled event
     const handleAppInstalled = () => {
       setIsInstalled(true);
       setShowInstallPrompt(false);
       setDeferredPrompt(null);
     };
 
-    // Check if app is already installed
     const checkIfInstalled = () => {
       if (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) {
         setIsInstalled(true);

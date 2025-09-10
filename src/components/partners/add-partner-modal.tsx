@@ -43,7 +43,6 @@ export function AddPartnerModal({ open, onOpenChange, onSave }: AddPartnerModalP
 
     onSave(formData);
 
-    // Reset form
     setFormData({
       name: "",
       cnpj: "",

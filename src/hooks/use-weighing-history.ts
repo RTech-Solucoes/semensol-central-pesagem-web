@@ -368,7 +368,6 @@ export function useWeighingHistory() {
   };
 
   const handleExport = () => {
-    // Export logic here
     console.log("Exporting weighing history...");
   };
 

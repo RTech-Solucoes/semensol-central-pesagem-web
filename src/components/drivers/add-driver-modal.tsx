@@ -42,7 +42,6 @@ export function AddDriverModal({ open, onOpenChange, onSave }: AddDriverModalPro
       document: `CNH: ${formData.document}`,
     });
 
-    // Reset form
     setFormData({
       name: "",
       document: "",
@@ -87,7 +86,6 @@ export function AddDriverModal({ open, onOpenChange, onSave }: AddDriverModalPro
           </DialogHeader>
 
           <div className="grid gap-4 py-4">
-            {/* Photo Section */}
             <div className="space-y-2">
               <Label>Foto do Motorista</Label>
               <div className="flex items-center gap-4">
@@ -247,7 +245,6 @@ export function AddDriverModal({ open, onOpenChange, onSave }: AddDriverModalPro
         </DialogContent>
       </Dialog>
 
-      {/* Camera Capture Component */}
       <CameraCapture
         open={cameraOpen}
         onOpenChange={setCameraOpen}

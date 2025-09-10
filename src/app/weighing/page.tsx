@@ -59,14 +59,13 @@ export default function WeighingPage() {
     if (response.error) {
       toast({
         title: "Erro ao carregar motoristas",
-        //description: response.error?.message,
+        description: response.error?.message,
         variant: "destructive",
       });
     } else if (response.data) {
       setMotoristas(response.data);
     }
-
-    // Handle warning messages
+    
     if (response.warning) {
       toast({
         title: "Aviso",
@@ -81,14 +80,13 @@ export default function WeighingPage() {
     if (response.error) {
       toast({
         title: "Erro ao carregar ciclos",
-        //description: response.error?.message,
+        description: response.error?.message,
         variant: "destructive",
       });
     } else if (response.data) {
       setCiclosAbertos(response.data);
     }
-
-    // Handle warning messages
+    
     if (response.warning) {
       toast({
         title: "Aviso",
@@ -123,7 +121,7 @@ export default function WeighingPage() {
     if (response.error) {
       toast({
         title: "Erro ao registrar entrada",
-        //description: response.error?.message,
+        description: response.error?.message,
         variant: "destructive",
       });
     } else if (response.data) {
@@ -136,8 +134,7 @@ export default function WeighingPage() {
       setVerificationComplete(false);
       loadCiclosAbertos();
     }
-
-    // Handle warning messages
+    
     if (response.warning) {
       toast({
         title: "Aviso - Entrada",
@@ -161,7 +158,7 @@ export default function WeighingPage() {
     if (response.error) {
       toast({
         title: "Erro ao registrar saída",
-        //description: response.error?.message,
+        description: response.error?.message,
         variant: "destructive",
       });
     } else {
@@ -172,8 +169,7 @@ export default function WeighingPage() {
       setCurrentWeight(0);
       loadCiclosAbertos();
     }
-
-    // Handle warning messages
+    
     if (response.warning) {
       toast({
         title: "Aviso - Saída",
