@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { useToast } from '@/hooks/use-toast';
 import {
   Toast,
@@ -19,12 +20,26 @@ export function Toaster() {
         return (
           <Toast key={id} {...props}>
             <div className="grid gap-1">
-              {title && <ToastTitle>{title}</ToastTitle>}
+              {title && (
+                <ToastTitle>
+                  {typeof title === 'string'
+                    ? title
+                    : React.isValidElement(title)
+                    ? title
+                    : JSON.stringify(title)}
+                </ToastTitle>
+              )}
               {description && (
-                <ToastDescription>{description}</ToastDescription>
+                <ToastDescription>
+                  {typeof description === 'string'
+                    ? description
+                    : React.isValidElement(description)
+                    ? description
+                    : JSON.stringify(description)}
+                </ToastDescription>
               )}
             </div>
-            {action}
+            {action && React.isValidElement(action) ? action : null}
             <ToastClose />
           </Toast>
         );

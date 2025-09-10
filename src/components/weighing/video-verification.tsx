@@ -113,7 +113,6 @@ export function VideoVerification({
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
 
-    // Draw the image directly without flipping
     context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
     return new Promise((resolve) => {
@@ -144,13 +143,13 @@ export function VideoVerification({
     if (response.error || response.message) {
       toast({
         title: "Erro na verificação",
-        description: response.error || response.message,
+        description: response.error?.message || response.message,
         variant: "destructive",
       });
       setVerificationState(prev => ({ ...prev, driver: { verified: false }, loading: false }));
     } else if (response.data?.id_motorista) {
       const driverData = {
-        verified: true, // Convert to boolean - if id_motorista exists, verification succeeded
+        verified: true,
         name: response.data.nome,
         confidence: response.data.confianca
       };
@@ -195,7 +194,7 @@ export function VideoVerification({
     if (response.error) {
       toast({
         title: "Erro na detecção de placa",
-        description: response.error,
+        description: response.error?.message,
         variant: "destructive",
       });
       setVerificationState(prev => ({ ...prev, plate: { detected: false }, loading: false }));
@@ -243,19 +242,19 @@ export function VideoVerification({
     if (response.error) {
       toast({
         title: "Erro na verificação completa",
-        description: response.error,
+        description: response.error?.message,
         variant: "destructive",
       });
       setVerificationState(prev => ({ ...prev, loading: false }));
     } else if (response.data) {
       const newState = {
         driver: {
-          verified: Boolean(response.data.id_motorista), // Convert to boolean
+          verified: Boolean(response.data.id_motorista),
           name: response.data.nome,
           confidence: response.data.confianca_motorista
         },
         plate: {
-          detected: Boolean(response.data.placa_valida), // Ensure it's boolean
+          detected: Boolean(response.data.placa_valida),
           value: response.data.placa_reconhecida
         },
         loading: false
@@ -293,13 +292,10 @@ export function VideoVerification({
 
   const flipCamera = useCallback(async () => {
     if (isStreaming) {
-      // Stop current stream
       stopCamera();
-      // Toggle facing mode
       const newFacingMode = facingMode === 'user' ? 'environment' : 'user';
       setFacingMode(newFacingMode);
 
-      // Small delay to ensure camera is properly stopped
       setTimeout(async () => {
         try {
           const stream = await navigator.mediaDevices.getUserMedia({
@@ -321,7 +317,6 @@ export function VideoVerification({
             description: "Não foi possível trocar a câmera. Tente novamente.",
             variant: "destructive",
           });
-          // Revert facing mode if failed
           setFacingMode(facingMode);
         }
       }, 500);
