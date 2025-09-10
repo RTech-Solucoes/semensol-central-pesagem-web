@@ -51,7 +51,7 @@ export default function HistoryPage() {
     if (response.error) {
       toast({
         title: "Erro ao carregar histórico",
-        description: response.error?.message,
+        //description: response.error?.message,
         variant: "destructive",
       });
     } else if (response.data) {
@@ -75,8 +75,7 @@ export default function HistoryPage() {
       const csvContent = [
         "Placa,Motorista,Peso Entrada,Peso Saída,Data Entrada,Data Saída,Status",
         ...historicoFiltrado.map((item) =>
-          `${item.placa},${item.motorista},${item.peso_entrada},${
-            item.peso_saida || ""
+          `${item.placa},${item.motorista},${item.peso_entrada},${item.peso_saida || ""
           },${item.data_entrada},${item.data_saida || ""},${item.status}`
         ),
       ].join("\n");

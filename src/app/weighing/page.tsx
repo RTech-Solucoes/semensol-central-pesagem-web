@@ -1,11 +1,11 @@
 "use client";
 
-import {useState, useEffect} from "react";
-import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
-import {Button} from "@/components/ui/button";
-import {Input} from "@/components/ui/input";
-import {Label} from "@/components/ui/label";
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue,} from "@/components/ui/select";
+import { useState, useEffect } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from "@/components/ui/select";
 import {
   CheckCircleIcon,
   ClockIcon,
@@ -16,11 +16,11 @@ import {
   PlugsIcon
 } from "@phosphor-icons/react";
 import WeightIcon from "@/components/icons/WeightIcon";
-import {cn} from "@/lib/utils";
-import {Badge} from "@/components/ui/badge";
-import {apiClient} from "@/lib/api";
-import {VideoVerification} from "@/components/weighing/video-verification";
-import {useToast} from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
+import { apiClient } from "@/lib/api";
+import { VideoVerification } from "@/components/weighing/video-verification";
+import { useToast } from "@/hooks/use-toast";
 
 interface Motorista {
   id: number;
@@ -47,7 +47,7 @@ export default function WeighingPage() {
     peso: ""
   });
   const [verificationComplete, setVerificationComplete] = useState(false);
-  const {toast} = useToast();
+  const { toast } = useToast();
 
   useEffect(() => {
     loadMotoristas();
@@ -59,7 +59,7 @@ export default function WeighingPage() {
     if (response.error) {
       toast({
         title: "Erro ao carregar motoristas",
-        description: response.error?.message,
+        //description: response.error?.message,
         variant: "destructive",
       });
     } else if (response.data) {
@@ -81,7 +81,7 @@ export default function WeighingPage() {
     if (response.error) {
       toast({
         title: "Erro ao carregar ciclos",
-        description: response.error?.message,
+        //description: response.error?.message,
         variant: "destructive",
       });
     } else if (response.data) {
@@ -99,11 +99,11 @@ export default function WeighingPage() {
   };
 
   const handleDriverVerified = (driverId: number, driverName: string) => {
-    setFormData(prev => ({...prev, motorista_id: driverId.toString()}));
+    setFormData(prev => ({ ...prev, motorista_id: driverId.toString() }));
   };
 
   const handlePlateDetected = (plate: string) => {
-    setFormData(prev => ({...prev, placa: plate}));
+    setFormData(prev => ({ ...prev, placa: plate }));
   };
 
   const handleVerificationComplete = (success: boolean) => {
@@ -123,7 +123,7 @@ export default function WeighingPage() {
     if (response.error) {
       toast({
         title: "Erro ao registrar entrada",
-        description: response.error?.message,
+        //description: response.error?.message,
         variant: "destructive",
       });
     } else if (response.data) {
@@ -131,7 +131,7 @@ export default function WeighingPage() {
         title: "Entrada registrada",
         description: "Entrada registrada com sucesso!",
       });
-      setFormData({placa: "", motorista_id: "", peso: ""});
+      setFormData({ placa: "", motorista_id: "", peso: "" });
       setCurrentWeight(0);
       setVerificationComplete(false);
       loadCiclosAbertos();
@@ -161,7 +161,7 @@ export default function WeighingPage() {
     if (response.error) {
       toast({
         title: "Erro ao registrar saída",
-        description: response.error?.message,
+        //description: response.error?.message,
         variant: "destructive",
       });
     } else {
@@ -214,7 +214,7 @@ export default function WeighingPage() {
         <Card className="flex flex-col w-full max-w-none">
           <CardHeader className="flex-row justify-between items-center">
             <CardTitle className="text-lg font-semibold flex items-center gap-2">
-              <WeightIcon className="h-5 w-5"/>
+              <WeightIcon className="h-5 w-5" />
               Balança
             </CardTitle>
             <Badge
@@ -239,7 +239,7 @@ export default function WeighingPage() {
             <div className="flex flex-col justify-center h-full text-center my-auto">
               {!isConnected ? (
                 <>
-                  <WeightIcon className="h-16 w-16 text-gray-300 mx-auto mb-4"/>
+                  <WeightIcon className="h-16 w-16 text-gray-300 mx-auto mb-4" />
                   <p className="text-gray-500">Balança desconectada</p>
                 </>
               ) : (
@@ -272,7 +272,7 @@ export default function WeighingPage() {
                     "flex w-full items-center gap-2"
                   )}
                 >
-                  {isConnected ? <PlugsIcon className="h-4 w-4"/> : <PlugsConnectedIcon className="h-4 w-4"/>}
+                  {isConnected ? <PlugsIcon className="h-4 w-4" /> : <PlugsConnectedIcon className="h-4 w-4" />}
                   {isConnected ? "Desconectar" : "Conectar Balança"}
                 </Button>
               </div>
@@ -282,11 +282,11 @@ export default function WeighingPage() {
                 onClick={handleRegistrarEntrada}
               >
                 {loading ? (
-                  <ClockIcon className="h-4 w-4 mr-2"/>
+                  <ClockIcon className="h-4 w-4 mr-2" />
                 ) : isWeighing ? (
-                  <SquareIcon className="h-4 w-4 mr-2"/>
+                  <SquareIcon className="h-4 w-4 mr-2" />
                 ) : (
-                  <PlayIcon className="h-4 w-4 mr-2"/>
+                  <PlayIcon className="h-4 w-4 mr-2" />
                 )}
                 {loading ? "Processando..." : "Registrar Entrada"}
               </Button>
