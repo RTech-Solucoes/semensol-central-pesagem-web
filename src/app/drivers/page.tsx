@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -22,6 +22,8 @@ import {
 import { apiClient } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import { isCPF, isCNH } from 'validation-br';
+import Image from "next/image";
 
 interface Driver {
   id: number;
@@ -45,13 +47,75 @@ export default function DriversPage() {
     cnh: "",
     imagem: null as File | null,
   });
+  const [validationErrors, setValidationErrors] = useState({
+    cpf: "",
+    cnh: "",
+  });
+  const [fieldTouched, setFieldTouched] = useState({
+    cpf: false,
+    cnh: false,
+  });
   const { toast } = useToast();
 
-  useEffect(() => {
-    loadDrivers();
-  }, []);
+  const validateCPF = (cpf: string, shouldShow: boolean = false) => {
+    if (!cpf) {
+      if (shouldShow) {
+        setValidationErrors((prev) => ({ ...prev, cpf: "" }));
+      }
+      return;
+    }
 
-  const loadDrivers = async () => {
+    const isValid = isCPF(cpf);
+    if (shouldShow) {
+      setValidationErrors((prev) => ({
+        ...prev,
+        cpf: isValid ? "" : "CPF inválido",
+      }));
+    }
+  };
+
+  const validateCNH = (cnh: string, shouldShow: boolean = false) => {
+    if (!cnh) {
+      if (shouldShow) {
+        setValidationErrors((prev) => ({ ...prev, cnh: "" }));
+      }
+      return;
+    }
+
+    const isValid = isCNH(cnh);
+    if (shouldShow) {
+      setValidationErrors((prev) => ({
+        ...prev,
+        cnh: isValid ? "" : "CNH inválida",
+      }));
+    }
+  };
+
+  const handleCPFChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value.replace(/\D/g, '');
+    if (value.length > 11) value = value.slice(0, 11);
+    setFormData((prev) => ({ ...prev, cpf: value }));
+    validateCPF(value, false);
+  };
+
+  const handleCPFBlur = () => {
+    setFieldTouched((prev) => ({ ...prev, cpf: true }));
+    validateCPF(formData.cpf, true);
+  };
+
+  const handleCNHChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value.replace(/\D/g, '');
+    if (value.length > 11) value = value.slice(0, 11);
+    setFormData((prev) => ({ ...prev, cnh: value }));
+    validateCNH(value, false);
+  };
+
+  const handleCNHBlur = () => {
+    setFieldTouched((prev) => ({ ...prev, cnh: true }));
+    validateCNH(formData.cnh, true);
+  };
+
+  const loadDrivers = useCallback(async () => {
     setLoading(true);
     const response = await apiClient.getMotoristas();
     if (response.error) {
@@ -71,7 +135,11 @@ export default function DriversPage() {
       setDrivers(mappedDrivers);
     }
     setLoading(false);
-  };
+  }, [toast]);
+
+  useEffect(() => {
+    loadDrivers();
+  }, [loadDrivers]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -206,6 +274,8 @@ export default function DriversPage() {
     stopCamera();
     setIsModalOpen(false);
     setFormData({ nome: "", cpf: "", cnh: "", imagem: null });
+    setValidationErrors({ cpf: "", cnh: "" });
+    setFieldTouched({ cpf: false, cnh: false });
   };
 
   const handleModalOpenChange = (open: boolean) => {
@@ -221,6 +291,26 @@ export default function DriversPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.nome || !formData.cpf || !formData.cnh || !formData.imagem) return;
+
+    const cpfValido = isCPF(formData.cpf);
+    const cnhValida = isCNH(formData.cnh);
+
+    if (!cpfValido) {
+      setValidationErrors((prev) => ({ ...prev, cpf: "CPF inválido" }));
+    }
+
+    if (!cnhValida) {
+      setValidationErrors((prev) => ({ ...prev, cnh: "CNH inválida" }));
+    }
+
+    if (!cpfValido || !cnhValida) {
+      toast({
+        title: "Erro na validação",
+        description: "Verifique se o CPF e a CNH estão corretos.",
+        variant: "destructive",
+      });
+      return;
+    }
 
     setLoading(true);
     const form = new FormData();
@@ -253,9 +343,7 @@ export default function DriversPage() {
   return (
     <section className="p-4 md:p-6">
       {isCameraMode && (
-        <div
-          className="fixed inset-0 z-[9999] bg-black flex items-center justify-center"
-        >
+        <div className="fixed inset-0 z-[9999] bg-black flex items-center justify-center">
           <div
             className="relative bg-black flex items-center justify-center"
             style={{
@@ -358,11 +446,16 @@ export default function DriversPage() {
                       id="cpf"
                       placeholder="CPF do motorista"
                       value={formData.cpf}
-                      onChange={(e) =>
-                        setFormData((prev) => ({ ...prev, cpf: e.target.value }))
-                      }
+                      onChange={handleCPFChange}
+                      onBlur={handleCPFBlur}
+                      maxLength={11}
                       required
                     />
+                    {validationErrors.cpf && fieldTouched.cpf && (
+                      <p className="text-sm text-red-600 mt-1">
+                        {validationErrors.cpf}
+                      </p>
+                    )}
                   </div>
                   <div>
                     <Label htmlFor="cnh">CNH</Label>
@@ -370,11 +463,16 @@ export default function DriversPage() {
                       id="cnh"
                       placeholder="CNH do motorista"
                       value={formData.cnh}
-                      onChange={(e) =>
-                        setFormData((prev) => ({ ...prev, cnh: e.target.value }))
-                      }
+                      onChange={handleCNHChange}
+                      onBlur={handleCNHBlur}
+                      maxLength={11}
                       required
                     />
+                    {validationErrors.cnh && fieldTouched.cnh && (
+                      <p className="text-sm text-red-600 mt-1">
+                        {validationErrors.cnh}
+                      </p>
+                    )}
                   </div>
                   <div>
                     <Label htmlFor="imagem">Foto do Motorista</Label>
@@ -420,7 +518,12 @@ export default function DriversPage() {
                     </Button>
                     <Button
                       type="submit"
-                      disabled={loading || !formData.imagem}
+                      disabled={
+                        loading ||
+                        !formData.imagem ||
+                        validationErrors.cpf !== "" ||
+                        validationErrors.cnh !== ""
+                      }
                       className="flex-1"
                     >
                       {loading ? "Cadastrando..." : "Cadastrar"}
@@ -447,22 +550,20 @@ export default function DriversPage() {
               {drivers.map((driver) => (
                 <Card key={driver.id} className="border border-gray-200">
                   <CardContent className="p-4">
-                    <div className="flex flex-col items-center text-center flex flex-col gap-y-3">
-                      <div className="flex flex-col items-center text-center gap-y-3">
-                        {driver.imagem_path ? (
-                          <img
-                            src={driver.imagem_path}
-                            alt={driver.nome}
-                            className="w-16 h-16 rounded-full object-cover"
-                          />
-                        ) : (
-                          <IdentificationCardIcon className="h-8 w-8 text-gray-400" />
-                        )}
-                      </div>
+                    <div className="flex flex-col items-center text-center gap-y-3">
+                      {driver.imagem_path ? (
+                        <Image
+                          src={driver.imagem_path}
+                          alt={driver.nome}
+                          width={64}
+                          height={64}
+                          className="w-16 h-16 rounded-full object-cover"
+                        />
+                      ) : (
+                        <IdentificationCardIcon className="h-8 w-8 text-gray-400" />
+                      )}
                       <div>
                         <h3 className="font-semibold text-lg">{driver.nome}</h3>
-                        {/*<p className="text-sm text-gray-500">CPF: {driver.cpf}</p>*/}
-                        {/*<p className="text-sm text-gray-500">CNH: {driver.cnh}</p>*/}
                       </div>
                     </div>
                   </CardContent>
