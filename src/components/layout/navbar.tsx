@@ -12,7 +12,6 @@ export function Navbar({navigation} : {navigation: NavItem[]}) {
 
   return (
     <div className="navbar">
-      {/*<Logo className="navbar-logo"/>*/}
       <nav className="navbar-inner">
         {navigation.map((item) =>
           <Link
