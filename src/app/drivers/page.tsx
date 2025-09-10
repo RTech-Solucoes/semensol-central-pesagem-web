@@ -1,10 +1,10 @@
 "use client";
 
-import {useState, useEffect} from "react";
-import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
-import {Button} from "@/components/ui/button";
-import {Input} from "@/components/ui/input";
-import {Label} from "@/components/ui/label";
+import { useState, useEffect } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Dialog,
   DialogContent,
@@ -17,9 +17,9 @@ import {
   IdentificationCardIcon,
   CameraIcon,
 } from "@phosphor-icons/react";
-import {apiClient} from "@/lib/api";
-import {useToast} from "@/hooks/use-toast";
-import {LoadingSpinner} from "@/components/ui/loading-spinner";
+import { apiClient } from "@/lib/api";
+import { useToast } from "@/hooks/use-toast";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 interface Driver {
   id: number;
@@ -51,7 +51,7 @@ export default function DriversPage() {
     if (response.error) {
       toast({
         title: "Erro ao carregar motoristas",
-        description: response.error?.message,
+        //description: response.error?.message,
         variant: "destructive",
       });
     } else if (response.data) {
@@ -69,7 +69,7 @@ export default function DriversPage() {
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setFormData((prev) => ({...prev, imagem: e.target.files![0]}));
+      setFormData((prev) => ({ ...prev, imagem: e.target.files![0] }));
     }
   };
 
@@ -89,7 +89,7 @@ export default function DriversPage() {
     if (response.error) {
       toast({
         title: "Erro ao cadastrar motorista",
-        description: response.error?.message,
+        //description: response.error?.message,
         variant: "destructive",
       });
     } else if (response.data) {
@@ -98,7 +98,7 @@ export default function DriversPage() {
         description: "Motorista cadastrado com sucesso!",
       });
       setDrivers((prev) => [...prev, response.data]);
-      setFormData({nome: "", cpf: "", cnh: "", imagem: null});
+      setFormData({ nome: "", cpf: "", cnh: "", imagem: null });
       setIsModalOpen(false);
       loadDrivers();
     }
@@ -141,7 +141,7 @@ export default function DriversPage() {
                       placeholder="Nome do motorista"
                       value={formData.nome}
                       onChange={(e) =>
-                        setFormData((prev) => ({...prev, nome: e.target.value}))
+                        setFormData((prev) => ({ ...prev, nome: e.target.value }))
                       }
                       required
                     />
@@ -153,7 +153,7 @@ export default function DriversPage() {
                       placeholder="CPF do motorista"
                       value={formData.cpf}
                       onChange={(e) =>
-                        setFormData((prev) => ({...prev, cpf: e.target.value}))
+                        setFormData((prev) => ({ ...prev, cpf: e.target.value }))
                       }
                       required
                     />
@@ -165,7 +165,7 @@ export default function DriversPage() {
                       placeholder="CNH do motorista"
                       value={formData.cnh}
                       onChange={(e) =>
-                        setFormData((prev) => ({...prev, cnh: e.target.value}))
+                        setFormData((prev) => ({ ...prev, cnh: e.target.value }))
                       }
                       required
                     />
