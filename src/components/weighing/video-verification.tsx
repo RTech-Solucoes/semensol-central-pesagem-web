@@ -147,20 +147,21 @@ export function VideoVerification({
         variant: "destructive",
       });
       setVerificationState(prev => ({ ...prev, driver: { verified: false }, loading: false }));
-    } else if (response.data?.id_motorista) {
+    } else if (response.data?.motorista?.id_motorista) {
+      const motorista = response.data.motorista;
       const driverData = {
         verified: true,
-        name: response.data.nome,
-        confidence: response.data.confianca
+        name: motorista.nome,
+        confidence: motorista.confianca
       };
 
       setVerificationState(prev => ({ ...prev, driver: driverData, loading: false }));
 
-      if (response.data.id_motorista && response.data.nome) {
-        onDriverVerified(response.data.id_motorista, response.data.nome);
+      if (motorista.id_motorista && motorista.nome) {
+        onDriverVerified(motorista.id_motorista, motorista.nome);
         toast({
           title: "Motorista verificado",
-          description: `${response.data.nome} identificado com sucesso!`,
+          description: `${motorista.nome} identificado com sucesso!`,
         });
       }
     } else {

@@ -138,10 +138,12 @@ class ApiClient {
   }
 
   async reconhecerMotorista(formData: FormData): Promise<ApiResponse<{
-    id_motorista: number;
-    motorista_id?: number;
-    nome?: string;
-    confianca?: number;
+    motorista: {
+      id_motorista: number;
+      nome: string;
+      confianca: number;
+    };
+    ok: boolean;
   }>> {
     return this.request('/reconhecimento/motorista', {
       method: 'POST',
