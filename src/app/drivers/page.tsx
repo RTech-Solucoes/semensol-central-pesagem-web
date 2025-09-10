@@ -81,20 +81,82 @@ export default function DriversPage() {
 
   const startCamera = async () => {
     try {
-      const mediaStream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: "user" },
-      });
-      setStream(mediaStream);
-      if (videoRef.current) {
-        videoRef.current.srcObject = mediaStream;
+      console.log("Solicitando permissão da câmera...");
+
+      const permission = await navigator.permissions.query({ name: 'camera' as PermissionName });
+
+      if (permission.state === 'denied') {
+        toast({
+          title: "Permissão negada",
+          description: "Acesso à câmera foi negado. Verifique as configurações do navegador.",
+          variant: "destructive",
+        });
+        return;
       }
+
       setIsCameraMode(true);
-    } catch (error) {
-      toast({
-        title: "Erro ao acessar câmera",
-        description: "Não foi possível acessar a câmera. Verifique as permissões.",
-        variant: "destructive",
+
+      console.log("Iniciando câmera...");
+      const mediaStream = await navigator.mediaDevices.getUserMedia({
+        video: {
+          facingMode: "user",
+          width: { ideal: 720 },
+          height: { ideal: 1280 },
+          aspectRatio: { ideal: 9 / 16 },
+        },
       });
+
+      console.log("Stream obtido:", mediaStream);
+      setStream(mediaStream);
+
+      requestAnimationFrame(() => {
+        if (videoRef.current) {
+          console.log("Configurando vídeo...");
+          videoRef.current.srcObject = mediaStream;
+
+          videoRef.current
+            .play()
+            .then(() => {
+              console.log("Vídeo iniciado com sucesso");
+            })
+            .catch((err) => {
+              console.error("Erro ao reproduzir vídeo:", err);
+            });
+        } else {
+          console.error("videoRef.current não está disponível");
+        }
+      });
+    } catch (error) {
+      console.error("Erro ao acessar câmera:", error);
+      setIsCameraMode(false);
+
+      if (error instanceof Error) {
+        if (error.name === 'NotAllowedError') {
+          toast({
+            title: "Permissão necessária",
+            description: "Por favor, permita o acesso à câmera para tirar fotos.",
+            variant: "destructive",
+          });
+        } else if (error.name === 'NotFoundError') {
+          toast({
+            title: "Câmera não encontrada",
+            description: "Nenhuma câmera foi encontrada no dispositivo.",
+            variant: "destructive",
+          });
+        } else {
+          toast({
+            title: "Erro ao acessar câmera",
+            description: `Não foi possível acessar a câmera: ${error.message}`,
+            variant: "destructive",
+          });
+        }
+      } else {
+        toast({
+          title: "Erro ao acessar câmera",
+          description: "Não foi possível acessar a câmera. Verifique as permissões.",
+          variant: "destructive",
+        });
+      }
     }
   };
 
@@ -146,6 +208,16 @@ export default function DriversPage() {
     setFormData({ nome: "", cpf: "", cnh: "", imagem: null });
   };
 
+  const handleModalOpenChange = (open: boolean) => {
+    if (!open && isCameraMode) {
+      return;
+    }
+    setIsModalOpen(open);
+    if (!open) {
+      handleModalClose();
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.nome || !formData.cpf || !formData.cnh || !formData.imagem) return;
@@ -180,6 +252,61 @@ export default function DriversPage() {
 
   return (
     <section className="p-4 md:p-6">
+      {isCameraMode && (
+        <div
+          className="fixed inset-0 z-[9999] bg-black flex items-center justify-center"
+        >
+          <div
+            className="relative bg-black flex items-center justify-center"
+            style={{
+              height: "100vh",
+              aspectRatio: "9/16",
+            }}
+          >
+            <video
+              ref={videoRef}
+              className="w-full h-full object-cover"
+              autoPlay
+              playsInline
+              muted
+              controls={false}
+              onError={(e) => {
+                console.error("Erro no elemento video:", e);
+              }}
+              onLoadedMetadata={() => {
+                console.log("Video metadata carregada");
+              }}
+              onCanPlay={() => {
+                console.log("Video pode reproduzir");
+              }}
+            />
+            <canvas ref={canvasRef} className="hidden"></canvas>
+
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                stopCamera();
+              }}
+              className="absolute top-6 right-6 w-12 h-12 bg-black bg-opacity-50 rounded-full flex items-center justify-center text-white hover:bg-opacity-70 transition-all"
+            >
+              <XIcon className="h-6 w-6" />
+            </button>
+
+            <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  capturePhoto();
+                }}
+                className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg hover:bg-gray-100 transition-all active:scale-95"
+              >
+                <div className="w-16 h-16 bg-white rounded-full border-4 border-gray-300"></div>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="flex flex-col gap-2 mb-6">
         <h1 className="text-3xl font-bold text-white">
           Gerenciamento de Motoristas
@@ -197,7 +324,11 @@ export default function DriversPage() {
               Motoristas Cadastrados
             </CardTitle>
 
-            <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+            <Dialog
+              open={isModalOpen}
+              onOpenChange={handleModalOpenChange}
+              modal={!isCameraMode}
+            >
               <DialogTrigger asChild>
                 <Button className="flex items-center gap-2">
                   <PlusIcon className="h-4 w-4" />
@@ -208,7 +339,7 @@ export default function DriversPage() {
                 <DialogHeader>
                   <DialogTitle>Cadastrar Novo Motorista</DialogTitle>
                 </DialogHeader>
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form onSubmit={handleSubmit} className="flex flex-col gap-y-4">
                   <div>
                     <Label htmlFor="nome">Nome Completo</Label>
                     <Input
@@ -247,63 +378,31 @@ export default function DriversPage() {
                   </div>
                   <div>
                     <Label htmlFor="imagem">Foto do Motorista</Label>
-                    {!isCameraMode ? (
-                      <div className="space-y-3">
-                        <div className="flex items-center gap-2">
-                          <Input
-                            id="imagem"
-                            type="file"
-                            accept="image/*"
-                            onChange={handleImageChange}
-                            className="flex-1"
-                          />
-                          <UploadIcon className="h-5 w-5 text-gray-400" />
-                        </div>
-                        <div className="text-center">
-                          <span className="text-sm text-gray-500">ou</span>
-                        </div>
-                        <Button
-                          type="button"
-                          onClick={startCamera}
-                          variant="outline"
-                          className="w-full"
-                        >
-                          <CameraIcon className="h-4 w-4 mr-2" />
-                          Tirar Foto com a Câmera
-                        </Button>
-                      </div>
-                    ) : (
-                      <div className="space-y-3">
-                        <video
-                          ref={videoRef}
-                          className="w-full h-72 max-h-72 rounded-lg bg-black"
-                          autoPlay
-                          playsInline
+                    <div className="flex flex-col gap-y-3">
+                      <div className="flex items-center gap-2">
+                        <Input
+                          id="imagem"
+                          type="file"
+                          accept="image/*"
+                          onChange={handleImageChange}
+                          className="flex-1"
                         />
-                        <canvas ref={canvasRef} className="hidden"></canvas>
-                        <div className="flex gap-2">
-                          <Button
-                            type="button"
-                            onClick={stopCamera}
-                            variant="outline"
-                            className="flex-1"
-                          >
-                            <XIcon className="h-4 w-4 mr-2" />
-                            Cancelar
-                          </Button>
-                          <Button
-                            type="button"
-                            onClick={capturePhoto}
-                            variant="default"
-                            className="flex-1"
-                          >
-                            <CameraIcon className="h-4 w-4 mr-2" />
-                            Capturar
-                          </Button>
-                        </div>
+                        <UploadIcon className="h-5 w-5 text-gray-400" />
                       </div>
-                    )}
-                    {formData.imagem && !isCameraMode && (
+                      <div className="text-center">
+                        <span className="text-sm text-gray-500">ou</span>
+                      </div>
+                      <Button
+                        type="button"
+                        onClick={startCamera}
+                        variant="outline"
+                        className="w-full"
+                      >
+                        <CameraIcon className="h-4 w-4 mr-2" />
+                        Tirar Foto com a Câmera
+                      </Button>
+                    </div>
+                    {formData.imagem && (
                       <p className="text-sm text-green-600 mt-2">
                         Imagem selecionada: {formData.imagem.name}
                       </p>
@@ -321,7 +420,7 @@ export default function DriversPage() {
                     </Button>
                     <Button
                       type="submit"
-                      disabled={loading || (!formData.imagem && !isCameraMode)}
+                      disabled={loading || !formData.imagem}
                       className="flex-1"
                     >
                       {loading ? "Cadastrando..." : "Cadastrar"}
@@ -348,8 +447,8 @@ export default function DriversPage() {
               {drivers.map((driver) => (
                 <Card key={driver.id} className="border border-gray-200">
                   <CardContent className="p-4">
-                    <div className="flex flex-col items-center text-center space-y-3">
-                      <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
+                    <div className="flex flex-col items-center text-center flex flex-col gap-y-3">
+                      <div className="flex flex-col items-center text-center gap-y-3">
                         {driver.imagem_path ? (
                           <img
                             src={driver.imagem_path}
