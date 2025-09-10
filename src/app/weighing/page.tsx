@@ -59,7 +59,7 @@ export default function WeighingPage() {
     if (response.error) {
       toast({
         title: "Erro ao carregar motoristas",
-        //description: response.error?.message,
+        description: response.error?.message,
         variant: "destructive",
       });
     } else if (response.data) {
@@ -81,7 +81,7 @@ export default function WeighingPage() {
     if (response.error) {
       toast({
         title: "Erro ao carregar ciclos",
-        //description: response.error?.message,
+        description: response.error?.message,
         variant: "destructive",
       });
     } else if (response.data) {
@@ -123,7 +123,7 @@ export default function WeighingPage() {
     if (response.error) {
       toast({
         title: "Erro ao registrar entrada",
-        //description: response.error?.message,
+        description: response.error?.message,
         variant: "destructive",
       });
     } else if (response.data) {
@@ -161,7 +161,7 @@ export default function WeighingPage() {
     if (response.error) {
       toast({
         title: "Erro ao registrar saída",
-        //description: response.error?.message,
+        description: response.error?.message,
         variant: "destructive",
       });
     } else {

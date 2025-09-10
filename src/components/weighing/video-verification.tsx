@@ -194,7 +194,7 @@ export function VideoVerification({
     if (response.error) {
       toast({
         title: "Erro na detecção de placa",
-        //description: response.error?.message,
+        description: response.error?.message,
         variant: "destructive",
       });
       setVerificationState(prev => ({ ...prev, plate: { detected: false }, loading: false }));
@@ -242,7 +242,7 @@ export function VideoVerification({
     if (response.error) {
       toast({
         title: "Erro na verificação completa",
-        //description: response.error?.message,
+        description: response.error?.message,
         variant: "destructive",
       });
       setVerificationState(prev => ({ ...prev, loading: false }));
