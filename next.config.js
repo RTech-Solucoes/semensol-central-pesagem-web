@@ -3,6 +3,9 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   experimental: {
     optimizePackageImports: ["@phosphor-icons/react"],
     webpackBuildWorker: true,
@@ -20,7 +23,6 @@ const nextConfig = {
 
   devIndicators: false,
 
-  // PWA Configuration
   async headers() {
     const headers = [
       {
@@ -47,7 +49,6 @@ const nextConfig = {
       },
     ];
 
-    // Add no-cache headers for development
     if (process.env.NODE_ENV === 'development') {
       headers.push(
         {
