@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,6 +16,8 @@ import {
   PlusIcon,
   IdentificationCardIcon,
   CameraIcon,
+  UploadIcon,
+  XIcon,
 } from "@phosphor-icons/react";
 import { apiClient } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
@@ -33,6 +35,10 @@ export default function DriversPage() {
   const [drivers, setDrivers] = useState<Driver[]>([]);
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCameraMode, setIsCameraMode] = useState(false);
+  const [stream, setStream] = useState<MediaStream | null>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const [formData, setFormData] = useState({
     nome: "",
     cpf: "",
@@ -73,6 +79,73 @@ export default function DriversPage() {
     }
   };
 
+  const startCamera = async () => {
+    try {
+      const mediaStream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: "user" },
+      });
+      setStream(mediaStream);
+      if (videoRef.current) {
+        videoRef.current.srcObject = mediaStream;
+      }
+      setIsCameraMode(true);
+    } catch (error) {
+      toast({
+        title: "Erro ao acessar câmera",
+        description: "Não foi possível acessar a câmera. Verifique as permissões.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const stopCamera = () => {
+    if (stream) {
+      stream.getTracks().forEach((track) => track.stop());
+      setStream(null);
+    }
+    setIsCameraMode(false);
+  };
+
+  const capturePhoto = () => {
+    if (videoRef.current && canvasRef.current) {
+      const video = videoRef.current;
+      const canvas = canvasRef.current;
+      const context = canvas.getContext("2d");
+
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+
+      if (context) {
+        context.drawImage(video, 0, 0);
+        canvas.toBlob(
+          (blob) => {
+            if (blob) {
+              const file = new File([blob], "photo.jpg", { type: "image/jpeg" });
+              setFormData((prev) => ({ ...prev, imagem: file }));
+              stopCamera();
+            }
+          },
+          "image/jpeg",
+          0.8
+        );
+      }
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      if (stream) {
+        stream.getTracks().forEach((track) => track.stop());
+      }
+    };
+  }, [stream]);
+
+  const handleModalClose = () => {
+    stopCamera();
+    setIsModalOpen(false);
+    setFormData({ nome: "", cpf: "", cnh: "", imagem: null });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.nome || !formData.cpf || !formData.cnh || !formData.imagem) return;
@@ -99,7 +172,7 @@ export default function DriversPage() {
       });
       setDrivers((prev) => [...prev, response.data]);
       setFormData({ nome: "", cpf: "", cnh: "", imagem: null });
-      setIsModalOpen(false);
+      handleModalClose();
       loadDrivers();
     }
     setLoading(false);
@@ -111,7 +184,9 @@ export default function DriversPage() {
         <h1 className="text-3xl font-bold text-white">
           Gerenciamento de Motoristas
         </h1>
-        <p className="text-gray-200">Cadastre e gerencie os motoristas autorizados</p>
+        <p className="text-gray-200">
+          Cadastre e gerencie os motoristas autorizados
+        </p>
       </div>
 
       <Card className="w-full max-w-none">
@@ -172,35 +247,81 @@ export default function DriversPage() {
                   </div>
                   <div>
                     <Label htmlFor="imagem">Foto do Motorista</Label>
-                    <div className="flex items-center gap-2">
-                      <Input
-                        id="imagem"
-                        type="file"
-                        accept="image/*"
-                        onChange={handleImageChange}
-                        required
-                        className="flex-1"
-                      />
-                      <CameraIcon className="h-5 w-5 text-gray-400" />
-                    </div>
-                    {formData.imagem && (
-                      <p className="text-sm text-green-600 mt-1">
+                    {!isCameraMode ? (
+                      <div className="space-y-3">
+                        <div className="flex items-center gap-2">
+                          <Input
+                            id="imagem"
+                            type="file"
+                            accept="image/*"
+                            onChange={handleImageChange}
+                            className="flex-1"
+                          />
+                          <UploadIcon className="h-5 w-5 text-gray-400" />
+                        </div>
+                        <div className="text-center">
+                          <span className="text-sm text-gray-500">ou</span>
+                        </div>
+                        <Button
+                          type="button"
+                          onClick={startCamera}
+                          variant="outline"
+                          className="w-full"
+                        >
+                          <CameraIcon className="h-4 w-4 mr-2" />
+                          Tirar Foto com a Câmera
+                        </Button>
+                      </div>
+                    ) : (
+                      <div className="space-y-3">
+                        <video
+                          ref={videoRef}
+                          className="w-full h-72 max-h-72 rounded-lg bg-black"
+                          autoPlay
+                          playsInline
+                        />
+                        <canvas ref={canvasRef} className="hidden"></canvas>
+                        <div className="flex gap-2">
+                          <Button
+                            type="button"
+                            onClick={stopCamera}
+                            variant="outline"
+                            className="flex-1"
+                          >
+                            <XIcon className="h-4 w-4 mr-2" />
+                            Cancelar
+                          </Button>
+                          <Button
+                            type="button"
+                            onClick={capturePhoto}
+                            variant="default"
+                            className="flex-1"
+                          >
+                            <CameraIcon className="h-4 w-4 mr-2" />
+                            Capturar
+                          </Button>
+                        </div>
+                      </div>
+                    )}
+                    {formData.imagem && !isCameraMode && (
+                      <p className="text-sm text-green-600 mt-2">
                         Imagem selecionada: {formData.imagem.name}
                       </p>
                     )}
                   </div>
+
                   <div className="flex gap-2 pt-4">
                     <Button
                       type="button"
                       variant="outline"
-                      onClick={() => setIsModalOpen(false)}
+                      onClick={handleModalClose}
                       className="flex-1"
                     >
                       Cancelar
                     </Button>
                     <Button
                       type="submit"
-                      disabled={loading}
+                      disabled={loading || (!formData.imagem && !isCameraMode)}
                       className="flex-1"
                     >
                       {loading ? "Cadastrando..." : "Cadastrar"}
