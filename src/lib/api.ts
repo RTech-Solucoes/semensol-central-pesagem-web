@@ -1,4 +1,4 @@
-const BASE_URL = 'https://58bb6fdf3d98.ngrok-free.app/api';
+const BASE_URL = 'https://2e407fe0d36b.ngrok-free.app/api';
 
 interface ApiResponse<T> {
   data?: T;
