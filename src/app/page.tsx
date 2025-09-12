@@ -8,8 +8,8 @@ import { apiClient } from "@/lib/api";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { CiclosAbertosList } from "@/components/CiclosAbertosList/CiclosAbertosList";
 import { CicloAberto, HistoricoItem } from "@/types/dashboardTypes";
-import { QuickActionCard } from "@/components/QuickActionCard/QuickActionCard";
-import { RecentActivityList } from "@/components/RecentActivityList/RecentActivityList";
+import { QuickActionCard } from "@/components/quickActionCard/QuickActionCard";
+import { RecentActivityList } from "@/components/recentActivityList/RecentActivityList";
 
 export default function Home() {
   const [ciclosAbertos, setCiclosAbertos] = useState<CicloAberto[]>([]);

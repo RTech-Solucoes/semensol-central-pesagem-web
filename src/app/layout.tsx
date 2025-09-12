@@ -2,6 +2,7 @@ import "./globals.css";
 import { Outfit as Font } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { ClientProviders } from "@/components/providers/client-providers";
+import { ChakraProvider } from "@chakra-ui/react";
 
 const font = Font({
   weight: [
@@ -49,9 +50,11 @@ export default function RootLayout({ children }: {
           "min-h-screen max-h-screen svg-background relative"
         )}
       >
-        <ClientProviders>
-          {children}
-        </ClientProviders>
+     
+          <ClientProviders>
+            {children}
+          </ClientProviders>
+     
       </body>
     </html>
   );

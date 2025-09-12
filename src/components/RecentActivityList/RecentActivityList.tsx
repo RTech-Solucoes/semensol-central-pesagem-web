@@ -19,7 +19,7 @@ export function RecentActivityList({ activities }: { activities: any[] }) {
               {new Date(activity.data_entrada).toLocaleString('pt-BR')}
             </p>
           </div>
-          <Badge className={cn("text-xs", activity.status === "concluido" ? "bg-green-100 text-green-700" : "bg-amber-100 text-amber-700")}>
+          <Badge className={cn("text-xs", activity.status === "concluido" ? "bg-green-100 text-green-700" : "bg-amber-100 text-amber-700") }>
             {activity.status === "concluido" ? <CheckCircleIcon className="w-3 h-3" /> : <ClockIcon className="w-3 h-3" />}
           </Badge>
         </div>
