@@ -2,24 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { UserIcon, PencilSimpleLineIcon, PhoneIcon, EnvelopeSimpleIcon } from "@phosphor-icons/react";
-
-export interface Driver {
-  id: number;
-  name: string;
-  document: string;
-  cpf: string;
-  phone: string;
-  email: string;
-  status: "Ativo" | "Inativo" | "Suspenso";
-  company?: string;
-  experience?: string;
-  category?: string;
-}
-
-interface DriverCardProps {
-  driver: Driver;
-  onEdit?: (driver: Driver) => void;
-}
+import { Driver, DriverCardProps } from "@/types/driver";
 
 export function DriverCard({ driver, onEdit }: DriverCardProps) {
   const getStatusColor = (status: Driver["status"]) => {
