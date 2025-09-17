@@ -7,10 +7,11 @@ import { PlusIcon, IdentificationCardIcon } from "@phosphor-icons/react";
 
 import { AddDriverModal } from "@/components/drivers/add-driver-modal";
 import { EditDriverModal } from "@/components/drivers/edit-driver-modal";
-import { DriverCard, Driver } from "@/components/drivers/driver-card";
+import { DriverCard } from "@/components/drivers/driver-card";
 
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { useDrivers } from "@/hooks/useDrivers";
+import { Driver } from "@/types/driver";
 
 export default function DriversPage() {
   const { drivers, loading, addDriver, updateDriver, deleteDriver } = useDrivers();
