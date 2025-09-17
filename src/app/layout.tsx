@@ -2,6 +2,7 @@ import "./globals.css";
 import { Outfit as Font } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { ClientProviders } from "@/components/providers/client-providers";
+import { Provider } from "@/components/ui/provider"
 
 const font = Font({
   weight: [
@@ -24,6 +25,7 @@ export const metadata = {
   title: "Semensol Agro",
   themeColor: "#4D3319",
 }
+
 
 export default function RootLayout({ children }: {
   children: React.ReactNode;
@@ -49,9 +51,11 @@ export default function RootLayout({ children }: {
           "min-h-screen max-h-screen svg-background relative"
         )}
       >
-        <ClientProviders>
-          {children}
-        </ClientProviders>
+        <Provider>
+          <ClientProviders>
+            {children}
+          </ClientProviders>
+        </Provider>
       </body>
     </html>
   );

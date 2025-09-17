@@ -4,16 +4,12 @@ import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from "@/components/ui/select";
 import {
-  CheckCircleIcon,
-  ClockIcon,
   PlayIcon,
   PlugsConnectedIcon,
-  ScalesIcon,
-  SquareIcon,
-  PlugsIcon
+  PlugsIcon,
+  ClockIcon,
+  SquareIcon
 } from "@phosphor-icons/react";
 import WeightIcon from "@/components/icons/WeightIcon";
 import { cn } from "@/lib/utils";
@@ -21,16 +17,11 @@ import { Badge } from "@/components/ui/badge";
 import { apiClient } from "@/lib/api";
 import { VideoVerification } from "@/components/weighing/video-verification";
 import { useToast } from "@/hooks/use-toast";
+import { CicloAberto } from "../types/dashboard";
 
 interface Motorista {
   id: number;
   nome: string;
-}
-
-interface CicloAberto {
-  id_pesagem: number;
-  placa: string;
-  motorista: string;
 }
 
 export default function WeighingPage() {
