@@ -458,7 +458,6 @@ export default function TrucksPage() {
         ))}
       </div>
 
-      {/* Modal de Cadastro/Edição */}
       <TruckModal
         open={modalOpen}
         onOpenChange={setModalOpen}

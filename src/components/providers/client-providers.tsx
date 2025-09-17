@@ -2,12 +2,15 @@
 
 import { ThemeProvider } from "next-themes";
 import { ConfigProvider } from "antd";
-import ptBR from 'antd/locale/pt_BR';
+import ptBR from "antd/locale/pt_BR";
+import { ChakraProvider } from "@chakra-ui/react";
 import { IconProvider } from "@/components/providers/icon-provider";
 import { NavigationWrapper } from "@/components/layout/navigation-wrapper";
 import { Toaster } from "@/components/ui/toaster";
 import { PWAInstaller } from "@/components/ui/pwa-installer";
 import { ReactNode, useEffect, useState } from "react";
+import { Provider } from "@/components/ui/provider"
+
 
 interface ClientProvidersProps {
   children: ReactNode;
@@ -43,14 +46,16 @@ export function ClientProviders({ children }: ClientProvidersProps) {
       disableTransitionOnChange
     >
       <ConfigProvider locale={ptBR}>
-        <IconProvider>
-          <main>
-            <NavigationWrapper />
-            {children}
-          </main>
-          <Toaster />
-          <PWAInstaller />
-        </IconProvider>
+        <Provider>
+          <IconProvider>
+            <main>
+              <NavigationWrapper />
+              {children}
+            </main>
+            <Toaster />
+            <PWAInstaller />
+          </IconProvider>
+        </Provider>
       </ConfigProvider>
     </ThemeProvider>
   );

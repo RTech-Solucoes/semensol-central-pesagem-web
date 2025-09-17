@@ -2,7 +2,6 @@ import "./globals.css";
 import { Outfit as Font } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { ClientProviders } from "@/components/providers/client-providers";
-import { Provider } from "@/components/ui/provider"
 
 const font = Font({
   weight: [
@@ -51,11 +50,9 @@ export default function RootLayout({ children }: {
           "min-h-screen max-h-screen svg-background relative"
         )}
       >
-        <Provider>
           <ClientProviders>
             {children}
           </ClientProviders>
-        </Provider>
       </body>
     </html>
   );
