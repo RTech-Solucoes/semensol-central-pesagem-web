@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { ClockIcon } from "@phosphor-icons/react";
-import { CicloAberto } from "../../app/types/dashboard";
+import { CicloAberto } from "../../types/dashboard";
 
 interface CiclosAbertosProps {
   ciclos: CicloAberto[];

@@ -17,17 +17,9 @@ import { ClockIcon, DownloadIcon } from "@phosphor-icons/react";
 import { apiClient } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import { HistoricoItem } from "@/types/dashboard";
 
-interface HistoricoItem {
-  id: number;
-  placa: string;
-  motorista: string;
-  peso_entrada: number;
-  peso_saida?: number;
-  data_entrada: string;
-  data_saida?: string;
-  status: string;
-}
+
 
 export default function HistoryPage() {
   const [historico, setHistorico] = useState<HistoricoItem[]>([]);

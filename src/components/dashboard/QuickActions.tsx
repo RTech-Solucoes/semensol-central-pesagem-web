@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { QuickActionsProps } from "@/app/types/dashboard";
+import { QuickActionsProps } from "@/types/dashboard";
 
 export function QuickActions({ actions }: QuickActionsProps) {
   return (

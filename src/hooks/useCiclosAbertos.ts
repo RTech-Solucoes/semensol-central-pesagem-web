@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { apiClient } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
-import { CicloAberto } from "@/app/types/dashboard";
+import { CicloAberto } from "@/types/dashboard";
 
 export function useCiclosAbertos({ toast }: { toast: ReturnType<typeof useToast>["toast"] }) {
   const [ciclosAbertos, setCiclosAbertos] = useState<CicloAberto[]>([]);

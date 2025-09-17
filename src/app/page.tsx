@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ActivityIcon, ClockIcon, IdentificationCardIcon, LightningIcon, TruckIcon } from "@phosphor-icons/react";
 import WeightIcon from "@/components/icons/WeightIcon";
 import { apiClient } from "@/lib/api";
-import { CicloAberto, HistoricoItem } from "./types/dashboard";
+import { CicloAberto, HistoricoItem } from "../types/dashboard";
 import { QuickActions } from "@/components/dashboard/QuickActions";
 import { RecentActivity } from "@/components/dashboard/RecentActivity";
 import { CiclosAbertos } from "@/components/dashboard/CiclosAbertos";

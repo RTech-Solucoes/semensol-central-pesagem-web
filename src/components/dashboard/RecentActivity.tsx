@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { CheckCircleIcon, ClockIcon } from "@phosphor-icons/react";
-import { HistoricoItem } from "../../app/types/dashboard";
+import { HistoricoItem } from "../../types/dashboard";
 import { SafeDate } from "../safeData/SafeDate";
 
 interface RecentActivityProps {

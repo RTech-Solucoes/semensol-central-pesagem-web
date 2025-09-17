@@ -15,6 +15,7 @@ export interface HistoricoItem {
   status: string;
 }
 
+
 export interface QuickAction {
   title: string;
   description: string;
