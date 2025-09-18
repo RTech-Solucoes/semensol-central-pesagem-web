@@ -1,11 +1,34 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+"use client";
+
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { TextField } from "@/components/ui/text-field";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { useState, useEffect } from "react";
-import { Driver } from "./driver-card";
+import { Driver } from "@/types/driver";
 import { TrashIcon } from "@phosphor-icons/react";
 
 interface EditDriverModalProps {
@@ -16,7 +39,13 @@ interface EditDriverModalProps {
   onDelete: (driverId: number) => void;
 }
 
-export function EditDriverModal({ open, onOpenChange, driver, onSave, onDelete }: EditDriverModalProps) {
+export function EditDriverModal({
+  open,
+  onOpenChange,
+  driver,
+  onSave,
+  onDelete,
+}: EditDriverModalProps) {
   const [formData, setFormData] = useState({
     name: "",
     document: "",
@@ -69,7 +98,7 @@ export function EditDriverModal({ open, onOpenChange, driver, onSave, onDelete }
   };
 
   const handleChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   if (!driver) return null;
@@ -84,20 +113,22 @@ export function EditDriverModal({ open, onOpenChange, driver, onSave, onDelete }
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="name">Nome *</Label>
-              <Input
+              <TextField
                 id="name"
+                label="Nome *"
+                required
                 value={formData.name}
-                onChange={(e) => handleChange("name", e.target.value)}
+                onChange={(value) => handleChange("name", value)}
                 placeholder="Nome completo"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="document">CNH *</Label>
-              <Input
+              <TextField
                 id="document"
+                label="CNH *"
+                required
                 value={formData.document}
-                onChange={(e) => handleChange("document", e.target.value)}
+                onChange={(value) => handleChange("document", value)}
                 placeholder="Número da CNH"
               />
             </div>
@@ -105,52 +136,53 @@ export function EditDriverModal({ open, onOpenChange, driver, onSave, onDelete }
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="cpf">CPF *</Label>
-              <Input
+              <TextField
                 id="cpf"
+                label="CPF *"
+                required
                 value={formData.cpf}
-                onChange={(e) => handleChange("cpf", e.target.value)}
+                onChange={(value) => handleChange("cpf", value)}
                 placeholder="000.000.000-00"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="phone">Telefone</Label>
-              <Input
+              <TextField
                 id="phone"
+                label="Telefone"
                 value={formData.phone}
-                onChange={(e) => handleChange("phone", e.target.value)}
+                onChange={(value) => handleChange("phone", value)}
                 placeholder="(00) 00000-0000"
               />
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
+            <TextField
               id="email"
+              label="Email"
               type="email"
               value={formData.email}
-              onChange={(e) => handleChange("email", e.target.value)}
+              onChange={(value) => handleChange("email", value)}
               placeholder="email@exemplo.com"
             />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="company">Empresa</Label>
-              <Input
+              <TextField
                 id="company"
+                label="Empresa"
                 value={formData.company}
-                onChange={(e) => handleChange("company", e.target.value)}
+                onChange={(value) => handleChange("company", value)}
                 placeholder="Nome da empresa"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="experience">Experiência</Label>
-              <Input
+              <TextField
                 id="experience"
+                label="Experiência"
                 value={formData.experience}
-                onChange={(e) => handleChange("experience", e.target.value)}
+                onChange={(value) => handleChange("experience", value)}
                 placeholder="Ex: 5 anos"
               />
             </div>
@@ -159,7 +191,10 @@ export function EditDriverModal({ open, onOpenChange, driver, onSave, onDelete }
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="category">Categoria CNH</Label>
-              <Select value={formData.category} onValueChange={(value) => handleChange("category", value)}>
+              <Select
+                value={formData.category}
+                onValueChange={(value) => handleChange("category", value)}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Selecione a categoria" />
                 </SelectTrigger>
@@ -176,7 +211,9 @@ export function EditDriverModal({ open, onOpenChange, driver, onSave, onDelete }
               <Label htmlFor="status">Status</Label>
               <Select
                 value={formData.status}
-                onValueChange={(value: Driver["status"]) => handleChange("status", value)}
+                onValueChange={(value: Driver["status"]) =>
+                  handleChange("status", value)
+                }
               >
                 <SelectTrigger>
                   <SelectValue />
@@ -203,13 +240,13 @@ export function EditDriverModal({ open, onOpenChange, driver, onSave, onDelete }
               <AlertDialogHeader>
                 <AlertDialogTitle>Confirmar Exclusão</AlertDialogTitle>
                 <AlertDialogDescription>
-                  Tem certeza que deseja excluir o motorista "{driver.name}"? Esta ação não pode ser desfeita.
+                  Tem certeza que deseja excluir o motorista {driver.name} ? Esta ação não pode ser desfeita.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancelar</AlertDialogCancel>
                 <AlertDialogAction onClick={handleDelete} className="bg-red-600 hover:bg-red-700">
-  <TrashIcon className="h-4 w-4 mr-2" />
+                  <TrashIcon className="h-4 w-4 mr-2" />
                   Excluir
                 </AlertDialogAction>
               </AlertDialogFooter>

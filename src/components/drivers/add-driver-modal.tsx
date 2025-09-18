@@ -1,12 +1,12 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { TextField } from "@/components/ui/text-field";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useState } from "react";
-import { Driver } from "./driver-card";
+import { Driver } from "@/types/driver";
 import { CameraCapture } from "@/components/ui/camera-capture";
-import { CameraIcon, UserCircle } from "@phosphor-icons/react";
+import { CameraIcon, UserCircleIcon } from "@phosphor-icons/react";
 
 interface AddDriverModalProps {
   open: boolean;
@@ -97,7 +97,7 @@ export function AddDriverModal({ open, onOpenChange, onSave }: AddDriverModalPro
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <UserCircle className="w-8 h-8 text-gray-400" />
+                    <UserCircleIcon className="w-8 h-8 text-gray-400" />
                   )}
                 </div>
                 <div className="flex gap-2">
@@ -128,19 +128,19 @@ export function AddDriverModal({ open, onOpenChange, onSave }: AddDriverModalPro
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="name">Nome *</Label>
-                <Input
+                <TextField
                   id="name"
                   value={formData.name}
-                  onChange={(e) => handleChange("name", e.target.value)}
+                  onChange={(value) => handleChange("name", value)}
                   placeholder="Nome completo"
                 />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="document">CNH *</Label>
-                <Input
+                <TextField
                   id="document"
                   value={formData.document}
-                  onChange={(e) => handleChange("document", e.target.value)}
+                  onChange={(value) => handleChange("document", value)}
                   placeholder="Número da CNH"
                 />
               </div>
@@ -149,19 +149,19 @@ export function AddDriverModal({ open, onOpenChange, onSave }: AddDriverModalPro
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="cpf">CPF *</Label>
-                <Input
+                <TextField
                   id="cpf"
                   value={formData.cpf}
-                  onChange={(e) => handleChange("cpf", e.target.value)}
+                  onChange={(value) => handleChange("cpf", value)}
                   placeholder="000.000.000-00"
                 />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="phone">Telefone</Label>
-                <Input
+                <TextField
                   id="phone"
                   value={formData.phone}
-                  onChange={(e) => handleChange("phone", e.target.value)}
+                  onChange={(value) => handleChange("phone", value)}
                   placeholder="(00) 00000-0000"
                 />
               </div>
@@ -169,11 +169,11 @@ export function AddDriverModal({ open, onOpenChange, onSave }: AddDriverModalPro
 
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
-              <Input
+              <TextField
                 id="email"
                 type="email"
                 value={formData.email}
-                onChange={(e) => handleChange("email", e.target.value)}
+                onChange={(value) => handleChange("email", value)}
                 placeholder="email@exemplo.com"
               />
             </div>
@@ -181,19 +181,19 @@ export function AddDriverModal({ open, onOpenChange, onSave }: AddDriverModalPro
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="company">Empresa</Label>
-                <Input
+                <TextField
                   id="company"
                   value={formData.company}
-                  onChange={(e) => handleChange("company", e.target.value)}
+                  onChange={(value) => handleChange("company", value)}
                   placeholder="Nome da empresa"
                 />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="experience">Experiência</Label>
-                <Input
+                <TextField
                   id="experience"
                   value={formData.experience}
-                  onChange={(e) => handleChange("experience", e.target.value)}
+                  onChange={(value) => handleChange("experience", value)}
                   placeholder="Ex: 5 anos"
                 />
               </div>

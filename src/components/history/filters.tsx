@@ -2,10 +2,10 @@
 
 import {CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
-import {Input} from "@/components/ui/input";
-import {Label} from "@/components/ui/label";
+import {TextField} from "@/components/ui/text-field";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue,} from "@/components/ui/select";
 import {FunnelSimpleIcon, XIcon} from "@phosphor-icons/react";
+import { Label } from "@radix-ui/react-label";
 
 interface FilterState {
   startDate: string;
@@ -58,54 +58,42 @@ export default function Component({ filters, setFilters, onClearFilters }: Filte
       <CardContent>
         <div className="flex gap-4">
           <div className="grid grid-cols-2 lg:grid-cols-6 w-full gap-4">
-            <div>
-              <Label htmlFor="startDate">Data Início</Label>
-              <Input
-                id="startDate"
-                type="date"
-                className="mt-1"
-                value={filters.startDate}
-                onChange={(e) =>
-                  setFilters({ ...filters, startDate: e.target.value })
-                }
-              />
-            </div>
-            <div>
-              <Label htmlFor="endDate">Data Fim</Label>
-              <Input
-                id="endDate"
-                type="date"
-                className="mt-1"
-                value={filters.endDate}
-                onChange={(e) =>
-                  setFilters({ ...filters, endDate: e.target.value })
-                }
-              />
-            </div>
-            <div>
-              <Label htmlFor="plate">Placa do Veículo</Label>
-              <Input
-                id="plate"
-                placeholder="ABC-1234"
-                className="mt-1"
-                value={filters.plate}
-                onChange={(e) =>
-                  setFilters({ ...filters, plate: e.target.value })
-                }
-              />
-            </div>
-            <div>
-              <Label htmlFor="driver-filter">Motorista</Label>
-              <Input
-                id="driver-filter"
-                placeholder="Nome do motorista"
-                className="mt-1"
-                value={filters.driver}
-                onChange={(e) =>
-                  setFilters({ ...filters, driver: e.target.value })
-                }
-              />
-            </div>
+            <TextField
+              id="startDate"
+              label="Data Início"
+              type="date"
+              value={filters.startDate}
+              onChange={(value) =>
+                setFilters({ ...filters, startDate: value })
+              }
+            />
+            <TextField
+              id="endDate"
+              label="Data Fim"
+              type="date"
+              value={filters.endDate}
+              onChange={(value) =>
+                setFilters({ ...filters, endDate: value })
+              }
+            />
+            <TextField
+              id="plate"
+              label="Placa do Veículo"
+              placeholder="ABC-1234"
+              value={filters.plate}
+              onChange={(value) =>
+                setFilters({ ...filters, plate: value })
+              }
+            />
+            <TextField
+              id="driver-filter"
+              label="Motorista"
+              placeholder="Nome do motorista"
+              value={filters.driver}
+              onChange={(value) =>
+                setFilters({ ...filters, driver: value })
+              }
+            />
             <div>
               <Label htmlFor="company-filter">Empresa</Label>
               <Select value={filters.company} onValueChange={(value) => setFilters({ ...filters, company: value })}>

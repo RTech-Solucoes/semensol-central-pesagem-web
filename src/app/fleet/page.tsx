@@ -8,6 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { TextField } from "@/components/ui/text-field";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -164,45 +165,39 @@ export default function FleetPage() {
 
                   <TabsContent value="manual" className="mt-4">
                     <form onSubmit={handleManualSubmit} className="space-y-4">
-                      <div>
-                        <Label htmlFor="placa-manual">Placa</Label>
-                        <Input
-                          id="placa-manual"
-                          placeholder="ABC-1234"
-                          value={formData.placa}
-                          onChange={(e) =>
-                            setFormData((prev) => ({
-                              ...prev,
-                              placa: e.target.value.toUpperCase(),
-                            }))
-                          }
-                          required
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="modelo-manual">Modelo</Label>
-                        <Input
-                          id="modelo-manual"
-                          placeholder="Modelo do veículo"
-                          value={formData.modelo}
-                          onChange={(e) =>
-                            setFormData((prev) => ({ ...prev, modelo: e.target.value }))
-                          }
-                          required
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="empresa-manual">Empresa</Label>
-                        <Input
-                          id="empresa-manual"
-                          placeholder="Nome da empresa"
-                          value={formData.empresa}
-                          onChange={(e) =>
-                            setFormData((prev) => ({ ...prev, empresa: e.target.value }))
-                          }
-                          required
-                        />
-                      </div>
+                      <TextField
+                        id="placa-manual"
+                        label="Placa"
+                        placeholder="ABC-1234"
+                        value={formData.placa}
+                        onChange={(value) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            placa: value.toUpperCase(),
+                          }))
+                        }
+                        required
+                      />
+                      <TextField
+                        id="modelo-manual"
+                        label="Modelo"
+                        placeholder="Modelo do veículo"
+                        value={formData.modelo}
+                        onChange={(value) =>
+                          setFormData((prev) => ({ ...prev, modelo: value }))
+                        }
+                        required
+                      />
+                      <TextField
+                        id="empresa-manual"
+                        label="Empresa"
+                        placeholder="Nome da empresa"
+                        value={formData.empresa}
+                        onChange={(value) =>
+                          setFormData((prev) => ({ ...prev, empresa: value }))
+                        }
+                        required
+                      />
                       <div className="flex gap-2 pt-4">
                         <Button
                           type="button"
@@ -221,30 +216,26 @@ export default function FleetPage() {
 
                   <TabsContent value="image" className="mt-4">
                     <form onSubmit={handleImageSubmit} className="space-y-4">
-                      <div>
-                        <Label htmlFor="modelo-image">Modelo</Label>
-                        <Input
-                          id="modelo-image"
-                          placeholder="Modelo do veículo"
-                          value={formData.modelo}
-                          onChange={(e) =>
-                            setFormData((prev) => ({ ...prev, modelo: e.target.value }))
-                          }
-                          required
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="empresa-image">Empresa</Label>
-                        <Input
-                          id="empresa-image"
-                          placeholder="Nome da empresa"
-                          value={formData.empresa}
-                          onChange={(e) =>
-                            setFormData((prev) => ({ ...prev, empresa: e.target.value }))
-                          }
-                          required
-                        />
-                      </div>
+                      <TextField
+                        id="modelo-image"
+                        label="Modelo"
+                        placeholder="Modelo do veículo"
+                        value={formData.modelo}
+                        onChange={(value) =>
+                          setFormData((prev) => ({ ...prev, modelo: value }))
+                        }
+                        required
+                      />
+                      <TextField
+                        id="empresa-image"
+                        label="Empresa"
+                        placeholder="Nome da empresa"
+                        value={formData.empresa}
+                        onChange={(value) =>
+                          setFormData((prev) => ({ ...prev, empresa: value }))
+                        }
+                        required
+                      />
                       <div>
                         <Label htmlFor="imagem-placa">Foto da Placa</Label>
                         <div className="flex items-center gap-2">
@@ -333,4 +324,3 @@ export default function FleetPage() {
     </section>
   );
 }
-

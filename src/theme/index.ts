@@ -5,20 +5,6 @@ const config = defineConfig({
     tokens: {
       colors: {
         brand: {
-          50: { value: "#F8F2ED" },
-          100: { value: "#F1E6DA" },
-          200: { value: "#E1CCB7" },
-          300: { value: "#D5B390" },
-          400: { value: "#C7996B" },
-          500: { value: "#B98046" },
-          600: { value: "#815931" },
-          700: { value: "#4D3319" },
-          800: { value: "#271A0C" },
-          900: { value: "#140D06" },
-          950: { value: "#0A0603" }
-        },
-
-        accent: {
           50: { value: "#e8f5f2" },
           100: { value: "#c2e6dc" },
           200: { value: "#8dd4c3" },
@@ -30,6 +16,20 @@ const config = defineConfig({
           800: { value: "#01442f" },
           900: { value: "#013423" },
           950: { value: "#002319" }
+        },
+
+        accent: {
+          50: { value: "#F8F2ED" },
+          100: { value: "#F1E6DA" },
+          200: { value: "#E1CCB7" },
+          300: { value: "#D5B390" },
+          400: { value: "#C7996B" },
+          500: { value: "#B98046" },
+          600: { value: "#815931" },
+          700: { value: "#4D3319" },
+          800: { value: "#271A0C" },
+          900: { value: "#140D06" },
+          950: { value: "#0A0603" }
         },
 
         success: {

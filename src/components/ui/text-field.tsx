@@ -1,7 +1,8 @@
-import {Input, InputGroup} from "@chakra-ui/react"
+import {Input, InputGroup, Textarea} from "@chakra-ui/react"
 import {FieldErrorText, FieldHelperText, FieldLabel, FieldRequiredIndicator, FieldRoot} from "@chakra-ui/react/field"
 import {KeyboardEvent, ReactNode} from "react";
 import {withMask} from "use-mask-input"
+import {Size, Variant} from "@/types/chakraui";
 
 interface TextFieldProps {
   id?: string,
@@ -20,14 +21,17 @@ interface TextFieldProps {
   endAddon?: string,
   type?: string,
   mask?: string,
+  maxLength?: number,
   disabled?: boolean,
   readOnly?: boolean,
   className?: string,
   labelClassName?: string,
   inputClassName?: string,
   helperTextClassName?: string,
-  variant?: "outline" | "subtle" | "flushed" | undefined,
-  size?: "2xs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | undefined,
+  textarea?: boolean,
+  rows?: number,
+  variant?: Variant,
+  size?: Size
 }
 
 export const TextField = ({
@@ -47,14 +51,17 @@ export const TextField = ({
   endAddon,
   type,
   mask,
+  maxLength,
   disabled,
   readOnly,
   className,
   labelClassName,
   inputClassName,
   helperTextClassName,
-  variant = "subtle",
-  size
+  textarea = false,
+  rows,
+  size,
+  variant = "subtle"
 }: TextFieldProps) => {
   return (
     <FieldRoot
@@ -72,20 +79,36 @@ export const TextField = ({
         startAddon={startAddon}
         endAddon={endAddon}
       >
-        <Input
-          id={id}
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          onKeyDown={onKeyDown}
-          placeholder={placeholder}
-          className={inputClassName}
-          variant={variant}
-          readOnly={readOnly}
-          disabled={disabled}
-          type={type}
-          size={size}
-          {...(mask ? {ref: withMask(mask)} : {})}
-        />
+        {textarea ?
+          <Textarea
+            id={id}
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            placeholder={placeholder}
+            className={inputClassName}
+            variant={variant}
+            readOnly={readOnly}
+            disabled={disabled}
+            maxLength={maxLength}
+            rows={rows}
+          />
+          :
+          <Input
+            id={id}
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            onKeyDown={onKeyDown}
+            placeholder={placeholder}
+            className={inputClassName}
+            variant={variant}
+            readOnly={readOnly}
+            disabled={disabled}
+            type={type}
+            size={size}
+            maxLength={maxLength}
+            {...(mask ? {ref: withMask(mask)} : {})}
+          />
+        }
       </InputGroup>
       {helperText && <FieldHelperText className={helperTextClassName}>{helperText}</FieldHelperText>}
       {(error && errorText) && <FieldErrorText className={helperTextClassName}>{errorText}</FieldErrorText>}

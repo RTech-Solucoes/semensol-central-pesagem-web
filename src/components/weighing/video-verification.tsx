@@ -11,6 +11,7 @@ import { CameraIcon, UserCheck, Car, CheckCircleIcon, CameraRotate } from "@phos
 import { apiClient } from "@/lib/api";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
+import {TextField} from "@/components/ui/text-field";
 
 interface Motorista {
   id: number;
@@ -418,18 +419,16 @@ export function VideoVerification({
           </h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="placa">Placa do Veículo</Label>
-              <Input
-                id="placa"
-                placeholder="ABC-1234"
-                value={formData.placa}
-                onChange={(e) => setFormData(prev => ({ ...prev, placa: e.target.value.toUpperCase() }))}
-                className={cn(
-                  formData.placa && "border-green-500 bg-green-50"
-                )}
-              />
-            </div>
+            <TextField
+              id="placa"
+              label="Placa do Veículo"
+              placeholder="ABC-1234"
+              value={formData.placa}
+              onChange={(value) => setFormData(prev => ({ ...prev, placa: value.toUpperCase() }))}
+              inputClassName={cn(
+                formData.placa && "border-green-500 bg-green-50"
+              )}
+            />
             <div>
               <Label htmlFor="driver">Motorista</Label>
               <Select value={formData.motorista_id} onValueChange={(value) => setFormData(prev => ({ ...prev, motorista_id: value }))}>

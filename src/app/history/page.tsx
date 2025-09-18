@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { TextField } from "@/components/ui/text-field";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -18,8 +18,6 @@ import { apiClient } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { HistoricoItem } from "@/types/dashboard";
-
-
 
 export default function HistoryPage() {
   const [historico, setHistorico] = useState<HistoricoItem[]>([]);
@@ -123,24 +121,24 @@ export default function HistoryPage() {
         <CardContent className="space-y-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4 bg-gray-50 rounded-lg">
             <div>
-              <Label htmlFor="placa-filter">Placa</Label>
-              <Input
+              <TextField
                 id="placa-filter"
+                label="Placa"
                 placeholder="Filtrar por placa"
                 value={filtros.placa}
-                onChange={(e) =>
-                  setFiltros((prev) => ({ ...prev, placa: e.target.value }))
+                onChange={(value) =>
+                  setFiltros((prev) => ({ ...prev, placa: value }))
                 }
               />
             </div>
             <div>
-              <Label htmlFor="motorista-filter">Motorista</Label>
-              <Input
+              <TextField
                 id="motorista-filter"
+                label="Motorista"
                 placeholder="Filtrar por motorista"
                 value={filtros.motorista}
-                onChange={(e) =>
-                  setFiltros((prev) => ({ ...prev, motorista: e.target.value }))
+                onChange={(value) =>
+                  setFiltros((prev) => ({ ...prev, motorista: value }))
                 }
               />
             </div>

@@ -1,6 +1,6 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { TextField } from "@/components/ui/text-field";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
@@ -91,72 +91,65 @@ export function EditPartnerModal({ open, onOpenChange, partner, onSave, onDelete
 
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="name">Nome da Empresa *</Label>
-              <Input
-                id="name"
-                value={formData.name}
-                onChange={(e) => handleChange("name", e.target.value)}
-                placeholder="Razão social"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="cnpj">CNPJ *</Label>
-              <Input
-                id="cnpj"
-                value={formData.cnpj}
-                onChange={(e) => handleChange("cnpj", e.target.value)}
-                placeholder="00.000.000/0000-00"
-              />
-            </div>
+            <TextField
+              id="name"
+              label="Nome da Empresa *"
+              required
+              value={formData.name}
+              onChange={(value) => handleChange("name", value)}
+              placeholder="Razão social"
+            />
+            <TextField
+              id="cnpj"
+              label="CNPJ *"
+              required
+              value={formData.cnpj}
+              onChange={(value) => handleChange("cnpj", value)}
+              placeholder="00.000.000/0000-00"
+            />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="phone">Telefone</Label>
-              <Input
-                id="phone"
-                value={formData.phone}
-                onChange={(e) => handleChange("phone", e.target.value)}
-                placeholder="(00) 0000-0000"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                value={formData.email}
-                onChange={(e) => handleChange("email", e.target.value)}
-                placeholder="contato@empresa.com"
-              />
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="address">Endereço</Label>
-            <Input
-              id="address"
-              value={formData.address}
-              onChange={(e) => handleChange("address", e.target.value)}
-              placeholder="Rua, número, bairro"
+            <TextField
+              id="phone"
+              label="Telefone"
+              value={formData.phone}
+              onChange={(value) => handleChange("phone", value)}
+              placeholder="(00) 0000-0000"
+            />
+            <TextField
+              id="email"
+              label="Email"
+              type="email"
+              value={formData.email}
+              onChange={(value) => handleChange("email", value)}
+              placeholder="contato@empresa.com"
             />
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="city">Cidade</Label>
-            <Input
-              id="city"
-              value={formData.city}
-              onChange={(e) => handleChange("city", e.target.value)}
-              placeholder="Cidade - UF CEP"
-            />
-          </div>
+          <TextField
+            id="address"
+            label="Endereço"
+            value={formData.address}
+            onChange={(value) => handleChange("address", value)}
+            placeholder="Rua, número, bairro"
+          />
+
+          <TextField
+            id="city"
+            label="Cidade"
+            value={formData.city}
+            onChange={(value) => handleChange("city", value)}
+            placeholder="Cidade - UF CEP"
+          />
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="type">Tipo de Parceria *</Label>
-              <Select value={formData.type} onValueChange={(value) => handleChange("type", value)}>
+              <Select
+                value={formData.type}
+                onValueChange={(value) => handleChange("type", value)}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Selecione o tipo" />
                 </SelectTrigger>
@@ -199,7 +192,7 @@ export function EditPartnerModal({ open, onOpenChange, partner, onSave, onDelete
               <AlertDialogHeader>
                 <AlertDialogTitle>Confirmar Exclusão</AlertDialogTitle>
                 <AlertDialogDescription>
-                  Tem certeza que deseja excluir a empresa "{partner.name}"? Esta ação não pode ser desfeita.
+                  Tem certeza que deseja excluir a empresa {partner.name} ? Esta ação não pode ser desfeita.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>

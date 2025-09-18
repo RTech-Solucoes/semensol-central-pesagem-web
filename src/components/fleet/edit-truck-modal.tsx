@@ -1,10 +1,33 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+"use client";
+
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { TextField } from "@/components/ui/text-field";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { useState, useEffect } from "react";
 import { TrashIcon } from "@phosphor-icons/react";
 
@@ -26,7 +49,13 @@ interface EditTruckModalProps {
   onDelete: (truckId: number) => void;
 }
 
-export function EditTruckModal({ open, onOpenChange, truck, onSave, onDelete }: EditTruckModalProps) {
+export function EditTruckModal({
+  open,
+  onOpenChange,
+  truck,
+  onSave,
+  onDelete,
+}: EditTruckModalProps) {
   const [formData, setFormData] = useState({
     plate: "",
     model: "",
@@ -72,7 +101,7 @@ export function EditTruckModal({ open, onOpenChange, truck, onSave, onDelete }: 
   };
 
   const handleChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   if (!truck) return null;
@@ -87,21 +116,23 @@ export function EditTruckModal({ open, onOpenChange, truck, onSave, onDelete }: 
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="plate">Placa *</Label>
-              <Input
+              <TextField
                 id="plate"
+                label="Placa *"
+                required
                 value={formData.plate}
-                onChange={(e) => handleChange("plate", e.target.value.toUpperCase())}
+                onChange={(value) => handleChange("plate", value.toUpperCase())}
                 placeholder="ABC-1234"
                 maxLength={8}
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="model">Modelo *</Label>
-              <Input
+              <TextField
                 id="model"
+                label="Modelo *"
+                required
                 value={formData.model}
-                onChange={(e) => handleChange("model", e.target.value)}
+                onChange={(value) => handleChange("model", value)}
                 placeholder="Ex: Mercedes-Benz Axor 2644"
               />
             </div>
@@ -109,20 +140,21 @@ export function EditTruckModal({ open, onOpenChange, truck, onSave, onDelete }: 
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="company">Empresa *</Label>
-              <Input
+              <TextField
                 id="company"
+                label="Empresa *"
+                required
                 value={formData.company}
-                onChange={(e) => handleChange("company", e.target.value)}
+                onChange={(value) => handleChange("company", value)}
                 placeholder="Nome da empresa proprietária"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="capacity">Capacidade</Label>
-              <Input
+              <TextField
                 id="capacity"
+                label="Capacidade"
                 value={formData.capacity}
-                onChange={(e) => handleChange("capacity", e.target.value)}
+                onChange={(value) => handleChange("capacity", value)}
                 placeholder="Ex: 30.000 kg"
               />
             </div>
@@ -132,7 +164,9 @@ export function EditTruckModal({ open, onOpenChange, truck, onSave, onDelete }: 
             <Label htmlFor="status">Status</Label>
             <Select
               value={formData.status}
-              onValueChange={(value: Truck["status"]) => handleChange("status", value)}
+              onValueChange={(value: Truck["status"]) =>
+                handleChange("status", value)
+              }
             >
               <SelectTrigger>
                 <SelectValue />
@@ -151,7 +185,7 @@ export function EditTruckModal({ open, onOpenChange, truck, onSave, onDelete }: 
               id="observations"
               value={formData.observations}
               onChange={(e) => handleChange("observations", e.target.value)}
-              placeholder="Informações adicionais sobre o caminhão"
+              placeholder="Informações adicionais sobre o caminh��o"
               rows={3}
             />
           </div>
@@ -169,7 +203,7 @@ export function EditTruckModal({ open, onOpenChange, truck, onSave, onDelete }: 
               <AlertDialogHeader>
                 <AlertDialogTitle>Confirmar Exclusão</AlertDialogTitle>
                 <AlertDialogDescription>
-                  Tem certeza que deseja excluir o caminhão "{truck.plate}"? Esta ação não pode ser desfeita.
+                  Tem certeza que deseja excluir o caminhão &quot;{truck.plate}&quot;? Esta ação não pode ser desfeita.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
