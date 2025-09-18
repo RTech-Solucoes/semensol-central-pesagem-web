@@ -1,4 +1,4 @@
-const BASE_URL = 'https://e2462fb6850a.ngrok-free.app/api';
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 interface ApiResponse<T> {
   data?: T;
