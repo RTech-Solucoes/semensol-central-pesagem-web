@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button } from "@chakra-ui/react";
 import { Badge } from "@/components/ui/badge";
 import { UserIcon, PencilSimpleLineIcon, PhoneIcon, EnvelopeSimpleIcon } from "@phosphor-icons/react";
 import { Driver, DriverCardProps } from "@/types/driver";
@@ -75,7 +75,7 @@ export function DriverCard({ driver, onEdit }: DriverCardProps) {
           )}
         </div>
         <Button
-          variant="secondary"
+          variant="subtle"
           size="sm"
           className="ml-auto mt-6"
           onClick={() => onEdit?.(driver)}

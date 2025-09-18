@@ -1,5 +1,5 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
+import { Button } from "@chakra-ui/react";
 import { TextField } from "@/components/ui/text-field";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -206,7 +206,7 @@ export function EditPartnerModal({ open, onOpenChange, partner, onSave, onDelete
           </AlertDialog>
 
           <div className="flex gap-3">
-            <Button variant="secondary" onClick={() => onOpenChange(false)}>
+            <Button variant="subtle" onClick={() => onOpenChange(false)}>
               Cancelar
             </Button>
             <Button onClick={handleSave} className="bg-primary-900 hover:bg-primary-900/80">

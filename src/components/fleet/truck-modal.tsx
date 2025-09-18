@@ -6,7 +6,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
+import { Button } from "@chakra-ui/react";
 import { TextField } from "@/components/ui/text-field";
 import {
   Select,
@@ -15,7 +15,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -52,7 +51,7 @@ interface TruckModalProps {
   onOpenChange: (open: boolean) => void;
   truck?: Truck | null;
   onSave: (truck: Omit<Truck, "id">, id?: number) => void;
-  onDelete?: (truckId: number) => void; // só necessário em edição
+  onDelete?: (truckId: number) => void;
 }
 
 export function TruckModal({
@@ -149,7 +148,6 @@ export function TruckModal({
             </DialogTitle>
           </DialogHeader>
 
-          {/* Foto só no cadastro */}
           {mode === "create" && (
             <div className="space-y-2 py-2">
               <Label>Foto do Veículo</Label>
@@ -191,7 +189,6 @@ export function TruckModal({
             </div>
           )}
 
-          {/* Formulário */}
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-2 gap-4">
               <TextField
@@ -252,25 +249,23 @@ export function TruckModal({
               </Select>
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="observations">Observações</Label>
-              <Textarea
-                id="observations"
-                value={formData.observations}
-                onChange={(e) => handleChange("observations", e.target.value)}
-                placeholder="Informações adicionais sobre o caminhão"
-                rows={3}
-              />
-            </div>
+            <TextField
+              id="observations"
+              label="Observações"
+              textarea
+              value={formData.observations}
+              onChange={(e) => handleChange("observations", e)}
+              placeholder="Informações adicionais sobre o caminhão"
+              rows={3}
+            />
           </div>
 
-          {/* Footer */}
           <div className="flex justify-between gap-3">
             {mode === "edit" && onDelete && truck && (
               <AlertDialog>
                 <AlertDialogTrigger asChild>
                   <Button
-                    variant="secondary"
+                    variant="subtle"
                     className="text-red-600 bg-red-100 hover:bg-red-200"
                   >
                     <TrashIcon className="h-4 w-4 mr-2" />
@@ -300,7 +295,7 @@ export function TruckModal({
             )}
 
             <div className="flex gap-3 ml-auto">
-              <Button variant="secondary" onClick={() => onOpenChange(false)}>
+              <Button variant="subtle" onClick={() => onOpenChange(false)}>
                 Cancelar
               </Button>
               <Button
@@ -314,7 +309,6 @@ export function TruckModal({
         </DialogContent>
       </Dialog>
 
-      {/* Camera */}
       {cameraOpen && (
         <CameraCapture
           open={cameraOpen}

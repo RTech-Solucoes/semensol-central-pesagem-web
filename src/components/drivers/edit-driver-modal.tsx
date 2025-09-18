@@ -6,7 +6,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
+import { Button } from "@chakra-ui/react";
 import { TextField } from "@/components/ui/text-field";
 import { Label } from "@/components/ui/label";
 import {
@@ -231,7 +231,7 @@ export function EditDriverModal({
         <div className="flex justify-between gap-3">
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant="secondary" className="text-red-600 bg-red-100 hover:bg-red-200">
+              <Button variant="subtle" className="text-red-600 bg-red-100 hover:bg-red-200">
                 <TrashIcon className="h-4 w-4 mr-2" />
                 Excluir
               </Button>
@@ -254,7 +254,7 @@ export function EditDriverModal({
           </AlertDialog>
 
           <div className="flex gap-3">
-            <Button variant="secondary" onClick={() => onOpenChange(false)}>
+            <Button variant="subtle" onClick={() => onOpenChange(false)}>
               Cancelar
             </Button>
             <Button onClick={handleSave} className="bg-primary-900 hover:bg-primary-900/80">

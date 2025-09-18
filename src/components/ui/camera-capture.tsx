@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback } from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@chakra-ui/react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { CameraIcon, CameraRotate, Check, Upload, X } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
@@ -194,7 +194,7 @@ export function CameraCapture({
                   <Button
                     onClick={flipCamera}
                     size="sm"
-                    variant="secondary"
+                    variant="subtle"
                     className="absolute bottom-2 right-2 w-10 h-10 p-0 rounded-full shadow-lg bg-white/90 backdrop-blur-sm border border-gray-200"
                     title="Trocar câmera"
                   >
@@ -248,9 +248,10 @@ export function CameraCapture({
                 <div className="flex gap-2">
                   <Button
                     onClick={isStreaming ? stopCamera : startCamera}
-                    variant={isStreaming ? "destructive" : "default"}
+                    variant={isStreaming ? "solid" : "solid"}
                     className="flex-1 flex items-center gap-2"
                     disabled={isLoading}
+                    {...(isStreaming ? { colorPalette: "error" as any } : {})}
                   >
                     <CameraIcon className="h-4 w-4" />
                     {isStreaming ? "Parar Câmera" : "Iniciar Câmera"}

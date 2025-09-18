@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button } from "@chakra-ui/react";
 import { PlusIcon, IdentificationCardIcon } from "@phosphor-icons/react";
 
 import { AddDriverModal } from "@/components/drivers/add-driver-modal";

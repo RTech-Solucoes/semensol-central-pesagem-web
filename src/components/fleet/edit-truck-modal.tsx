@@ -1,22 +1,10 @@
 "use client";
 
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { TextField } from "@/components/ui/text-field";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
+import {Dialog, DialogContent, DialogHeader, DialogTitle,} from "@/components/ui/dialog";
+import {Button} from "@chakra-ui/react";
+import {TextField} from "@/components/ui/text-field";
+import {Label} from "@/components/ui/label";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue,} from "@/components/ui/select";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -28,8 +16,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { useState, useEffect } from "react";
-import { TrashIcon } from "@phosphor-icons/react";
+import {useEffect, useState} from "react";
+import {TrashIcon} from "@phosphor-icons/react";
 
 interface Truck {
   id: number;
@@ -179,22 +167,20 @@ export function EditTruckModal({
             </Select>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="observations">Observações</Label>
-            <Textarea
-              id="observations"
-              value={formData.observations}
-              onChange={(e) => handleChange("observations", e.target.value)}
-              placeholder="Informações adicionais sobre o caminh��o"
-              rows={3}
-            />
-          </div>
+          <TextField
+            id="observations"
+            label="Observações"
+            value={formData.observations}
+            onChange={(e) => handleChange("observations", e)}
+            placeholder="Informações adicionais sobre o caminhão"
+            rows={3}
+          />
         </div>
 
         <div className="flex justify-between gap-3">
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant="secondary" className="text-red-600 bg-red-100 hover:bg-red-200">
+              <Button variant="subtle" className="text-red-600 bg-red-100 hover:bg-red-200">
                 <TrashIcon className="h-4 w-4 mr-2" />
                 Excluir
               </Button>
@@ -203,13 +189,13 @@ export function EditTruckModal({
               <AlertDialogHeader>
                 <AlertDialogTitle>Confirmar Exclusão</AlertDialogTitle>
                 <AlertDialogDescription>
-                  Tem certeza que deseja excluir o caminhão &quot;{truck.plate}&quot;? Esta ação não pode ser desfeita.
+                  Tem certeza que deseja excluir o caminhão {truck.plate} ? Esta ação não pode ser desfeita.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancelar</AlertDialogCancel>
                 <AlertDialogAction onClick={handleDelete} className="bg-red-600 hover:bg-red-700">
-  <TrashIcon className="h-4 w-4 mr-2" />
+                  <TrashIcon className="h-4 w-4 mr-2" />
                   Excluir
                 </AlertDialogAction>
               </AlertDialogFooter>
@@ -217,7 +203,7 @@ export function EditTruckModal({
           </AlertDialog>
 
           <div className="flex gap-3">
-            <Button variant="secondary" onClick={() => onOpenChange(false)}>
+            <Button variant="subtle" onClick={() => onOpenChange(false)}>
               Cancelar
             </Button>
             <Button onClick={handleSave} className="bg-primary-900 hover:bg-primary-900/80">

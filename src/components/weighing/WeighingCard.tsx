@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Button } from "@chakra-ui/react";
 import { Input } from "@/components/ui/input";
 import {
   PlayIcon,
@@ -126,7 +126,7 @@ export function WeighingCard({
         <div className="flex flex-col gap-3 mt-6">
           <div className="flex flex-row gap-3">
             <Button
-              variant="secondary"
+              variant="subtle"
               className="w-full"
               onClick={() => setCurrentWeight(0)}
             >
@@ -134,11 +134,12 @@ export function WeighingCard({
             </Button>
             <Button
               onClick={() => setIsConnected(!isConnected)}
-              variant={isConnected ? "destructive" : "default"}
+              variant="solid"
               className={cn(
                 !isConnected && "bg-green-700 hover:bg-green-700/90",
                 "flex w-full items-center gap-2"
               )}
+              {...(isConnected ? { colorPalette: "error" as any } : {})}
             >
               {isConnected ? (
                 <PlugsIcon className="h-4 w-4" />

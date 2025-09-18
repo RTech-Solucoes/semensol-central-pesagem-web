@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@chakra-ui/react";
 import { Card, CardContent } from "@/components/ui/card";
 import { DownloadSimpleIcon, XIcon } from "@phosphor-icons/react";
 

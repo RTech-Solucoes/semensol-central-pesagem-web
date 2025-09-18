@@ -1,5 +1,5 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
+import { Button } from "@chakra-ui/react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -158,7 +158,7 @@ export function AddPartnerModal({ open, onOpenChange, onSave }: AddPartnerModalP
         </div>
 
         <div className="flex justify-end gap-3">
-          <Button variant="secondary" onClick={() => onOpenChange(false)}>
+          <Button variant="subtle" onClick={() => onOpenChange(false)}>
             Cancelar
           </Button>
           <Button onClick={handleSave} className="bg-primary-900 hover:bg-primary-900/80">

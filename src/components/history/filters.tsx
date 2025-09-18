@@ -1,7 +1,7 @@
 "use client";
 
 import {CardContent, CardHeader, CardTitle} from "@/components/ui/card";
-import {Button} from "@/components/ui/button";
+import {Button} from "@chakra-ui/react";
 import {TextField} from "@/components/ui/text-field";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue,} from "@/components/ui/select";
 import {FunnelSimpleIcon, XIcon} from "@phosphor-icons/react";
@@ -47,7 +47,7 @@ export default function Component({ filters, setFilters, onClearFilters }: Filte
           Filtros
         </CardTitle>
         <Button
-          variant="secondary"
+          variant="subtle"
           onClick={onClearFilters}
           className="mt-auto shrink-0 gap-2"
         >
