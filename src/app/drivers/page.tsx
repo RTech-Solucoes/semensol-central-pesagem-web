@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { PlusIcon, IdentificationCardIcon } from "@phosphor-icons/react";
+import { Button } from "@chakra-ui/react";
+import { IconPlus, IconId } from "@tabler/icons-react";
 
 import { AddDriverModal } from "@/components/drivers/add-driver-modal";
 import { EditDriverModal } from "@/components/drivers/edit-driver-modal";
@@ -33,7 +33,7 @@ export default function DriversPage() {
         <CardHeader>
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <CardTitle className="text-lg font-semibold flex items-center gap-2">
-              <IdentificationCardIcon className="h-5 w-5" />
+              <IconId className="h-5 w-5" />
               Motoristas Cadastrados
             </CardTitle>
 
@@ -41,7 +41,7 @@ export default function DriversPage() {
               className="flex items-center gap-2"
               onClick={() => setIsAddOpen(true)}
             >
-              <PlusIcon className="h-4 w-4" />
+              <IconPlus className="h-4 w-4" />
               Novo Motorista
             </Button>
           </div>
@@ -52,7 +52,7 @@ export default function DriversPage() {
             <LoadingSpinner text="Carregando motoristas..." />
           ) : drivers.length === 0 ? (
             <div className="text-center py-12">
-              <IdentificationCardIcon className="h-16 w-16 text-gray-300 mx-auto mb-4" />
+              <IconId className="h-16 w-16 text-gray-300 mx-auto mb-4" />
               <p className="text-gray-500 mb-4">Nenhum motorista cadastrado</p>
               <p className="text-sm text-gray-400">
                 Clique em <strong>Novo Motorista</strong> para começar

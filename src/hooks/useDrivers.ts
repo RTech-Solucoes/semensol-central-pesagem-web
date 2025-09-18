@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Driver } from "@/components/drivers/driver-card";
+import { Driver } from "@/types/driver";
 import { apiClient } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 

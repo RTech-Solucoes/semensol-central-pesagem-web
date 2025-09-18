@@ -5,7 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useMotoristas } from "@/hooks/useMotoristas";
 import { useCiclosAbertos } from "@/hooks/useCiclosAbertos";
 import { VideoVerification } from "@/components/weighing/video-verification";
-import { WeighingCard } from "@/components/weighing/WeighingCard";
+import { WeighingCard } from "@/components/weighing/weighing-card";
 
 export default function WeighingPage() {
   const { toast } = useToast();

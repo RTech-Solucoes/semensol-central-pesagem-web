@@ -1,11 +1,10 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Button } from "@chakra-ui/react";
+import { TextField } from "@/components/ui/text-field";
+import Select from "@/components/ui/select";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { useState, useEffect } from "react";
-import { TrashIcon } from "@phosphor-icons/react";
+import { IconTrashFilled } from "@tabler/icons-react";
 
 interface Partner {
   id: number;
@@ -91,98 +90,84 @@ export function EditPartnerModal({ open, onOpenChange, partner, onSave, onDelete
 
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="name">Nome da Empresa *</Label>
-              <Input
-                id="name"
-                value={formData.name}
-                onChange={(e) => handleChange("name", e.target.value)}
-                placeholder="Razão social"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="cnpj">CNPJ *</Label>
-              <Input
-                id="cnpj"
-                value={formData.cnpj}
-                onChange={(e) => handleChange("cnpj", e.target.value)}
-                placeholder="00.000.000/0000-00"
-              />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="phone">Telefone</Label>
-              <Input
-                id="phone"
-                value={formData.phone}
-                onChange={(e) => handleChange("phone", e.target.value)}
-                placeholder="(00) 0000-0000"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                value={formData.email}
-                onChange={(e) => handleChange("email", e.target.value)}
-                placeholder="contato@empresa.com"
-              />
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="address">Endereço</Label>
-            <Input
-              id="address"
-              value={formData.address}
-              onChange={(e) => handleChange("address", e.target.value)}
-              placeholder="Rua, número, bairro"
+            <TextField
+              id="name"
+              label="Nome da Empresa *"
+              required
+              value={formData.name}
+              onChange={(value) => handleChange("name", value)}
+              placeholder="Razão social"
             />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="city">Cidade</Label>
-            <Input
-              id="city"
-              value={formData.city}
-              onChange={(e) => handleChange("city", e.target.value)}
-              placeholder="Cidade - UF CEP"
+            <TextField
+              id="cnpj"
+              label="CNPJ *"
+              required
+              value={formData.cnpj}
+              onChange={(value) => handleChange("cnpj", value)}
+              placeholder="00.000.000/0000-00"
             />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
+            <TextField
+              id="phone"
+              label="Telefone"
+              value={formData.phone}
+              onChange={(value) => handleChange("phone", value)}
+              placeholder="(00) 0000-0000"
+            />
+            <TextField
+              id="email"
+              label="Email"
+              type="email"
+              value={formData.email}
+              onChange={(value) => handleChange("email", value)}
+              placeholder="contato@empresa.com"
+            />
+          </div>
+
+          <TextField
+            id="address"
+            label="Endereço"
+            value={formData.address}
+            onChange={(value) => handleChange("address", value)}
+            placeholder="Rua, número, bairro"
+          />
+
+          <TextField
+            id="city"
+            label="Cidade"
+            value={formData.city}
+            onChange={(value) => handleChange("city", value)}
+            placeholder="Cidade - UF CEP"
+          />
+
+          <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="type">Tipo de Parceria *</Label>
-              <Select value={formData.type} onValueChange={(value) => handleChange("type", value)}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Selecione o tipo" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Cliente preferencial">Cliente Preferencial</SelectItem>
-                  <SelectItem value="Transportadora">Transportadora</SelectItem>
-                  <SelectItem value="Fornecedor">Fornecedor</SelectItem>
-                  <SelectItem value="Distribuidor">Distribuidor</SelectItem>
-                  <SelectItem value="Cooperativa">Cooperativa</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="status">Status</Label>
               <Select
+                label="Tipo de Parceria *"
+                value={formData.type}
+                onValueChange={(value) => handleChange("type", value as string)}
+                placeholder="Selecione o tipo"
+                items={[
+                  { label: "Cliente Preferencial", value: "Cliente preferencial" },
+                  { label: "Transportadora", value: "Transportadora" },
+                  { label: "Fornecedor", value: "Fornecedor" },
+                  { label: "Distribuidor", value: "Distribuidor" },
+                  { label: "Cooperativa", value: "Cooperativa" },
+                ]}
+              />
+            </div>
+            <div className="space-y-2">
+              <Select
+                label="Status"
                 value={formData.status}
-                onValueChange={(value: Partner["status"]) => handleChange("status", value)}
-              >
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Ativa">Ativa</SelectItem>
-                  <SelectItem value="Inativa">Inativa</SelectItem>
-                </SelectContent>
-              </Select>
+                onValueChange={(value) => handleChange("status", value as Partner["status"])}
+                items={[
+                  { label: "Ativa", value: "Ativa" },
+                  { label: "Inativa", value: "Inativa" },
+                ]}
+              />
             </div>
           </div>
         </div>
@@ -191,7 +176,7 @@ export function EditPartnerModal({ open, onOpenChange, partner, onSave, onDelete
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button className="text-red-600 bg-red-100 hover:bg-red-200">
-                <TrashIcon className="h-4 w-4 mr-2" />
+                <IconTrashFilled className="h-4 w-4 mr-2" />
                 Excluir
               </Button>
             </AlertDialogTrigger>
@@ -199,13 +184,13 @@ export function EditPartnerModal({ open, onOpenChange, partner, onSave, onDelete
               <AlertDialogHeader>
                 <AlertDialogTitle>Confirmar Exclusão</AlertDialogTitle>
                 <AlertDialogDescription>
-                  Tem certeza que deseja excluir a empresa "{partner.name}"? Esta ação não pode ser desfeita.
+                  Tem certeza que deseja excluir a empresa <strong>{partner.name}</strong> ? Esta ação não pode ser desfeita.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancelar</AlertDialogCancel>
                 <AlertDialogAction onClick={handleDelete} className="bg-red-600 hover:bg-red-700">
-                  <TrashIcon className="h-4 w-4 mr-2" />
+                  <IconTrashFilled className="h-4 w-4 mr-2" />
                   Excluir
                 </AlertDialogAction>
               </AlertDialogFooter>
@@ -213,7 +198,7 @@ export function EditPartnerModal({ open, onOpenChange, partner, onSave, onDelete
           </AlertDialog>
 
           <div className="flex gap-3">
-            <Button variant="secondary" onClick={() => onOpenChange(false)}>
+            <Button variant="subtle" onClick={() => onOpenChange(false)}>
               Cancelar
             </Button>
             <Button onClick={handleSave} className="bg-primary-900 hover:bg-primary-900/80">

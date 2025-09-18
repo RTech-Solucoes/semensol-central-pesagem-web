@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-import { ActivityIcon, ClockIcon, IdentificationCardIcon, LightningIcon, TruckIcon } from "@phosphor-icons/react";
-import WeightIcon from "@/components/icons/WeightIcon";
+import { IconActivity, IconClock, IconId, IconBolt, IconTruck } from "@tabler/icons-react";
+import { IconWeight } from "@tabler/icons-react";
 import { apiClient } from "@/lib/api";
 import { CicloAberto, HistoricoItem } from "@/types/dashboard";
 import { QuickActions } from "@/components/dashboard/quick-actions";
@@ -43,28 +43,28 @@ export default function Home() {
     {
       title: "Iniciar Pesagem",
       description: "Iniciar novo ciclo de pesagem",
-      icon: WeightIcon,
+      icon: IconWeight,
       color: "green",
       href: "/weighing",
     },
     {
       title: "Gerenciar Frota",
       description: "Cadastrar e gerenciar veículos da frota",
-      icon: TruckIcon,
+      icon: IconTruck,
       color: "blue",
       href: "/fleet",
     },
     {
       title: "Gerenciar Motoristas",
       description: "Cadastrar e gerenciar motoristas",
-      icon: IdentificationCardIcon,
+      icon: IconId,
       color: "orange",
       href: "/drivers",
     },
     {
       title: "Histórico",
       description: "Consultar histórico de pesagens",
-      icon: ClockIcon,
+      icon: IconClock,
       color: "purple",
       href: "/history",
     },
@@ -86,7 +86,7 @@ export default function Home() {
           <div className="flex flex-col border-b border-dashed">
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle className="text-lg font-semibold flex items-center gap-2">
-                <LightningIcon className="h-5 w-5" />
+                <IconBolt className="h-5 w-5" />
                 Ações Rápidas
               </CardTitle>
             </CardHeader>
@@ -99,7 +99,7 @@ export default function Home() {
             <div className="flex-1 border-b md:border-r md:border-b-0 border-dashed">
               <CardHeader>
                 <CardTitle className="text-lg font-semibold flex items-center gap-2">
-                  <ClockIcon className="h-5 w-5" />
+                  <IconClock className="h-5 w-5" />
                   Atividade Recente
                 </CardTitle>
               </CardHeader>
@@ -111,7 +111,7 @@ export default function Home() {
             <div className="flex-1">
               <CardHeader>
                 <CardTitle className="text-lg font-semibold flex items-center gap-2">
-                  <ActivityIcon className="h-5 w-5" />
+                  <IconActivity className="h-5 w-5" />
                   Ciclos em Andamento
                 </CardTitle>
               </CardHeader>

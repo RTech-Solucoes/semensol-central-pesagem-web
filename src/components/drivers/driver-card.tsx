@@ -1,7 +1,7 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Button } from "@chakra-ui/react";
 import { Badge } from "@/components/ui/badge";
-import { UserIcon, PencilSimpleLineIcon, PhoneIcon, EnvelopeSimpleIcon } from "@phosphor-icons/react";
+import { IconUser, IconWritingFilled, IconPhone, IconMailFilled } from "@tabler/icons-react";
 import { Driver, DriverCardProps } from "@/types/driver";
 
 export function DriverCard({ driver, onEdit }: DriverCardProps) {
@@ -24,7 +24,7 @@ export function DriverCard({ driver, onEdit }: DriverCardProps) {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="h-12 w-12 rounded-2xl bg-primary-100 flex items-center justify-center">
-              <UserIcon className="h-6 w-6 text-primary-600" />
+              <IconUser className="h-6 w-6 text-primary-600" />
             </div>
             <div>
               <h3 className="text-lg font-bold">
@@ -48,11 +48,11 @@ export function DriverCard({ driver, onEdit }: DriverCardProps) {
             <p className="text-sm font-medium text-card-foreground">{driver.cpf}</p>
           </div>
           <div className="flex items-center gap-2">
-            <PhoneIcon className="h-4 w-4 text-primary-600" />
+            <IconPhone className="h-4 w-4 text-primary-600" />
             <p className="text-sm font-medium text-card-foreground">{driver.phone}</p>
           </div>
           <div className="flex items-center gap-2">
-            <EnvelopeSimpleIcon className="h-4 w-4 text-primary-600" />
+            <IconMailFilled className="h-4 w-4 text-primary-600" />
             <p className="text-sm font-medium text-card-foreground">{driver.email}</p>
           </div>
           {driver.company && (
@@ -75,12 +75,12 @@ export function DriverCard({ driver, onEdit }: DriverCardProps) {
           )}
         </div>
         <Button
-          variant="secondary"
+          variant="subtle"
           size="sm"
           className="ml-auto mt-6"
           onClick={() => onEdit?.(driver)}
         >
-          <PencilSimpleLineIcon className="h-4 w-4 mr-2" />
+          <IconWritingFilled className="h-4 w-4 mr-2" />
           Editar
         </Button>
       </CardContent>

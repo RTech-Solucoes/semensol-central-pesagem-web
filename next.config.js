@@ -4,7 +4,7 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   experimental: {
-    optimizePackageImports: ["@phosphor-icons/react"],
+    optimizePackageImports: ["@tabler/icons-react"],
     webpackBuildWorker: true,
   },
 

@@ -2,24 +2,15 @@
 
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Button } from "@chakra-ui/react";
+import { TextField } from "@/components/ui/text-field";
+import Select from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { ClockIcon, DownloadIcon } from "@phosphor-icons/react";
+import { IconClock, IconDownload } from "@tabler/icons-react";
 import { apiClient } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { HistoricoItem } from "@/types/dashboard";
-
-
 
 export default function HistoryPage() {
   const [historico, setHistorico] = useState<HistoricoItem[]>([]);
@@ -108,14 +99,14 @@ export default function HistoryPage() {
         <CardHeader>
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <CardTitle className="text-lg font-semibold flex items-center gap-2">
-              <ClockIcon className="h-5 w-5" />
+              <IconClock className="h-5 w-5" />
               Registros de Pesagem
             </CardTitle>
             <Button
               onClick={exportarDados}
               className="flex items-center gap-2"
             >
-              <DownloadIcon className="h-4 w-4" />
+              <IconDownload className="h-4 w-4" />
               Exportar CSV
             </Button>
           </div>
@@ -123,44 +114,41 @@ export default function HistoryPage() {
         <CardContent className="space-y-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4 bg-gray-50 rounded-lg">
             <div>
-              <Label htmlFor="placa-filter">Placa</Label>
-              <Input
+              <TextField
                 id="placa-filter"
+                label="Placa"
                 placeholder="Filtrar por placa"
                 value={filtros.placa}
-                onChange={(e) =>
-                  setFiltros((prev) => ({ ...prev, placa: e.target.value }))
+                onChange={(value) =>
+                  setFiltros((prev) => ({ ...prev, placa: value }))
                 }
               />
             </div>
             <div>
-              <Label htmlFor="motorista-filter">Motorista</Label>
-              <Input
+              <TextField
                 id="motorista-filter"
+                label="Motorista"
                 placeholder="Filtrar por motorista"
                 value={filtros.motorista}
-                onChange={(e) =>
-                  setFiltros((prev) => ({ ...prev, motorista: e.target.value }))
+                onChange={(value) =>
+                  setFiltros((prev) => ({ ...prev, motorista: value }))
                 }
               />
             </div>
             <div>
-              <Label htmlFor="status-filter">Status</Label>
               <Select
-                value={filtros.status}
+                label="Status"
+                value={filtros.status || ""}
                 onValueChange={(value) =>
-                  setFiltros((prev) => ({ ...prev, status: value === "todos" ? "" : value }))
+                  setFiltros((prev) => ({ ...prev, status: (value as string) === "todos" ? "" : (value as string) }))
                 }
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Todos" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="todos">Todos</SelectItem>
-                  <SelectItem value="aberto">Em Andamento</SelectItem>
-                  <SelectItem value="concluido">Concluído</SelectItem>
-                </SelectContent>
-              </Select>
+                placeholder="Todos"
+                items={[
+                  { label: "Todos", value: "todos" },
+                  { label: "Em Andamento", value: "aberto" },
+                  { label: "Concluído", value: "concluido" },
+                ]}
+              />
             </div>
             <div className="flex items-end">
               <Button
@@ -185,7 +173,7 @@ export default function HistoryPage() {
             <LoadingSpinner text="Carregando histórico..." />
           ) : historicoFiltrado.length === 0 ? (
             <div className="text-center py-8">
-              <ClockIcon className="h-16 w-16 text-gray-300 mx-auto mb-4" />
+              <IconClock className="h-16 w-16 text-gray-300 mx-auto mb-4" />
               <p className="text-gray-500">Nenhum registro encontrado</p>
             </div>
           ) : (
