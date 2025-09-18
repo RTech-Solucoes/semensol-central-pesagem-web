@@ -5,13 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@chakra-ui/react";
 import { TextField } from "@/components/ui/text-field";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import Select from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { IconClock, IconDownload } from "@tabler/icons-react";
 import { apiClient } from "@/lib/api";

@@ -2,7 +2,7 @@ import {Input, InputGroup, Textarea} from "@chakra-ui/react"
 import {FieldErrorText, FieldHelperText, FieldLabel, FieldRequiredIndicator, FieldRoot} from "@chakra-ui/react/field"
 import {KeyboardEvent, ReactNode} from "react";
 import {withMask} from "use-mask-input"
-import {Size, Variant} from "@/types/chakraui";
+import {Size, InputVariant} from "@/types/chakraui";
 
 interface TextFieldProps {
   id?: string,
@@ -30,8 +30,8 @@ interface TextFieldProps {
   helperTextClassName?: string,
   textarea?: boolean,
   rows?: number,
-  variant?: Variant,
   size?: Size
+  variant?: InputVariant,
 }
 
 export const TextField = ({
@@ -60,7 +60,7 @@ export const TextField = ({
   helperTextClassName,
   textarea = false,
   rows,
-  size,
+  size = "md",
   variant = "subtle"
 }: TextFieldProps) => {
   return (
