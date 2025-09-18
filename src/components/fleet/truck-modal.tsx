@@ -8,13 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@chakra-ui/react";
 import { TextField } from "@/components/ui/text-field";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import Select from "@/components/ui/select";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -234,19 +228,17 @@ export function TruckModal({
               <Label htmlFor="status">Status</Label>
               <Select
                 value={formData.status}
-                onValueChange={(value: Truck["status"]) =>
-                  handleChange("status", value)
+                onValueChange={(value) =>
+                  handleChange("status", value as Truck["status"])
                 }
-              >
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Ativo">Ativo</SelectItem>
-                  <SelectItem value="Manutenção">Manutenção</SelectItem>
-                  <SelectItem value="Inativo">Inativo</SelectItem>
-                </SelectContent>
-              </Select>
+                items={[
+                  { label: "Ativo", value: "Ativo" },
+                  { label: "Manutenção", value: "Manutenção" },
+                  { label: "Inativo", value: "Inativo" },
+                ]}
+                grouped
+                groups={[]}
+              />
             </div>
 
             <TextField

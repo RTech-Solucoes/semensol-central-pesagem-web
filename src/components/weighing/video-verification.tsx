@@ -4,7 +4,7 @@ import {useCallback, useRef, useState} from "react";
 import {Button} from "@chakra-ui/react";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import {Label} from "@/components/ui/label";
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
+import Select from "@/components/ui/select";
 import {IconCamera, IconCameraRotate, IconCarFilled, IconCircleCheck, IconUserCheck} from "@tabler/icons-react";
 import {apiClient} from "@/lib/api";
 import {cn} from "@/lib/utils";
@@ -430,20 +430,14 @@ export function VideoVerification({
             />
             <div>
               <Label htmlFor="driver">Motorista</Label>
-              <Select value={formData.motorista_id} onValueChange={(value) => setFormData(prev => ({ ...prev, motorista_id: value }))}>
-                <SelectTrigger className={cn(
-                  formData.motorista_id && "border-green-500 bg-green-50"
-                )}>
-                  <SelectValue placeholder="Selecione o motorista" />
-                </SelectTrigger>
-                <SelectContent>
-                  {motoristas.map((motorista) => (
-                    <SelectItem key={motorista.id} value={motorista.id.toString()}>
-                      {motorista.nome}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <Select
+                value={formData.motorista_id}
+                onValueChange={(value) => setFormData(prev => ({ ...prev, motorista_id: value as string }))}
+                placeholder="Selecione o motorista"
+                items={motoristas.map((m) => ({ label: m.nome, value: String(m.id) }))}
+                grouped
+                groups={[]}
+              />
             </div>
           </div>
         </div>

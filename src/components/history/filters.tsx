@@ -3,7 +3,7 @@
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@chakra-ui/react";
 import { TextField } from "@/components/ui/text-field";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import Select from "@/components/ui/select";
 import { IconFilterFilled, IconX } from "@tabler/icons-react";
 import { Label } from "@radix-ui/react-label";
 
@@ -96,29 +96,25 @@ export default function Component({ filters, setFilters, onClearFilters }: Filte
             />
             <div>
               <Label htmlFor="company-filter">Empresa</Label>
-              <Select value={filters.company} onValueChange={(value) => setFilters({ ...filters, company: value })}>
-                <SelectTrigger className="mt-1">
-                  <SelectValue placeholder="Todas" />
-                </SelectTrigger>
-                <SelectContent>
-                  {filtersOptions.empresa.map((option) =>
-                    <SelectItem key={option.id} value={option.value}>{option.label}</SelectItem>
-                  )}
-                </SelectContent>
-              </Select>
+              <Select
+                value={filters.company}
+                onValueChange={(value) => setFilters({ ...filters, company: value as string })}
+                placeholder="Todas"
+                items={filtersOptions.empresa.map((o) => ({ label: o.label, value: o.value }))}
+                grouped
+                groups={[]}
+              />
             </div>
             <div>
               <Label htmlFor="cargo-filter">Tipo de Carga</Label>
-              <Select value={filters.cargoType} onValueChange={(value) => setFilters({ ...filters, cargoType: value })}>
-                <SelectTrigger className="mt-1">
-                  <SelectValue placeholder="Todos" />
-                </SelectTrigger>
-                <SelectContent>
-                  {filtersOptions.empresa.map((option) =>
-                    <SelectItem key={option.id} value={option.value}>{option.label}</SelectItem>
-                  )}
-                </SelectContent>
-              </Select>
+              <Select
+                value={filters.cargoType}
+                onValueChange={(value) => setFilters({ ...filters, cargoType: value as string })}
+                placeholder="Todos"
+                items={filtersOptions.tiposDeCarga.map((o) => ({ label: o.label, value: o.value }))}
+                grouped
+                groups={[]}
+              />
             </div>
           </div>
         </div>

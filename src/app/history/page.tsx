@@ -139,20 +139,19 @@ export default function HistoryPage() {
             <div>
               <Label htmlFor="status-filter">Status</Label>
               <Select
-                value={filtros.status}
+                value={filtros.status || ""}
                 onValueChange={(value) =>
-                  setFiltros((prev) => ({ ...prev, status: value === "todos" ? "" : value }))
+                  setFiltros((prev) => ({ ...prev, status: (value as string) === "todos" ? "" : (value as string) }))
                 }
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Todos" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="todos">Todos</SelectItem>
-                  <SelectItem value="aberto">Em Andamento</SelectItem>
-                  <SelectItem value="concluido">Concluído</SelectItem>
-                </SelectContent>
-              </Select>
+                placeholder="Todos"
+                items={[
+                  { label: "Todos", value: "todos" },
+                  { label: "Em Andamento", value: "aberto" },
+                  { label: "Concluído", value: "concluido" },
+                ]}
+                grouped
+                groups={[]}
+              />
             </div>
             <div className="flex items-end">
               <Button

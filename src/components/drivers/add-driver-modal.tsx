@@ -2,7 +2,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@chakra-ui/react";
 import { TextField } from "@/components/ui/text-field";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import Select from "@/components/ui/select";
 import { useState } from "react";
 import { Driver } from "@/types/driver";
 import { CameraCapture } from "@/components/ui/camera-capture";
@@ -202,34 +202,34 @@ export function AddDriverModal({ open, onOpenChange, onSave }: AddDriverModalPro
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="category">Categoria CNH</Label>
-                <Select onValueChange={(value) => handleChange("category", value)}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Selecione a categoria" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="A">A - Motocicleta</SelectItem>
-                    <SelectItem value="B">B - Automóvel</SelectItem>
-                    <SelectItem value="C">C - Caminhão</SelectItem>
-                    <SelectItem value="D">D - Ônibus</SelectItem>
-                    <SelectItem value="E">E - Carreta</SelectItem>
-                  </SelectContent>
-                </Select>
+                <Select
+                  value={formData.category}
+                  onValueChange={(value) => handleChange("category", value as string)}
+                  placeholder="Selecione a categoria"
+                  items={[
+                    { label: "A - Motocicleta", value: "A" },
+                    { label: "B - Automóvel", value: "B" },
+                    { label: "C - Caminhão", value: "C" },
+                    { label: "D - Ônibus", value: "D" },
+                    { label: "E - Carreta", value: "E" },
+                  ]}
+                  grouped
+                  groups={[]}
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="status">Status</Label>
                 <Select
                   value={formData.status}
-                  onValueChange={(value: Driver["status"]) => handleChange("status", value)}
-                >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Ativo">Ativo</SelectItem>
-                    <SelectItem value="Inativo">Inativo</SelectItem>
-                    <SelectItem value="Suspenso">Suspenso</SelectItem>
-                  </SelectContent>
-                </Select>
+                  onValueChange={(value) => handleChange("status", value as Driver["status"])}
+                  items={[
+                    { label: "Ativo", value: "Ativo" },
+                    { label: "Inativo", value: "Inativo" },
+                    { label: "Suspenso", value: "Suspenso" },
+                  ]}
+                  grouped
+                  groups={[]}
+                />
               </div>
             </div>
           </div>

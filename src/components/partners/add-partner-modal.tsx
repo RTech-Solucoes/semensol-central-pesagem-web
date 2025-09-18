@@ -2,7 +2,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@chakra-ui/react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import Select from "@/components/ui/select";
 import { useState } from "react";
 import {TextField} from "@/components/ui/text-field";
 
@@ -126,33 +126,33 @@ export function AddPartnerModal({ open, onOpenChange, onSave }: AddPartnerModalP
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="type">Tipo de Parceria *</Label>
-              <Select onValueChange={(value) => handleChange("type", value)}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Selecione o tipo" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Cliente preferencial">Cliente Preferencial</SelectItem>
-                  <SelectItem value="Transportadora">Transportadora</SelectItem>
-                  <SelectItem value="Fornecedor">Fornecedor</SelectItem>
-                  <SelectItem value="Distribuidor">Distribuidor</SelectItem>
-                  <SelectItem value="Cooperativa">Cooperativa</SelectItem>
-                </SelectContent>
-              </Select>
+              <Select
+                value={formData.type}
+                onValueChange={(value) => handleChange("type", value as string)}
+                placeholder="Selecione o tipo"
+                items={[
+                  { label: "Cliente Preferencial", value: "Cliente preferencial" },
+                  { label: "Transportadora", value: "Transportadora" },
+                  { label: "Fornecedor", value: "Fornecedor" },
+                  { label: "Distribuidor", value: "Distribuidor" },
+                  { label: "Cooperativa", value: "Cooperativa" },
+                ]}
+                grouped
+                groups={[]}
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="status">Status</Label>
               <Select
                 value={formData.status}
-                onValueChange={(value: Partner["status"]) => handleChange("status", value)}
-              >
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Ativa">Ativa</SelectItem>
-                  <SelectItem value="Inativa">Inativa</SelectItem>
-                </SelectContent>
-              </Select>
+                onValueChange={(value) => handleChange("status", value as Partner["status"])}
+                items={[
+                  { label: "Ativa", value: "Ativa" },
+                  { label: "Inativa", value: "Inativa" },
+                ]}
+                grouped
+                groups={[]}
+              />
             </div>
           </div>
         </div>

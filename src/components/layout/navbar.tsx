@@ -15,7 +15,6 @@ export function Navbar({navigation} : {navigation: NavItem[]}) {
       <nav className="navbar-inner">
         {navigation.map((item) =>
           <Link
-            style={{ '--item-name': `'${item.name}'` }}
             data-active={isSelected(item.href).toString()}
             className="navbar-link"
             key={item.name}
@@ -23,10 +22,10 @@ export function Navbar({navigation} : {navigation: NavItem[]}) {
           >
             <item.icon
               className="navbar-icon"
-              weight={isSelected(item.href) ? "fill" : "bold"}
               data-active={isSelected(item.href).toString()}
               aria-label={item.name}
             />
+            {item.name}
           </Link>
         )}
       </nav>

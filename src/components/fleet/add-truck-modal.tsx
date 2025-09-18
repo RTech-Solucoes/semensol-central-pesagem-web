@@ -2,7 +2,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@chakra-ui/react";
 import { TextField } from "@/components/ui/text-field";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import Select from "@/components/ui/select";
 import { useState } from "react";
 import { CameraCapture } from "@/components/ui/camera-capture";
 import { IconCamera, IconTruck } from "@tabler/icons-react";
@@ -167,17 +167,15 @@ export function AddTruckModal({ open, onOpenChange, onSave }: AddTruckModalProps
               <Label htmlFor="status">Status</Label>
               <Select
                 value={formData.status}
-                onValueChange={(value: Truck["status"]) => handleChange("status", value)}
-              >
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Ativo">Ativo</SelectItem>
-                  <SelectItem value="Manutenção">Manutenção</SelectItem>
-                  <SelectItem value="Inativo">Inativo</SelectItem>
-                </SelectContent>
-              </Select>
+                onValueChange={(value) => handleChange("status", value as Truck["status"])}
+                items={[
+                  { label: "Ativo", value: "Ativo" },
+                  { label: "Manutenção", value: "Manutenção" },
+                  { label: "Inativo", value: "Inativo" },
+                ]}
+                grouped
+                groups={[]}
+              />
             </div>
 
             <TextField
