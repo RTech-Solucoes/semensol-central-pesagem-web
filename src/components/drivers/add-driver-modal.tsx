@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useState } from "react";
 import { Driver } from "@/types/driver";
 import { CameraCapture } from "@/components/ui/camera-capture";
-import { CameraIcon, UserCircleIcon } from "@phosphor-icons/react";
+import { IconCamera, IconUserCircle } from "@tabler/icons-react";
 
 interface AddDriverModalProps {
   open: boolean;
@@ -97,7 +97,7 @@ export function AddDriverModal({ open, onOpenChange, onSave }: AddDriverModalPro
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <UserCircleIcon className="w-8 h-8 text-gray-400" />
+                    <IconUserCircle className="w-8 h-8 text-gray-400" />
                   )}
                 </div>
                 <div className="flex gap-2">
@@ -108,7 +108,7 @@ export function AddDriverModal({ open, onOpenChange, onSave }: AddDriverModalPro
                     size="sm"
                     className="flex items-center gap-2"
                   >
-                    <CameraIcon className="h-4 w-4" />
+                    <IconCamera className="h-4 w-4" />
                     {photoPreview ? "Trocar Foto" : "Tirar Foto"}
                   </Button>
                   {photoPreview && (

@@ -29,10 +29,10 @@ import {
 import { useEffect, useState } from "react";
 import { CameraCapture } from "@/components/ui/camera-capture";
 import {
-  CameraIcon,
-  TrashIcon,
-  TruckIcon,
-} from "@phosphor-icons/react";
+  IconCamera,
+  IconTrashFilled,
+  IconTruck,
+} from "@tabler/icons-react";
 import { Label } from "@radix-ui/react-label";
 
 export interface Truck {
@@ -160,7 +160,7 @@ export function TruckModal({
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <TruckIcon className="w-8 h-8 text-gray-400" />
+                    <IconTruck className="w-8 h-8 text-gray-400" />
                   )}
                 </div>
                 <div className="flex gap-2">
@@ -171,7 +171,7 @@ export function TruckModal({
                     size="sm"
                     className="flex items-center gap-2"
                   >
-                    <CameraIcon className="h-4 w-4" />
+                    <IconCamera className="h-4 w-4" />
                     {photoPreview ? "Trocar Foto" : "Tirar Foto"}
                   </Button>
                   {photoPreview && (
@@ -268,7 +268,7 @@ export function TruckModal({
                     variant="subtle"
                     className="text-red-600 bg-red-100 hover:bg-red-200"
                   >
-                    <TrashIcon className="h-4 w-4 mr-2" />
+                    <IconTrashFilled className="h-4 w-4 mr-2" />
                     Excluir
                   </Button>
                 </AlertDialogTrigger>
@@ -276,8 +276,7 @@ export function TruckModal({
                   <AlertDialogHeader>
                     <AlertDialogTitle>Confirmar Exclusão</AlertDialogTitle>
                     <AlertDialogDescription>
-                      Tem certeza que deseja excluir o caminhão  {truck.plate} ?
-                      Tem certeza que deseja excluir o caminhão {truck.plate} ?
+                      Tem certeza que deseja excluir o caminhão <strong>{truck.plate}</strong>?
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
@@ -286,7 +285,7 @@ export function TruckModal({
                       onClick={handleDelete}
                       className="bg-red-600 hover:bg-red-700"
                     >
-                      <TrashIcon className="h-4 w-4 mr-2" />
+                      <IconTrashFilled className="h-4 w-4 mr-2" />
                       Excluir
                     </AlertDialogAction>
                   </AlertDialogFooter>

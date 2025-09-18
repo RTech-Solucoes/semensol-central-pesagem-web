@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { useState, useEffect } from "react";
-import { TrashIcon } from "@phosphor-icons/react";
+import { IconTrashFilled } from "@tabler/icons-react";
 
 interface Partner {
   id: number;
@@ -184,7 +184,7 @@ export function EditPartnerModal({ open, onOpenChange, partner, onSave, onDelete
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button className="text-red-600 bg-red-100 hover:bg-red-200">
-                <TrashIcon className="h-4 w-4 mr-2" />
+                <IconTrashFilled className="h-4 w-4 mr-2" />
                 Excluir
               </Button>
             </AlertDialogTrigger>
@@ -192,13 +192,13 @@ export function EditPartnerModal({ open, onOpenChange, partner, onSave, onDelete
               <AlertDialogHeader>
                 <AlertDialogTitle>Confirmar Exclusão</AlertDialogTitle>
                 <AlertDialogDescription>
-                  Tem certeza que deseja excluir a empresa {partner.name} ? Esta ação não pode ser desfeita.
+                  Tem certeza que deseja excluir a empresa <strong>{partner.name}</strong> ? Esta ação não pode ser desfeita.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancelar</AlertDialogCancel>
                 <AlertDialogAction onClick={handleDelete} className="bg-red-600 hover:bg-red-700">
-                  <TrashIcon className="h-4 w-4 mr-2" />
+                  <IconTrashFilled className="h-4 w-4 mr-2" />
                   Excluir
                 </AlertDialogAction>
               </AlertDialogFooter>

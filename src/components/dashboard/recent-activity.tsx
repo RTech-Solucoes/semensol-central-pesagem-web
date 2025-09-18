@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { CheckCircleIcon, ClockIcon } from "@phosphor-icons/react";
+import { IconCircleCheckFilled, IconClock } from "@tabler/icons-react";
 import { HistoricoItem } from "@/types/dashboard";
 import { SafeDate } from "@/components/safe-date/safe-date";
 
@@ -40,9 +40,9 @@ export function RecentActivity({ activities, loading }: RecentActivityProps) {
                 )}
               >
                 {activity.status === "concluido" ? (
-                  <CheckCircleIcon className="w-3 h-3" />
+                  <IconCircleCheckFilled className="w-3 h-3" />
                 ) : (
-                  <ClockIcon className="w-3 h-3" />
+                  <IconClock className="w-3 h-3" />
                 )}
               </Badge>
             </div>

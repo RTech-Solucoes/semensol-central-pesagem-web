@@ -5,13 +5,14 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@chakra-ui/react";
 import { Input } from "@/components/ui/input";
 import {
-  PlayIcon,
-  PlugsConnectedIcon,
-  PlugsIcon,
-  ClockIcon,
-  SquareIcon
-} from "@phosphor-icons/react";
-import WeightIcon from "@/components/icons/WeightIcon";
+  IconPlayerPlayFilled
+,
+  IconPlugConnected,
+  IconPlugConnectedX,
+  IconClock,
+  IconSquareFilled,
+} from "@tabler/icons-react";
+import { IconWeight } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
 import { apiClient } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
@@ -78,7 +79,7 @@ export function WeighingCard({
     <Card className="flex flex-col w-full max-w-none">
       <CardHeader className="flex-row justify-between items-center">
         <CardTitle className="text-lg font-semibold flex items-center gap-2">
-          <WeightIcon className="h-5 w-5" />
+          <IconWeight className="h-5 w-5" />
           Balança
         </CardTitle>
         <Badge
@@ -104,7 +105,7 @@ export function WeighingCard({
         <div className="flex flex-col justify-center h-full text-center my-auto">
           {!isConnected ? (
             <>
-              <WeightIcon className="h-16 w-16 text-gray-300 mx-auto mb-4" />
+              <IconWeight className="h-16 w-16 text-gray-300 mx-auto mb-4" />
               <p className="text-gray-500">Balança desconectada</p>
             </>
           ) : (
@@ -142,9 +143,9 @@ export function WeighingCard({
               {...(isConnected ? { colorPalette: "error" as any } : {})}
             >
               {isConnected ? (
-                <PlugsIcon className="h-4 w-4" />
+                <IconPlugConnectedX className="h-4 w-4" />
               ) : (
-                <PlugsConnectedIcon className="h-4 w-4" />
+                <IconPlugConnected className="h-4 w-4" />
               )}
               {isConnected ? "Desconectar" : "Conectar Balança"}
             </Button>
@@ -155,11 +156,12 @@ export function WeighingCard({
             onClick={handleRegistrarEntrada}
           >
             {loading ? (
-              <ClockIcon className="h-4 w-4 mr-2" />
+              <IconClock className="h-4 w-4 mr-2" />
             ) : isWeighing ? (
-              <SquareIcon className="h-4 w-4 mr-2" />
+              <IconSquareFilled className="h-4 w-4 mr-2" />
             ) : (
-              <PlayIcon className="h-4 w-4 mr-2" />
+              <IconPlayerPlayFilled
+ className="h-4 w-4 mr-2" />
             )}
             {loading ? "Processando..." : "Registrar Entrada"}
           </Button>

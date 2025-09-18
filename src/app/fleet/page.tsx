@@ -19,7 +19,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { PlusIcon, TruckIcon, CameraIcon } from "@phosphor-icons/react";
+import { IconPlus, IconTruck, IconCamera } from "@tabler/icons-react";
 import { apiClient } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
@@ -141,14 +141,14 @@ export default function FleetPage() {
         <CardHeader>
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <CardTitle className="text-lg font-semibold flex items-center gap-2">
-              <TruckIcon className="h-5 w-5" />
+              <IconTruck className="h-5 w-5" />
               Veículos Cadastrados
             </CardTitle>
 
             <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
               <DialogTrigger asChild>
                 <Button className="flex items-center gap-2">
-                  <PlusIcon className="h-4 w-4" />
+                  <IconPlus className="h-4 w-4" />
                   Novo Veículo
                 </Button>
               </DialogTrigger>
@@ -247,7 +247,7 @@ export default function FleetPage() {
                             required
                             className="flex-1"
                           />
-                          <CameraIcon className="h-5 w-5 text-gray-400" />
+                          <IconCamera className="h-5 w-5 text-gray-400" />
                         </div>
                         {formData.imagem && (
                           <p className="text-sm text-green-600 mt-1">
@@ -283,7 +283,7 @@ export default function FleetPage() {
             <LoadingSpinner text="Carregando veículos..." />
           ) : trucks.length === 0 ? (
             <div className="text-center py-12">
-              <TruckIcon className="h-16 w-16 text-gray-300 mx-auto mb-4" />
+              <IconTruck className="h-16 w-16 text-gray-300 mx-auto mb-4" />
               <p className="text-gray-500 mb-4">Nenhum veículo cadastrado</p>
               <p className="text-sm text-gray-400">
                 Clique em <strong>Novo Veículo</strong> para começar
@@ -296,7 +296,7 @@ export default function FleetPage() {
                   <CardContent className="p-4">
                     <div className="flex flex-col items-center text-center space-y-3">
                       <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
-                        <TruckIcon className="h-8 w-8 text-gray-400" />
+                        <IconTruck className="h-8 w-8 text-gray-400" />
                       </div>
                       <div>
                         <h3 className="font-bold text-xl text-card-foreground">

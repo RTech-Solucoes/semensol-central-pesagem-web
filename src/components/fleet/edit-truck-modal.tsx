@@ -17,7 +17,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import {useEffect, useState} from "react";
-import {TrashIcon} from "@phosphor-icons/react";
+import { IconTrashFilled } from "@tabler/icons-react";
 
 interface Truck {
   id: number;
@@ -181,7 +181,7 @@ export function EditTruckModal({
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button variant="subtle" className="text-red-600 bg-red-100 hover:bg-red-200">
-                <TrashIcon className="h-4 w-4 mr-2" />
+                <IconTrashFilled className="h-4 w-4 mr-2" />
                 Excluir
               </Button>
             </AlertDialogTrigger>
@@ -189,13 +189,13 @@ export function EditTruckModal({
               <AlertDialogHeader>
                 <AlertDialogTitle>Confirmar Exclusão</AlertDialogTitle>
                 <AlertDialogDescription>
-                  Tem certeza que deseja excluir o caminhão {truck.plate} ? Esta ação não pode ser desfeita.
+                  Tem certeza que deseja excluir o caminhão <strong>{truck.plate}</strong> ? Esta ação não pode ser desfeita.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancelar</AlertDialogCancel>
                 <AlertDialogAction onClick={handleDelete} className="bg-red-600 hover:bg-red-700">
-                  <TrashIcon className="h-4 w-4 mr-2" />
+                  <IconTrashFilled className="h-4 w-4 mr-2" />
                   Excluir
                 </AlertDialogAction>
               </AlertDialogFooter>

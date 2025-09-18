@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useState } from "react";
 import { CameraCapture } from "@/components/ui/camera-capture";
-import { CameraIcon, TruckIcon } from "@phosphor-icons/react";
+import { IconCamera, IconTruck } from "@tabler/icons-react";
 
 interface Truck {
   id: number;
@@ -97,7 +97,7 @@ export function AddTruckModal({ open, onOpenChange, onSave }: AddTruckModalProps
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <TruckIcon className="w-8 h-8 text-gray-400" />
+                    <IconTruck className="w-8 h-8 text-gray-400" />
                   )}
                 </div>
                 <div className="flex gap-2">
@@ -108,7 +108,7 @@ export function AddTruckModal({ open, onOpenChange, onSave }: AddTruckModalProps
                     size="sm"
                     className="flex items-center gap-2"
                   >
-                    <CameraIcon className="h-4 w-4" />
+                    <IconCamera className="h-4 w-4" />
                     {photoPreview ? "Trocar Foto" : "Tirar Foto"}
                   </Button>
                   {photoPreview && (

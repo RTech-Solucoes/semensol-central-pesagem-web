@@ -13,7 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { ClockIcon, DownloadIcon } from "@phosphor-icons/react";
+import { IconClock, IconDownload } from "@tabler/icons-react";
 import { apiClient } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
@@ -106,14 +106,14 @@ export default function HistoryPage() {
         <CardHeader>
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <CardTitle className="text-lg font-semibold flex items-center gap-2">
-              <ClockIcon className="h-5 w-5" />
+              <IconClock className="h-5 w-5" />
               Registros de Pesagem
             </CardTitle>
             <Button
               onClick={exportarDados}
               className="flex items-center gap-2"
             >
-              <DownloadIcon className="h-4 w-4" />
+              <IconDownload className="h-4 w-4" />
               Exportar CSV
             </Button>
           </div>
@@ -183,7 +183,7 @@ export default function HistoryPage() {
             <LoadingSpinner text="Carregando histórico..." />
           ) : historicoFiltrado.length === 0 ? (
             <div className="text-center py-8">
-              <ClockIcon className="h-16 w-16 text-gray-300 mx-auto mb-4" />
+              <IconClock className="h-16 w-16 text-gray-300 mx-auto mb-4" />
               <p className="text-gray-500">Nenhum registro encontrado</p>
             </div>
           ) : (

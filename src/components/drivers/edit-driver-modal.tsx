@@ -29,7 +29,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useState, useEffect } from "react";
 import { Driver } from "@/types/driver";
-import { TrashIcon } from "@phosphor-icons/react";
+import { IconTrashFilled } from "@tabler/icons-react";
 
 interface EditDriverModalProps {
   open: boolean;
@@ -232,7 +232,7 @@ export function EditDriverModal({
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button variant="subtle" className="text-red-600 bg-red-100 hover:bg-red-200">
-                <TrashIcon className="h-4 w-4 mr-2" />
+                <IconTrashFilled className="h-4 w-4 mr-2" />
                 Excluir
               </Button>
             </AlertDialogTrigger>
@@ -240,13 +240,13 @@ export function EditDriverModal({
               <AlertDialogHeader>
                 <AlertDialogTitle>Confirmar Exclusão</AlertDialogTitle>
                 <AlertDialogDescription>
-                  Tem certeza que deseja excluir o motorista {driver.name} ? Esta ação não pode ser desfeita.
+                  Tem certeza que deseja excluir o motorista <strong>{driver.name}</strong> ? Esta ação não pode ser desfeita.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancelar</AlertDialogCancel>
                 <AlertDialogAction onClick={handleDelete} className="bg-red-600 hover:bg-red-700">
-                  <TrashIcon className="h-4 w-4 mr-2" />
+                  <IconTrashFilled className="h-4 w-4 mr-2" />
                   Excluir
                 </AlertDialogAction>
               </AlertDialogFooter>

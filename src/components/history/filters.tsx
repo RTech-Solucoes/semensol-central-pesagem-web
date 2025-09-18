@@ -1,10 +1,10 @@
 "use client";
 
-import {CardContent, CardHeader, CardTitle} from "@/components/ui/card";
-import {Button} from "@chakra-ui/react";
-import {TextField} from "@/components/ui/text-field";
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue,} from "@/components/ui/select";
-import {FunnelSimpleIcon, XIcon} from "@phosphor-icons/react";
+import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@chakra-ui/react";
+import { TextField } from "@/components/ui/text-field";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { IconFilterFilled, IconX } from "@tabler/icons-react";
 import { Label } from "@radix-ui/react-label";
 
 interface FilterState {
@@ -43,7 +43,7 @@ export default function Component({ filters, setFilters, onClearFilters }: Filte
     <div className="w-full h-fit">
       <CardHeader className="flex flex-row justify-between pb-4">
         <CardTitle className="text-lg font-semibold flex items-center gap-2">
-          <FunnelSimpleIcon className="h-5 w-5"/>
+          <IconFilterFilled className="h-5 w-5"/>
           Filtros
         </CardTitle>
         <Button
@@ -51,7 +51,7 @@ export default function Component({ filters, setFilters, onClearFilters }: Filte
           onClick={onClearFilters}
           className="mt-auto shrink-0 gap-2"
         >
-          <XIcon className="h-4 w-4" />
+          <IconX className="h-4 w-4" />
           Limpar Filtros
         </Button>
       </CardHeader>

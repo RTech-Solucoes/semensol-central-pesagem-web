@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge";
-import { ClockIcon } from "@phosphor-icons/react";
-import { CicloAberto } from "../../types/dashboard";
+import { IconClock } from "@tabler/icons-react";
+import { CicloAberto } from "@/types/dashboard";
 
 interface CiclosAbertosProps {
   ciclos: CicloAberto[];
@@ -25,7 +25,7 @@ export function CiclosAbertos({ ciclos, loading }: CiclosAbertosProps) {
                 <p className="text-sm text-amber-700">{ciclo.motorista}</p>
               </div>
               <Badge variant="secondary" className="bg-amber-100 text-amber-700">
-                <ClockIcon className="w-3 h-3 mr-1" />
+                <IconClock className="w-3 h-3 mr-1" />
                 Em Andamento
               </Badge>
             </div>
