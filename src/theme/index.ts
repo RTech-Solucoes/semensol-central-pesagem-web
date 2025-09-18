@@ -115,7 +115,7 @@ const config = defineConfig({
       button: {
         base: {
           fontWeight: "medium",
-          borderRadius: "full"
+          borderRadius: "xl"
         },
         variants: {
           variant: {
@@ -151,8 +151,9 @@ const config = defineConfig({
 
       input: {
         base: {
-          borderRadius: "full",
-          fontWeight: "semibold"
+          borderRadius: "xl",
+          fontWeight: "semibold",
+          px: "4px"
         }
       },
 

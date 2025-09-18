@@ -119,7 +119,7 @@ export function WeighingCard({
           <div className="flex flex-row gap-3">
             <Button
               variant="subtle"
-              className="w-full"
+              className="w-1/2"
               onClick={() => setCurrentWeight(0)}
             >
               Zerar Peso
@@ -129,7 +129,7 @@ export function WeighingCard({
               variant="solid"
               className={cn(
                 !isConnected && "bg-green-700 hover:bg-green-700/90",
-                "flex w-full items-center gap-2"
+                "flex w-1/2 items-center gap-2"
               )}
               {...(isConnected ? { colorPalette: "error" as any } : {})}
             >
@@ -151,8 +151,7 @@ export function WeighingCard({
             ) : isWeighing ? (
               <IconSquareFilled className="h-4 w-4 mr-2" />
             ) : (
-              <IconPlayerPlayFilled
- className="h-4 w-4 mr-2" />
+              <IconPlayerPlayFilled className="h-4 w-4 mr-2" />
             )}
             {loading ? "Processando..." : "Registrar Entrada"}
           </Button>
