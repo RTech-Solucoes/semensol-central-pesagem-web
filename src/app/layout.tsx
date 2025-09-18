@@ -1,7 +1,8 @@
 import "./globals.css";
 import { Outfit as Font } from "next/font/google";
 import { cn } from "@/lib/utils";
-import { ClientProviders } from "@/components/providers/client-providers";
+import { Provider } from "@/providers/provider";
+import {ReactNode} from "react";
 
 const font = Font({
   weight: [
@@ -20,14 +21,8 @@ const font = Font({
   display: "swap",
 });
 
-export const metadata = {
-  title: "Semensol Agro",
-  themeColor: "#4D3319",
-}
-
-
 export default function RootLayout({ children }: {
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
 
   return (
@@ -50,9 +45,9 @@ export default function RootLayout({ children }: {
           "min-h-screen max-h-screen svg-background relative"
         )}
       >
-          <ClientProviders>
+          <Provider>
             {children}
-          </ClientProviders>
+          </Provider>
       </body>
     </html>
   );
