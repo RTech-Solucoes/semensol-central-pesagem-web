@@ -25,6 +25,7 @@ export const metadata = {
   themeColor: "#4D3319",
 }
 
+
 export default function RootLayout({ children }: {
   children: React.ReactNode;
 }) {
@@ -49,9 +50,9 @@ export default function RootLayout({ children }: {
           "min-h-screen max-h-screen svg-background relative"
         )}
       >
-        <ClientProviders>
-          {children}
-        </ClientProviders>
+          <ClientProviders>
+            {children}
+          </ClientProviders>
       </body>
     </html>
   );
