@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@chakra-ui/react";
 import { TextField } from "@/components/ui/text-field";
-import { Label } from "@/components/ui/label";
 import Select from "@/components/ui/select";
 import {
   AlertDialog,
@@ -184,8 +183,8 @@ export function EditDriverModal({
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="category">Categoria CNH</Label>
               <Select
+                label="Categoria CNH"
                 value={formData.category}
                 onValueChange={(value) => handleChange("category", value as string)}
                 placeholder="Selecione a categoria"
@@ -196,13 +195,11 @@ export function EditDriverModal({
                   { label: "D - Ônibus", value: "D" },
                   { label: "E - Carreta", value: "E" },
                 ]}
-                grouped
-                groups={[]}
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="status">Status</Label>
               <Select
+                label="Status"
                 value={formData.status}
                 onValueChange={(value) =>
                   handleChange("status", value as Driver["status"])
@@ -212,8 +209,6 @@ export function EditDriverModal({
                   { label: "Inativo", value: "Inativo" },
                   { label: "Suspenso", value: "Suspenso" },
                 ]}
-                grouped
-                groups={[]}
               />
             </div>
           </div>

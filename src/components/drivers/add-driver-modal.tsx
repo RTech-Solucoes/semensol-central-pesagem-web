@@ -1,12 +1,11 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Button } from "@chakra-ui/react";
-import { TextField } from "@/components/ui/text-field";
-import { Label } from "@/components/ui/label";
+import {Dialog, DialogContent, DialogHeader, DialogTitle} from "@/components/ui/dialog";
+import {Button, Text} from "@chakra-ui/react";
+import {TextField} from "@/components/ui/text-field";
 import Select from "@/components/ui/select";
-import { useState } from "react";
-import { Driver } from "@/types/driver";
-import { CameraCapture } from "@/components/ui/camera-capture";
-import { IconCamera, IconUserCircle } from "@tabler/icons-react";
+import {useState} from "react";
+import {Driver} from "@/types/driver";
+import {CameraCapture} from "@/components/ui/camera-capture";
+import {IconCamera, IconUserCircle} from "@tabler/icons-react";
 
 interface AddDriverModalProps {
   open: boolean;
@@ -87,7 +86,7 @@ export function AddDriverModal({ open, onOpenChange, onSave }: AddDriverModalPro
 
           <div className="grid gap-4 py-4">
             <div className="space-y-2">
-              <Label>Foto do Motorista</Label>
+              <Text>Foto do Motorista</Text>
               <div className="flex items-center gap-4">
                 <div className="w-20 h-20 rounded-full border-2 border-dashed border-gray-300 flex items-center justify-center overflow-hidden bg-gray-50">
                   {photoPreview ? (
@@ -126,83 +125,69 @@ export function AddDriverModal({ open, onOpenChange, onSave }: AddDriverModalPro
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="name">Nome *</Label>
-                <TextField
-                  id="name"
-                  value={formData.name}
-                  onChange={(value) => handleChange("name", value)}
-                  placeholder="Nome completo"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="document">CNH *</Label>
-                <TextField
-                  id="document"
-                  value={formData.document}
-                  onChange={(value) => handleChange("document", value)}
-                  placeholder="Número da CNH"
-                />
-              </div>
+              <TextField
+                id="name"
+                label="Nome *"
+                value={formData.name}
+                onChange={(value) => handleChange("name", value)}
+                placeholder="Nome completo"
+              />
+              <TextField
+                id="document"
+                label="CNH *"
+                value={formData.document}
+                onChange={(value) => handleChange("document", value)}
+                placeholder="Número da CNH"
+              />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="cpf">CPF *</Label>
-                <TextField
-                  id="cpf"
-                  value={formData.cpf}
-                  onChange={(value) => handleChange("cpf", value)}
-                  placeholder="000.000.000-00"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="phone">Telefone</Label>
-                <TextField
-                  id="phone"
-                  value={formData.phone}
-                  onChange={(value) => handleChange("phone", value)}
-                  placeholder="(00) 00000-0000"
-                />
-              </div>
+              <TextField
+                id="cpf"
+                label="CPF *"
+                value={formData.cpf}
+                onChange={(value) => handleChange("cpf", value)}
+                placeholder="000.000.000-00"
+              />
+              <TextField
+                id="phone"
+                label="Telefone"
+                value={formData.phone}
+                onChange={(value) => handleChange("phone", value)}
+                placeholder="(00) 00000-0000"
+              />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+            <TextField
+              id="email"
+              label="Email"
+              type="email"
+              value={formData.email}
+              onChange={(value) => handleChange("email", value)}
+              placeholder="email@exemplo.com"
+            />
+
+            <div className="grid grid-cols-2 gap-4">
               <TextField
-                id="email"
-                type="email"
-                value={formData.email}
-                onChange={(value) => handleChange("email", value)}
-                placeholder="email@exemplo.com"
+                id="company"
+                label="Empresa"
+                value={formData.company}
+                onChange={(value) => handleChange("company", value)}
+                placeholder="Nome da empresa"
+              />
+              <TextField
+                id="experience"
+                label="Experiência"
+                value={formData.experience}
+                onChange={(value) => handleChange("experience", value)}
+                placeholder="Ex: 5 anos"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="company">Empresa</Label>
-                <TextField
-                  id="company"
-                  value={formData.company}
-                  onChange={(value) => handleChange("company", value)}
-                  placeholder="Nome da empresa"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="experience">Experiência</Label>
-                <TextField
-                  id="experience"
-                  value={formData.experience}
-                  onChange={(value) => handleChange("experience", value)}
-                  placeholder="Ex: 5 anos"
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="category">Categoria CNH</Label>
                 <Select
+                  label="Categoria CNH"
                   value={formData.category}
                   onValueChange={(value) => handleChange("category", value as string)}
                   placeholder="Selecione a categoria"
@@ -213,13 +198,11 @@ export function AddDriverModal({ open, onOpenChange, onSave }: AddDriverModalPro
                     { label: "D - Ônibus", value: "D" },
                     { label: "E - Carreta", value: "E" },
                   ]}
-                  grouped
-                  groups={[]}
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="status">Status</Label>
                 <Select
+                  label="Status"
                   value={formData.status}
                   onValueChange={(value) => handleChange("status", value as Driver["status"])}
                   items={[
@@ -227,8 +210,6 @@ export function AddDriverModal({ open, onOpenChange, onSave }: AddDriverModalPro
                     { label: "Inativo", value: "Inativo" },
                     { label: "Suspenso", value: "Suspenso" },
                   ]}
-                  grouped
-                  groups={[]}
                 />
               </div>
             </div>

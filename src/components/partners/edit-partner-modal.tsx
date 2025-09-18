@@ -1,7 +1,6 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@chakra-ui/react";
 import { TextField } from "@/components/ui/text-field";
-import { Label } from "@/components/ui/label";
 import Select from "@/components/ui/select";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { useState, useEffect } from "react";
@@ -145,8 +144,8 @@ export function EditPartnerModal({ open, onOpenChange, partner, onSave, onDelete
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="type">Tipo de Parceria *</Label>
               <Select
+                label="Tipo de Parceria *"
                 value={formData.type}
                 onValueChange={(value) => handleChange("type", value as string)}
                 placeholder="Selecione o tipo"
@@ -157,21 +156,17 @@ export function EditPartnerModal({ open, onOpenChange, partner, onSave, onDelete
                   { label: "Distribuidor", value: "Distribuidor" },
                   { label: "Cooperativa", value: "Cooperativa" },
                 ]}
-                grouped
-                groups={[]}
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="status">Status</Label>
               <Select
+                label="Status"
                 value={formData.status}
                 onValueChange={(value) => handleChange("status", value as Partner["status"])}
                 items={[
                   { label: "Ativa", value: "Ativa" },
                   { label: "Inativa", value: "Inativa" },
                 ]}
-                grouped
-                groups={[]}
               />
             </div>
           </div>

@@ -3,7 +3,6 @@
 import {Dialog, DialogContent, DialogHeader, DialogTitle,} from "@/components/ui/dialog";
 import {Button} from "@chakra-ui/react";
 import {TextField} from "@/components/ui/text-field";
-import {Label} from "@/components/ui/label";
 import Select from "@/components/ui/select";
 import {
   AlertDialog,
@@ -149,8 +148,8 @@ export function EditTruckModal({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="status">Status</Label>
             <Select
+              label="Status"
               value={formData.status}
               onValueChange={(value) =>
                 handleChange("status", value as Truck["status"])
@@ -160,8 +159,6 @@ export function EditTruckModal({
                 { label: "Manutenção", value: "Manutenção" },
                 { label: "Inativo", value: "Inativo" },
               ]}
-              grouped
-              groups={[]}
             />
           </div>
 

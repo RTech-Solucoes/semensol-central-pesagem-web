@@ -1,28 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@chakra-ui/react";
-import { TextField } from "@/components/ui/text-field";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { IconPlus, IconTruck, IconCamera } from "@tabler/icons-react";
-import { apiClient } from "@/lib/api";
-import { useToast } from "@/hooks/use-toast";
-import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import {ChangeEvent, useEffect, useState} from "react";
+import {Card, CardContent, CardHeader, CardTitle,} from "@/components/ui/card";
+import {Button} from "@chakra-ui/react";
+import {TextField} from "@/components/ui/text-field";
+import {Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger,} from "@/components/ui/dialog";
+import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
+import {IconCamera, IconPlus, IconTruck} from "@tabler/icons-react";
+import {apiClient} from "@/lib/api";
+import {useToast} from "@/hooks/use-toast";
+import {LoadingSpinner} from "@/components/ui/loading-spinner";
 
 interface Truck {
   id: number;
@@ -63,7 +50,7 @@ export default function FleetPage() {
     setLoading(false);
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setFormData((prev) => ({ ...prev, imagem: e.target.files![0] }));
     }
@@ -236,28 +223,22 @@ export default function FleetPage() {
                         }
                         required
                       />
-                      <div>
-                        <Label htmlFor="imagem-placa">Foto da Placa</Label>
-                        <div className="flex items-center gap-2">
-                          <Input
-                            id="imagem-placa"
-                            type="file"
-                            accept="image/*"
-                            onChange={handleImageChange}
-                            required
-                            className="flex-1"
+                      <TextField
+                        id="imagem-placa"
+                        label="Foto da Placa"
+                        type="file"
+                        accept="image/*"
+                        value={formData.imagem ? formData.imagem.name : ""}
+                        onFileChange={handleImageChange}
+                        required
+                        className="flex-1"
+                        endElement={
+                          <IconCamera
+                            className="h-5 w-5 text-gray-400"
                           />
-                          <IconCamera className="h-5 w-5 text-gray-400" />
-                        </div>
-                        {formData.imagem && (
-                          <p className="text-sm text-green-600 mt-1">
-                            Imagem selecionada: {formData.imagem.name}
-                          </p>
-                        )}
-                        <p className="text-xs text-gray-500 mt-1">
-                          A placa será reconhecida automaticamente
-                        </p>
-                      </div>
+                        }
+                        helperText="A placa será reconhecida automaticamente"
+                      />
                       <div className="flex gap-2 pt-4">
                         <Button
                           type="button"

@@ -1,6 +1,6 @@
 import {Input, InputGroup, Textarea} from "@chakra-ui/react"
 import {FieldErrorText, FieldHelperText, FieldLabel, FieldRequiredIndicator, FieldRoot} from "@chakra-ui/react/field"
-import {KeyboardEvent, ReactNode} from "react";
+import {ChangeEvent, ChangeEventHandler, KeyboardEvent, ReactNode} from "react";
 import {withMask} from "use-mask-input"
 import {Size, InputVariant} from "@/types/chakraui";
 
@@ -12,7 +12,8 @@ interface TextFieldProps {
   error?: string,
   errorText?: string,
   value: string,
-  onChange: (value: string) => void,
+  onChange?: (value: any) => void,
+  onFileChange?: (value: any) => void,
   onKeyDown?: (e: KeyboardEvent<HTMLInputElement>) => void,
   placeholder?: string,
   startElement?: ReactNode | string,
@@ -20,6 +21,7 @@ interface TextFieldProps {
   startAddon?: string,
   endAddon?: string,
   type?: string,
+  accept?: string,
   mask?: string,
   maxLength?: number,
   disabled?: boolean,
@@ -43,6 +45,7 @@ export const TextField = ({
   errorText,
   value,
   onChange,
+  onFileChange,
   onKeyDown,
   placeholder,
   startElement,
@@ -50,6 +53,7 @@ export const TextField = ({
   startAddon,
   endAddon,
   type,
+  accept,
   mask,
   maxLength,
   disabled,
@@ -63,6 +67,19 @@ export const TextField = ({
   size = "md",
   variant = "subtle"
 }: TextFieldProps) => {
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (onChange) {
+      onChange?.(e.target.value)
+    } else if (onFileChange && e.target.files && e.target.files[0]) {
+      onFileChange(e.target.files[0])
+    }
+  }
+
+  const handleTextareaChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    onChange?.(e.target.value)
+  }
+
   return (
     <FieldRoot
       className={className}
@@ -83,7 +100,7 @@ export const TextField = ({
           <Textarea
             id={id}
             value={value}
-            onChange={(e) => onChange(e.target.value)}
+            onChange={handleTextareaChange}
             placeholder={placeholder}
             className={inputClassName}
             variant={variant}
@@ -96,7 +113,8 @@ export const TextField = ({
           <Input
             id={id}
             value={value}
-            onChange={(e) => onChange(e.target.value)}
+            onChange={handleInputChange}
+            accept={accept}
             onKeyDown={onKeyDown}
             placeholder={placeholder}
             className={inputClassName}

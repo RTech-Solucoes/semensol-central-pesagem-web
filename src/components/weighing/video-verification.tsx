@@ -1,9 +1,8 @@
 "use client";
 
 import {useCallback, useRef, useState} from "react";
-import {Button} from "@chakra-ui/react";
+import {Button, Text} from "@chakra-ui/react";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
-import {Label} from "@/components/ui/label";
 import Select from "@/components/ui/select";
 import {IconCamera, IconCameraRotate, IconCarFilled, IconCircleCheck, IconUserCheck} from "@tabler/icons-react";
 import {apiClient} from "@/lib/api";
@@ -429,14 +428,12 @@ export function VideoVerification({
               )}
             />
             <div>
-              <Label htmlFor="driver">Motorista</Label>
               <Select
+                label="Motorista"
                 value={formData.motorista_id}
                 onValueChange={(value) => setFormData(prev => ({ ...prev, motorista_id: value as string }))}
                 placeholder="Selecione o motorista"
                 items={motoristas.map((m) => ({ label: m.nome, value: String(m.id) }))}
-                grouped
-                groups={[]}
               />
             </div>
           </div>
@@ -481,7 +478,7 @@ export function VideoVerification({
 
         {ciclosAbertos.length > 0 && (
           <div className="space-y-3">
-            <Label>Ciclos em Andamento</Label>
+            <Text>Ciclos em Andamento</Text>
             <div className="space-y-2">
               {ciclosAbertos.map((ciclo) => (
                 <div key={ciclo.id_pesagem} className="flex items-center justify-between p-3 border rounded-lg">

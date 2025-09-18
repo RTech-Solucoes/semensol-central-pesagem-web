@@ -3,7 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@chakra-ui/react";
-import { Input } from "@/components/ui/input";
+
 import {
   IconPlayerPlayFilled
 ,
@@ -109,18 +109,9 @@ export function WeighingCard({
               <p className="text-gray-500">Balança desconectada</p>
             </>
           ) : (
-            <div className="space-y-4">
-              <p className="text-4xl md:text-6xl lg:text-7xl font-bold">
-                {currentWeight} kg
-              </p>
-              <Input
-                type="number"
-                placeholder="Peso manual"
-                value={currentWeight}
-                onChange={(e) => setCurrentWeight(Number(e.target.value))}
-                className="text-center text-lg"
-              />
-            </div>
+            <p className="text-4xl md:text-6xl lg:text-7xl font-bold">
+              {currentWeight} kg
+            </p>
           )}
         </div>
 

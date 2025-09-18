@@ -1,13 +1,8 @@
 "use client";
 
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Button } from "@chakra-ui/react";
-import { TextField } from "@/components/ui/text-field";
+import {Dialog, DialogContent, DialogHeader, DialogTitle,} from "@/components/ui/dialog";
+import {Button, Text} from "@chakra-ui/react";
+import {TextField} from "@/components/ui/text-field";
 import Select from "@/components/ui/select";
 import {
   AlertDialog,
@@ -20,14 +15,9 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { useEffect, useState } from "react";
-import { CameraCapture } from "@/components/ui/camera-capture";
-import {
-  IconCamera,
-  IconTrashFilled,
-  IconTruck,
-} from "@tabler/icons-react";
-import { Label } from "@radix-ui/react-label";
+import {useEffect, useState} from "react";
+import {CameraCapture} from "@/components/ui/camera-capture";
+import {IconCamera, IconTrashFilled, IconTruck,} from "@tabler/icons-react";
 
 export interface Truck {
   id: number;
@@ -144,7 +134,7 @@ export function TruckModal({
 
           {mode === "create" && (
             <div className="space-y-2 py-2">
-              <Label>Foto do Veículo</Label>
+              <Text>Foto do Veículo</Text>
               <div className="flex items-center gap-4">
                 <div className="w-20 h-20 rounded-lg border-2 border-dashed border-gray-300 flex items-center justify-center overflow-hidden bg-gray-50">
                   {photoPreview ? (
@@ -224,22 +214,18 @@ export function TruckModal({
               />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="status">Status</Label>
-              <Select
-                value={formData.status}
-                onValueChange={(value) =>
-                  handleChange("status", value as Truck["status"])
-                }
-                items={[
-                  { label: "Ativo", value: "Ativo" },
-                  { label: "Manutenção", value: "Manutenção" },
-                  { label: "Inativo", value: "Inativo" },
-                ]}
-                grouped
-                groups={[]}
-              />
-            </div>
+            <Select
+              label="Status"
+              value={formData.status}
+              onValueChange={(value) =>
+                handleChange("status", value as Truck["status"])
+              }
+              items={[
+                { label: "Ativo", value: "Ativo" },
+                { label: "Manutenção", value: "Manutenção" },
+                { label: "Inativo", value: "Inativo" },
+              ]}
+            />
 
             <TextField
               id="observations"

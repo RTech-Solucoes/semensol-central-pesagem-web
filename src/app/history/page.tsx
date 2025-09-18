@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@chakra-ui/react";
 import { TextField } from "@/components/ui/text-field";
-import { Label } from "@/components/ui/label";
 import Select from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { IconClock, IconDownload } from "@tabler/icons-react";
@@ -137,8 +136,8 @@ export default function HistoryPage() {
               />
             </div>
             <div>
-              <Label htmlFor="status-filter">Status</Label>
               <Select
+                label="Status"
                 value={filtros.status || ""}
                 onValueChange={(value) =>
                   setFiltros((prev) => ({ ...prev, status: (value as string) === "todos" ? "" : (value as string) }))
@@ -149,8 +148,6 @@ export default function HistoryPage() {
                   { label: "Em Andamento", value: "aberto" },
                   { label: "Concluído", value: "concluido" },
                 ]}
-                grouped
-                groups={[]}
               />
             </div>
             <div className="flex items-end">

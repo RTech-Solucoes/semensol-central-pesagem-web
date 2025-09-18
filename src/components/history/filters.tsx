@@ -5,7 +5,6 @@ import { Button } from "@chakra-ui/react";
 import { TextField } from "@/components/ui/text-field";
 import Select from "@/components/ui/select";
 import { IconFilterFilled, IconX } from "@tabler/icons-react";
-import { Label } from "@radix-ui/react-label";
 
 interface FilterState {
   startDate: string;
@@ -95,25 +94,21 @@ export default function Component({ filters, setFilters, onClearFilters }: Filte
               }
             />
             <div>
-              <Label htmlFor="company-filter">Empresa</Label>
               <Select
+                label="Empresa"
                 value={filters.company}
                 onValueChange={(value) => setFilters({ ...filters, company: value as string })}
                 placeholder="Todas"
                 items={filtersOptions.empresa.map((o) => ({ label: o.label, value: o.value }))}
-                grouped
-                groups={[]}
               />
             </div>
             <div>
-              <Label htmlFor="cargo-filter">Tipo de Carga</Label>
               <Select
+                label="Tipo de Carga"
                 value={filters.cargoType}
                 onValueChange={(value) => setFilters({ ...filters, cargoType: value as string })}
                 placeholder="Todos"
                 items={filtersOptions.tiposDeCarga.map((o) => ({ label: o.label, value: o.value }))}
-                grouped
-                groups={[]}
               />
             </div>
           </div>
