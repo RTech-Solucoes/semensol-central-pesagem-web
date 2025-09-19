@@ -1,8 +1,25 @@
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Button } from "@chakra-ui/react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { IconUser, IconWritingFilled, IconPhone, IconMailFilled } from "@tabler/icons-react";
-import { Driver, DriverCardProps } from "@/types/driver";
+import { UserIcon, PencilSimpleLineIcon, PhoneIcon, EnvelopeSimpleIcon } from "@phosphor-icons/react";
+
+export interface Driver {
+  id: number;
+  name: string;
+  document: string;
+  cpf: string;
+  phone: string;
+  email: string;
+  status: "Ativo" | "Inativo" | "Suspenso";
+  company?: string;
+  experience?: string;
+  category?: string;
+}
+
+interface DriverCardProps {
+  driver: Driver;
+  onEdit?: (driver: Driver) => void;
+}
 
 export function DriverCard({ driver, onEdit }: DriverCardProps) {
   const getStatusColor = (status: Driver["status"]) => {
@@ -24,7 +41,7 @@ export function DriverCard({ driver, onEdit }: DriverCardProps) {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="h-12 w-12 rounded-2xl bg-primary-100 flex items-center justify-center">
-              <IconUser className="h-6 w-6 text-primary-600" />
+              <UserIcon className="h-6 w-6 text-primary-600" />
             </div>
             <div>
               <h3 className="text-lg font-bold">
@@ -48,11 +65,11 @@ export function DriverCard({ driver, onEdit }: DriverCardProps) {
             <p className="text-sm font-medium text-card-foreground">{driver.cpf}</p>
           </div>
           <div className="flex items-center gap-2">
-            <IconPhone className="h-4 w-4 text-primary-600" />
+            <PhoneIcon className="h-4 w-4 text-primary-600" />
             <p className="text-sm font-medium text-card-foreground">{driver.phone}</p>
           </div>
           <div className="flex items-center gap-2">
-            <IconMailFilled className="h-4 w-4 text-primary-600" />
+            <EnvelopeSimpleIcon className="h-4 w-4 text-primary-600" />
             <p className="text-sm font-medium text-card-foreground">{driver.email}</p>
           </div>
           {driver.company && (
@@ -75,12 +92,12 @@ export function DriverCard({ driver, onEdit }: DriverCardProps) {
           )}
         </div>
         <Button
-          variant="subtle"
+          variant="secondary"
           size="sm"
           className="ml-auto mt-6"
           onClick={() => onEdit?.(driver)}
         >
-          <IconWritingFilled className="h-4 w-4 mr-2" />
+          <PencilSimpleLineIcon className="h-4 w-4 mr-2" />
           Editar
         </Button>
       </CardContent>

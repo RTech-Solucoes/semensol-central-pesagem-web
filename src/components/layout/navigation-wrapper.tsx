@@ -1,16 +1,16 @@
 "use client";
 
-import { IconClock, IconHomeFilled, IconId, IconTruck } from "@tabler/icons-react";
-import { IconWeight } from "@tabler/icons-react";
+import { ClockIcon, HouseIcon, IdentificationCardIcon, TruckIcon } from "@phosphor-icons/react";
+import WeightIcon from "@/components/icons/WeightIcon";
 import { NavItem } from "@/types/nav-item";
 import { Navbar } from "@/components/layout/navbar";
 
 const navigation: NavItem[] = [
-  {name: "Tela Inicial", href: "/", section: "Operações", icon: IconHomeFilled},
-  {name: "Pesagem Ativa", href: "/weighing", section: "Operações", icon: IconWeight},
-  {name: "Histórico", href: "/history", section: "Operações", icon: IconClock},
-  {name: "Frota", href: "/fleet", section: "Operações", icon: IconTruck},
-  {name: "Motoristas", href: "/drivers", section: "Operações", icon: IconId},
+  {name: "Tela Inicial", href: "/", section: "Operações", icon: HouseIcon},
+  {name: "Pesagem Ativa", href: "/weighing", section: "Operações", icon: WeightIcon},
+  {name: "Histórico", href: "/history", section: "Operações", icon: ClockIcon},
+  {name: "Frota", href: "/fleet", section: "Operações", icon: TruckIcon},
+  {name: "Motoristas", href: "/drivers", section: "Operações", icon: IdentificationCardIcon},
 ];
 
 export function NavigationWrapper() {

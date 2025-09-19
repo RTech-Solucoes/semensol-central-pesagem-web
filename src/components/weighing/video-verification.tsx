@@ -1,14 +1,16 @@
 "use client";
 
-import {useCallback, useRef, useState} from "react";
-import {Button, Text} from "@chakra-ui/react";
-import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
-import Select from "@/components/ui/select";
-import {IconCamera, IconCameraRotate, IconCarFilled, IconCircleCheck, IconUserCheck} from "@tabler/icons-react";
-import {apiClient} from "@/lib/api";
-import {cn} from "@/lib/utils";
-import {useToast} from "@/hooks/use-toast";
-import {TextField} from "@/components/ui/text-field";
+import { useState, useRef, useCallback } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
+import { CameraIcon, UserCheck, Car, CheckCircleIcon, CameraRotate } from "@phosphor-icons/react";
+import { apiClient } from "@/lib/api";
+import { cn } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
 
 interface Motorista {
   id: number;
@@ -326,14 +328,14 @@ export function VideoVerification({
     <Card className="w-full max-w-none">
       <CardHeader>
         <CardTitle className="text-lg font-semibold flex items-center gap-2">
-          <IconCamera className="h-5 w-5" />
+          <CameraIcon className="h-5 w-5" />
           Verificação e Entrada
         </CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-6">
         <div className="flex flex-col w-full h-full space-y-4">
           <h3 className="text-md font-medium flex items-center gap-2">
-            <IconCamera className="h-4 w-4" />
+            <CameraIcon className="h-4 w-4" />
             Entrada por Vídeo
           </h3>
 
@@ -352,19 +354,19 @@ export function VideoVerification({
               <Button
                 onClick={flipCamera}
                 size="sm"
-                variant="subtle"
+                variant="secondary"
                 className="absolute bottom-2 right-2 w-10 h-10 p-0 rounded-full shadow-lg hover:shadow-xl transition-shadow bg-white/90 backdrop-blur-sm border border-gray-200"
                 disabled={verificationState.loading}
                 title="Trocar câmera"
               >
-                <IconCameraRotate className="h-4 w-4 text-gray-700" />
+                <CameraRotate className="h-4 w-4 text-gray-700" />
               </Button>
             )}
 
             {!isStreaming && (
               <div className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-lg">
                 <div className="text-center">
-                  <IconCamera className="h-12 w-12 text-gray-400 mx-auto mb-2" />
+                  <CameraIcon className="h-12 w-12 text-gray-400 mx-auto mb-2" />
                   <p className="text-gray-500">Câmera desligada</p>
                   <p className="text-xs text-gray-400">Clique em <strong>Iniciar Câmera</strong> para começar</p>
                 </div>
@@ -375,12 +377,11 @@ export function VideoVerification({
           <div className="grid grid-cols-1 gap-2">
             <Button
               onClick={isStreaming ? stopCamera : startCamera}
-              variant={isStreaming ? "solid" : "solid"}
+              variant={isStreaming ? "destructive" : "default"}
               className="flex items-center gap-2"
               disabled={verificationState.loading}
-              {...(isStreaming ? { colorPalette: "error" as any } : {})}
             >
-              <IconCamera className="h-4 w-4" />
+              <CameraIcon className="h-4 w-4" />
               {isStreaming ? "Parar Câmera" : "Iniciar Câmera"}
             </Button>
           </div>
@@ -393,7 +394,7 @@ export function VideoVerification({
               size="sm"
               className="flex items-center gap-2"
             >
-              <IconUserCheck className="h-3 w-3" />
+              <UserCheck className="h-3 w-3" />
               Verificar Motorista
             </Button>
 
@@ -404,7 +405,7 @@ export function VideoVerification({
               size="sm"
               className="flex items-center gap-2"
             >
-              <IconCarFilled className="h-3 w-3" />
+              <Car className="h-3 w-3" />
               Verificar Placa
             </Button>
           </div>
@@ -412,29 +413,39 @@ export function VideoVerification({
 
         <div className="flex flex-col w-full h-full space-y-4">
           <h3 className="text-md font-medium flex items-center gap-2">
-            <IconUserCheck className="h-4 w-4" />
+            <UserCheck className="h-4 w-4" />
             Entrada Manual
           </h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <TextField
-              id="placa"
-              label="Placa do Veículo"
-              placeholder="ABC-1234"
-              value={formData.placa}
-              onChange={(value) => setFormData(prev => ({ ...prev, placa: value.toUpperCase() }))}
-              inputClassName={cn(
-                formData.placa && "border-green-500 bg-green-50"
-              )}
-            />
             <div>
-              <Select
-                label="Motorista"
-                value={formData.motorista_id}
-                onValueChange={(value) => setFormData(prev => ({ ...prev, motorista_id: value as string }))}
-                placeholder="Selecione o motorista"
-                items={motoristas.map((m) => ({ label: m.nome, value: String(m.id) }))}
+              <Label htmlFor="placa">Placa do Veículo</Label>
+              <Input
+                id="placa"
+                placeholder="ABC-1234"
+                value={formData.placa}
+                onChange={(e) => setFormData(prev => ({ ...prev, placa: e.target.value.toUpperCase() }))}
+                className={cn(
+                  formData.placa && "border-green-500 bg-green-50"
+                )}
               />
+            </div>
+            <div>
+              <Label htmlFor="driver">Motorista</Label>
+              <Select value={formData.motorista_id} onValueChange={(value) => setFormData(prev => ({ ...prev, motorista_id: value }))}>
+                <SelectTrigger className={cn(
+                  formData.motorista_id && "border-green-500 bg-green-50"
+                )}>
+                  <SelectValue placeholder="Selecione o motorista" />
+                </SelectTrigger>
+                <SelectContent>
+                  {motoristas.map((motorista) => (
+                    <SelectItem key={motorista.id} value={motorista.id.toString()}>
+                      {motorista.nome}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
           </div>
         </div>
@@ -445,7 +456,7 @@ export function VideoVerification({
             <div className="space-y-2">
               {verificationState.driver.verified && (
                 <div className="flex items-center gap-2 p-2 bg-green-50 border border-green-200 rounded">
-                  <IconUserCheck className="h-4 w-4 text-green-600" />
+                  <UserCheck className="h-4 w-4 text-green-600" />
                   <span className="text-sm text-green-800">
                     Motorista: {verificationState.driver.name}
                     {verificationState.driver.confidence && (
@@ -457,7 +468,7 @@ export function VideoVerification({
 
               {verificationState.plate.detected && (
                 <div className="flex items-center gap-2 p-2 bg-green-50 border border-green-200 rounded">
-                  <IconCarFilled className="h-4 w-4 text-green-600" />
+                  <Car className="h-4 w-4 text-green-600" />
                   <span className="text-sm text-green-800">
                     Placa: {verificationState.plate.value}
                   </span>
@@ -470,7 +481,7 @@ export function VideoVerification({
         {verificationComplete && (
           <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
             <div className="flex items-center gap-2">
-              <IconCircleCheck className="h-5 w-5 text-green-600" />
+              <CheckCircleIcon className="h-5 w-5 text-green-600" />
               <span className="text-green-800 font-medium">Verificação realizada com sucesso!</span>
             </div>
           </div>
@@ -478,7 +489,7 @@ export function VideoVerification({
 
         {ciclosAbertos.length > 0 && (
           <div className="space-y-3">
-            <Text>Ciclos em Andamento</Text>
+            <Label>Ciclos em Andamento</Label>
             <div className="space-y-2">
               {ciclosAbertos.map((ciclo) => (
                 <div key={ciclo.id_pesagem} className="flex items-center justify-between p-3 border rounded-lg">

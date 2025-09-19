@@ -1,11 +1,12 @@
-import {Dialog, DialogContent, DialogHeader, DialogTitle} from "@/components/ui/dialog";
-import {Button, Text} from "@chakra-ui/react";
-import {TextField} from "@/components/ui/text-field";
-import Select from "@/components/ui/select";
-import {useState} from "react";
-import {Driver} from "@/types/driver";
-import {CameraCapture} from "@/components/ui/camera-capture";
-import {IconCamera, IconUserCircle} from "@tabler/icons-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useState } from "react";
+import { Driver } from "./driver-card";
+import { CameraCapture } from "@/components/ui/camera-capture";
+import { CameraIcon, UserCircle } from "@phosphor-icons/react";
 
 interface AddDriverModalProps {
   open: boolean;
@@ -86,7 +87,7 @@ export function AddDriverModal({ open, onOpenChange, onSave }: AddDriverModalPro
 
           <div className="grid gap-4 py-4">
             <div className="space-y-2">
-              <Text>Foto do Motorista</Text>
+              <Label>Foto do Motorista</Label>
               <div className="flex items-center gap-4">
                 <div className="w-20 h-20 rounded-full border-2 border-dashed border-gray-300 flex items-center justify-center overflow-hidden bg-gray-50">
                   {photoPreview ? (
@@ -96,7 +97,7 @@ export function AddDriverModal({ open, onOpenChange, onSave }: AddDriverModalPro
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <IconUserCircle className="w-8 h-8 text-gray-400" />
+                    <UserCircle className="w-8 h-8 text-gray-400" />
                   )}
                 </div>
                 <div className="flex gap-2">
@@ -107,7 +108,7 @@ export function AddDriverModal({ open, onOpenChange, onSave }: AddDriverModalPro
                     size="sm"
                     className="flex items-center gap-2"
                   >
-                    <IconCamera className="h-4 w-4" />
+                    <CameraIcon className="h-4 w-4" />
                     {photoPreview ? "Trocar Foto" : "Tirar Foto"}
                   </Button>
                   {photoPreview && (
@@ -125,98 +126,116 @@ export function AddDriverModal({ open, onOpenChange, onSave }: AddDriverModalPro
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-              <TextField
-                id="name"
-                label="Nome *"
-                value={formData.name}
-                onChange={(value) => handleChange("name", value)}
-                placeholder="Nome completo"
-              />
-              <TextField
-                id="document"
-                label="CNH *"
-                value={formData.document}
-                onChange={(value) => handleChange("document", value)}
-                placeholder="Número da CNH"
-              />
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <TextField
-                id="cpf"
-                label="CPF *"
-                value={formData.cpf}
-                onChange={(value) => handleChange("cpf", value)}
-                placeholder="000.000.000-00"
-              />
-              <TextField
-                id="phone"
-                label="Telefone"
-                value={formData.phone}
-                onChange={(value) => handleChange("phone", value)}
-                placeholder="(00) 00000-0000"
-              />
-            </div>
-
-            <TextField
-              id="email"
-              label="Email"
-              type="email"
-              value={formData.email}
-              onChange={(value) => handleChange("email", value)}
-              placeholder="email@exemplo.com"
-            />
-
-            <div className="grid grid-cols-2 gap-4">
-              <TextField
-                id="company"
-                label="Empresa"
-                value={formData.company}
-                onChange={(value) => handleChange("company", value)}
-                placeholder="Nome da empresa"
-              />
-              <TextField
-                id="experience"
-                label="Experiência"
-                value={formData.experience}
-                onChange={(value) => handleChange("experience", value)}
-                placeholder="Ex: 5 anos"
-              />
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Select
-                  label="Categoria CNH"
-                  value={formData.category}
-                  onValueChange={(value) => handleChange("category", value as string)}
-                  placeholder="Selecione a categoria"
-                  items={[
-                    { label: "A - Motocicleta", value: "A" },
-                    { label: "B - Automóvel", value: "B" },
-                    { label: "C - Caminhão", value: "C" },
-                    { label: "D - Ônibus", value: "D" },
-                    { label: "E - Carreta", value: "E" },
-                  ]}
+                <Label htmlFor="name">Nome *</Label>
+                <Input
+                  id="name"
+                  value={formData.name}
+                  onChange={(e) => handleChange("name", e.target.value)}
+                  placeholder="Nome completo"
                 />
               </div>
               <div className="space-y-2">
-                <Select
-                  label="Status"
-                  value={formData.status}
-                  onValueChange={(value) => handleChange("status", value as Driver["status"])}
-                  items={[
-                    { label: "Ativo", value: "Ativo" },
-                    { label: "Inativo", value: "Inativo" },
-                    { label: "Suspenso", value: "Suspenso" },
-                  ]}
+                <Label htmlFor="document">CNH *</Label>
+                <Input
+                  id="document"
+                  value={formData.document}
+                  onChange={(e) => handleChange("document", e.target.value)}
+                  placeholder="Número da CNH"
                 />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="cpf">CPF *</Label>
+                <Input
+                  id="cpf"
+                  value={formData.cpf}
+                  onChange={(e) => handleChange("cpf", e.target.value)}
+                  placeholder="000.000.000-00"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="phone">Telefone</Label>
+                <Input
+                  id="phone"
+                  value={formData.phone}
+                  onChange={(e) => handleChange("phone", e.target.value)}
+                  placeholder="(00) 00000-0000"
+                />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                value={formData.email}
+                onChange={(e) => handleChange("email", e.target.value)}
+                placeholder="email@exemplo.com"
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="company">Empresa</Label>
+                <Input
+                  id="company"
+                  value={formData.company}
+                  onChange={(e) => handleChange("company", e.target.value)}
+                  placeholder="Nome da empresa"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="experience">Experiência</Label>
+                <Input
+                  id="experience"
+                  value={formData.experience}
+                  onChange={(e) => handleChange("experience", e.target.value)}
+                  placeholder="Ex: 5 anos"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="category">Categoria CNH</Label>
+                <Select onValueChange={(value) => handleChange("category", value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecione a categoria" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="A">A - Motocicleta</SelectItem>
+                    <SelectItem value="B">B - Automóvel</SelectItem>
+                    <SelectItem value="C">C - Caminhão</SelectItem>
+                    <SelectItem value="D">D - Ônibus</SelectItem>
+                    <SelectItem value="E">E - Carreta</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="status">Status</Label>
+                <Select
+                  value={formData.status}
+                  onValueChange={(value: Driver["status"]) => handleChange("status", value)}
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Ativo">Ativo</SelectItem>
+                    <SelectItem value="Inativo">Inativo</SelectItem>
+                    <SelectItem value="Suspenso">Suspenso</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
             </div>
           </div>
 
           <div className="flex justify-end gap-3">
-            <Button variant="subtle" onClick={() => onOpenChange(false)}>
+            <Button variant="secondary" onClick={() => onOpenChange(false)}>
               Cancelar
             </Button>
             <Button onClick={handleSave} className="bg-primary-900 hover:bg-primary-900/80">

@@ -1,8 +1,9 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Button } from "@chakra-ui/react";
-import Select from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useState } from "react";
-import {TextField} from "@/components/ui/text-field";
 
 interface Partner {
   id: number;
@@ -69,90 +70,104 @@ export function AddPartnerModal({ open, onOpenChange, onSave }: AddPartnerModalP
 
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-2 gap-4">
-            <TextField
-              id="name"
-              label="Nome da Empresa"
-              required
-              value={formData.name}
-              onChange={(value) => handleChange("name", value)}
-              placeholder="Razão social"
-            />
-            <TextField
-              id="cnpj"
-              label="CNPJ"
-              required
-              value={formData.cnpj}
-              onChange={(value) => handleChange("cnpj", value)}
-              placeholder="00.000.000/0000-00"
-            />
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <TextField
-              id="phone"
-              label="Telefone"
-              value={formData.phone}
-              onChange={(value) => handleChange("phone", value)}
-              placeholder="(00) 0000-0000"
-            />
-            <TextField
-              id="email"
-              label="Email"
-              type="email"
-              value={formData.email}
-              onChange={(value) => handleChange("email", value)}
-              placeholder="contato@empresa.com"
-            />
-          </div>
-
-          <TextField
-            id="address"
-            label="Endereço"
-            value={formData.address}
-            onChange={(value) => handleChange("address", value)}
-            placeholder="Rua, número, bairro"
-          />
-
-          <TextField
-            id="city"
-            label="Cidade"
-            value={formData.city}
-            onChange={(value) => handleChange("city", value)}
-            placeholder="Cidade - UF CEP"
-          />
-
-          <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Select
-                label="Tipo de Parceria *"
-                value={formData.type}
-                onValueChange={(value) => handleChange("type", value as string)}
-                placeholder="Selecione o tipo"
-                items={[
-                  { label: "Cliente Preferencial", value: "Cliente preferencial" },
-                  { label: "Transportadora", value: "Transportadora" },
-                  { label: "Fornecedor", value: "Fornecedor" },
-                  { label: "Distribuidor", value: "Distribuidor" },
-                  { label: "Cooperativa", value: "Cooperativa" },
-                ]}
+              <Label htmlFor="name">Nome da Empresa *</Label>
+              <Input
+                id="name"
+                value={formData.name}
+                onChange={(e) => handleChange("name", e.target.value)}
+                placeholder="Razão social"
               />
             </div>
             <div className="space-y-2">
-              <Select
-                label="Status"
-                value={formData.status}
-                onValueChange={(value) => handleChange("status", value as Partner["status"])}
-                items={[
-                  { label: "Ativa", value: "Ativa" },
-                  { label: "Inativa", value: "Inativa" },
-                ]}
+              <Label htmlFor="cnpj">CNPJ *</Label>
+              <Input
+                id="cnpj"
+                value={formData.cnpj}
+                onChange={(e) => handleChange("cnpj", e.target.value)}
+                placeholder="00.000.000/0000-00"
               />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="phone">Telefone</Label>
+              <Input
+                id="phone"
+                value={formData.phone}
+                onChange={(e) => handleChange("phone", e.target.value)}
+                placeholder="(00) 0000-0000"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                value={formData.email}
+                onChange={(e) => handleChange("email", e.target.value)}
+                placeholder="contato@empresa.com"
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="address">Endereço</Label>
+            <Input
+              id="address"
+              value={formData.address}
+              onChange={(e) => handleChange("address", e.target.value)}
+              placeholder="Rua, número, bairro"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="city">Cidade</Label>
+            <Input
+              id="city"
+              value={formData.city}
+              onChange={(e) => handleChange("city", e.target.value)}
+              placeholder="Cidade - UF CEP"
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="type">Tipo de Parceria *</Label>
+              <Select onValueChange={(value) => handleChange("type", value)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Selecione o tipo" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Cliente preferencial">Cliente Preferencial</SelectItem>
+                  <SelectItem value="Transportadora">Transportadora</SelectItem>
+                  <SelectItem value="Fornecedor">Fornecedor</SelectItem>
+                  <SelectItem value="Distribuidor">Distribuidor</SelectItem>
+                  <SelectItem value="Cooperativa">Cooperativa</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="status">Status</Label>
+              <Select
+                value={formData.status}
+                onValueChange={(value: Partner["status"]) => handleChange("status", value)}
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Ativa">Ativa</SelectItem>
+                  <SelectItem value="Inativa">Inativa</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
         </div>
 
         <div className="flex justify-end gap-3">
-          <Button variant="subtle" onClick={() => onOpenChange(false)}>
+          <Button variant="secondary" onClick={() => onOpenChange(false)}>
             Cancelar
           </Button>
           <Button onClick={handleSave} className="bg-primary-900 hover:bg-primary-900/80">

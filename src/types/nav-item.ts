@@ -1,4 +1,4 @@
-import { Icon } from "@tabler/icons-react";
+import { Icon } from "@phosphor-icons/react";
 
 export interface NavItem {
   name: string;

@@ -2,10 +2,10 @@
 
 import { Table } from "antd";
 import { Badge } from "@/components/ui/badge";
-import { IconCaretDownFilled, IconCaretUpDownFilled, IconCaretUpFilled, IconCircleCheck, IconClock } from "@tabler/icons-react";
+import { CaretDownIcon, CaretUpDownIcon, CaretUpIcon, CheckCircleIcon, ClockIcon } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 import { Key, useCallback } from "react";
-import { Column } from "rc-table";
+import {Column} from "rc-table";
 
 interface WeighingRecord {
   key: number;
@@ -36,11 +36,11 @@ interface WeighingTableProps {
 export default function Component({ records, sortConfig, onSort }: WeighingTableProps) {
   const getSortIcon = (columnKey: string) => {
     if (sortConfig.key !== columnKey) {
-      return <IconCaretUpDownFilled className="h-4 w-4 text-gray-400" />;
+      return <CaretUpDownIcon className="h-4 w-4 text-gray-400" />;
     }
     return sortConfig.direction === "asc"
-      ? <IconCaretUpFilled className="h-4 w-4 text-primary-600" />
-      : <IconCaretDownFilled className="h-4 w-4 text-primary-600" />;
+      ? <CaretUpIcon className="h-4 w-4 text-primary-600" />
+      : <CaretDownIcon className="h-4 w-4 text-primary-600" />;
   };
 
   let columns = [
@@ -85,9 +85,9 @@ export default function Component({ records, sortConfig, onSort }: WeighingTable
           >
             <span>{record.status}</span>
             {record.status === "Concluído" ? (
-              <IconCircleCheck className="w-4 h-4" />
+              <CheckCircleIcon className="w-4 h-4" />
             ) : (
-              <IconClock className="w-4 h-4" />
+              <ClockIcon className="w-4 h-4" />
             )}
           </Badge>
         );

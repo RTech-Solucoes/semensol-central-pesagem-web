@@ -120,6 +120,13 @@
             opacity: 1;
         }
     }
+
+    .bg-card {
+        /*background: linear-gradient(to bottom right, #FFFFFF05, #FFFFFF50);*/
+        /*border-top: 1px solid #FFFFFF50;*/
+        /*border-left: 1px solid #FFFFFF50;*/
+        /*@apply backdrop-blur-xl;*/
+    }
 }
 
 @media (max-width: theme('screens.xl')) {

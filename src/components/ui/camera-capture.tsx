@@ -1,10 +1,11 @@
 "use client";
 
-import {useCallback, useRef, useState} from "react";
-import {Button} from "@chakra-ui/react";
-import {Dialog, DialogContent, DialogHeader, DialogTitle} from "@/components/ui/dialog";
-import {IconCamera, IconCameraRotate, IconCheck, IconUpload, IconX} from "@tabler/icons-react";
-import {useToast} from "@/hooks/use-toast";
+import { useState, useRef, useCallback } from "react";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { CameraIcon, CameraRotate, Check, Upload, X } from "@phosphor-icons/react";
+import { cn } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
 
 interface CameraCaptureProps {
   open: boolean;
@@ -193,20 +194,20 @@ export function CameraCapture({
                   <Button
                     onClick={flipCamera}
                     size="sm"
-                    variant="subtle"
+                    variant="secondary"
                     className="absolute bottom-2 right-2 w-10 h-10 p-0 rounded-full shadow-lg bg-white/90 backdrop-blur-sm border border-gray-200"
                     title="Trocar câmera"
                   >
-                    <IconCameraRotate className="h-4 w-4 text-gray-700" />
+                    <CameraRotate className="h-4 w-4 text-gray-700" />
                   </Button>
                 )}
 
                 {!isStreaming && !isLoading && (
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="text-center">
-                      <IconCamera className="h-12 w-12 text-gray-400 mx-auto mb-2" />
+                      <CameraIcon className="h-12 w-12 text-gray-400 mx-auto mb-2" />
                       <p className="text-gray-500">Câmera desligada</p>
-                      <p className="text-xs text-gray-400">Clique em <strong>Iniciar Câmera</strong> para começar</p>
+                      <p className="text-xs text-gray-400">Clique em "Iniciar Câmera" para começar</p>
                     </div>
                   </div>
                 )}
@@ -231,14 +232,14 @@ export function CameraCapture({
                   variant="outline"
                   className="flex-1 flex items-center gap-2"
                 >
-                  <IconX className="h-4 w-4" />
+                  <X className="h-4 w-4" />
                   Tirar Novamente
                 </Button>
                 <Button
                   onClick={confirmCapture}
                   className="flex-1 flex items-center gap-2"
                 >
-                  <IconCheck className="h-4 w-4" />
+                  <Check className="h-4 w-4" />
                   Confirmar
                 </Button>
               </div>
@@ -247,12 +248,11 @@ export function CameraCapture({
                 <div className="flex gap-2">
                   <Button
                     onClick={isStreaming ? stopCamera : startCamera}
-                    variant={isStreaming ? "solid" : "solid"}
+                    variant={isStreaming ? "destructive" : "default"}
                     className="flex-1 flex items-center gap-2"
                     disabled={isLoading}
-                    {...(isStreaming ? { colorPalette: "error" as any } : {})}
                   >
-                    <IconCamera className="h-4 w-4" />
+                    <CameraIcon className="h-4 w-4" />
                     {isStreaming ? "Parar Câmera" : "Iniciar Câmera"}
                   </Button>
 
@@ -261,7 +261,7 @@ export function CameraCapture({
                       onClick={capturePhoto}
                       className="flex-1 flex items-center gap-2"
                     >
-                      <IconCamera className="h-4 w-4" />
+                      <CameraIcon className="h-4 w-4" />
                       Capturar
                     </Button>
                   )}
@@ -274,7 +274,7 @@ export function CameraCapture({
                     variant="outline"
                     className="w-full flex items-center gap-2"
                   >
-                    <IconUpload className="h-4 w-4" />
+                    <Upload className="h-4 w-4" />
                     Selecionar do Dispositivo
                   </Button>
                   <input

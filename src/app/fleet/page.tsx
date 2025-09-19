@@ -1,15 +1,27 @@
 "use client";
 
-import {ChangeEvent, useEffect, useState} from "react";
-import {Card, CardContent, CardHeader, CardTitle,} from "@/components/ui/card";
-import {Button} from "@chakra-ui/react";
-import {TextField} from "@/components/ui/text-field";
-import {Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger,} from "@/components/ui/dialog";
-import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
-import {IconCamera, IconPlus, IconTruck} from "@tabler/icons-react";
-import {apiClient} from "@/lib/api";
-import {useToast} from "@/hooks/use-toast";
-import {LoadingSpinner} from "@/components/ui/loading-spinner";
+import { useState, useEffect } from "react";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { PlusIcon, TruckIcon, CameraIcon } from "@phosphor-icons/react";
+import { apiClient } from "@/lib/api";
+import { useToast } from "@/hooks/use-toast";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 interface Truck {
   id: number;
@@ -50,7 +62,7 @@ export default function FleetPage() {
     setLoading(false);
   };
 
-  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setFormData((prev) => ({ ...prev, imagem: e.target.files![0] }));
     }
@@ -128,14 +140,14 @@ export default function FleetPage() {
         <CardHeader>
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <CardTitle className="text-lg font-semibold flex items-center gap-2">
-              <IconTruck className="h-5 w-5" />
+              <TruckIcon className="h-5 w-5" />
               Veículos Cadastrados
             </CardTitle>
 
             <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
               <DialogTrigger asChild>
                 <Button className="flex items-center gap-2">
-                  <IconPlus className="h-4 w-4" />
+                  <PlusIcon className="h-4 w-4" />
                   Novo Veículo
                 </Button>
               </DialogTrigger>
@@ -152,39 +164,45 @@ export default function FleetPage() {
 
                   <TabsContent value="manual" className="mt-4">
                     <form onSubmit={handleManualSubmit} className="space-y-4">
-                      <TextField
-                        id="placa-manual"
-                        label="Placa"
-                        placeholder="ABC-1234"
-                        value={formData.placa}
-                        onChange={(value) =>
-                          setFormData((prev) => ({
-                            ...prev,
-                            placa: value.toUpperCase(),
-                          }))
-                        }
-                        required
-                      />
-                      <TextField
-                        id="modelo-manual"
-                        label="Modelo"
-                        placeholder="Modelo do veículo"
-                        value={formData.modelo}
-                        onChange={(value) =>
-                          setFormData((prev) => ({ ...prev, modelo: value }))
-                        }
-                        required
-                      />
-                      <TextField
-                        id="empresa-manual"
-                        label="Empresa"
-                        placeholder="Nome da empresa"
-                        value={formData.empresa}
-                        onChange={(value) =>
-                          setFormData((prev) => ({ ...prev, empresa: value }))
-                        }
-                        required
-                      />
+                      <div>
+                        <Label htmlFor="placa-manual">Placa</Label>
+                        <Input
+                          id="placa-manual"
+                          placeholder="ABC-1234"
+                          value={formData.placa}
+                          onChange={(e) =>
+                            setFormData((prev) => ({
+                              ...prev,
+                              placa: e.target.value.toUpperCase(),
+                            }))
+                          }
+                          required
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="modelo-manual">Modelo</Label>
+                        <Input
+                          id="modelo-manual"
+                          placeholder="Modelo do veículo"
+                          value={formData.modelo}
+                          onChange={(e) =>
+                            setFormData((prev) => ({ ...prev, modelo: e.target.value }))
+                          }
+                          required
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="empresa-manual">Empresa</Label>
+                        <Input
+                          id="empresa-manual"
+                          placeholder="Nome da empresa"
+                          value={formData.empresa}
+                          onChange={(e) =>
+                            setFormData((prev) => ({ ...prev, empresa: e.target.value }))
+                          }
+                          required
+                        />
+                      </div>
                       <div className="flex gap-2 pt-4">
                         <Button
                           type="button"
@@ -203,42 +221,52 @@ export default function FleetPage() {
 
                   <TabsContent value="image" className="mt-4">
                     <form onSubmit={handleImageSubmit} className="space-y-4">
-                      <TextField
-                        id="modelo-image"
-                        label="Modelo"
-                        placeholder="Modelo do veículo"
-                        value={formData.modelo}
-                        onChange={(value) =>
-                          setFormData((prev) => ({ ...prev, modelo: value }))
-                        }
-                        required
-                      />
-                      <TextField
-                        id="empresa-image"
-                        label="Empresa"
-                        placeholder="Nome da empresa"
-                        value={formData.empresa}
-                        onChange={(value) =>
-                          setFormData((prev) => ({ ...prev, empresa: value }))
-                        }
-                        required
-                      />
-                      <TextField
-                        id="imagem-placa"
-                        label="Foto da Placa"
-                        type="file"
-                        accept="image/*"
-                        value={formData.imagem ? formData.imagem.name : ""}
-                        onFileChange={handleImageChange}
-                        required
-                        className="flex-1"
-                        endElement={
-                          <IconCamera
-                            className="h-5 w-5 text-gray-400"
+                      <div>
+                        <Label htmlFor="modelo-image">Modelo</Label>
+                        <Input
+                          id="modelo-image"
+                          placeholder="Modelo do veículo"
+                          value={formData.modelo}
+                          onChange={(e) =>
+                            setFormData((prev) => ({ ...prev, modelo: e.target.value }))
+                          }
+                          required
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="empresa-image">Empresa</Label>
+                        <Input
+                          id="empresa-image"
+                          placeholder="Nome da empresa"
+                          value={formData.empresa}
+                          onChange={(e) =>
+                            setFormData((prev) => ({ ...prev, empresa: e.target.value }))
+                          }
+                          required
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="imagem-placa">Foto da Placa</Label>
+                        <div className="flex items-center gap-2">
+                          <Input
+                            id="imagem-placa"
+                            type="file"
+                            accept="image/*"
+                            onChange={handleImageChange}
+                            required
+                            className="flex-1"
                           />
-                        }
-                        helperText="A placa será reconhecida automaticamente"
-                      />
+                          <CameraIcon className="h-5 w-5 text-gray-400" />
+                        </div>
+                        {formData.imagem && (
+                          <p className="text-sm text-green-600 mt-1">
+                            Imagem selecionada: {formData.imagem.name}
+                          </p>
+                        )}
+                        <p className="text-xs text-gray-500 mt-1">
+                          A placa será reconhecida automaticamente
+                        </p>
+                      </div>
                       <div className="flex gap-2 pt-4">
                         <Button
                           type="button"
@@ -264,7 +292,7 @@ export default function FleetPage() {
             <LoadingSpinner text="Carregando veículos..." />
           ) : trucks.length === 0 ? (
             <div className="text-center py-12">
-              <IconTruck className="h-16 w-16 text-gray-300 mx-auto mb-4" />
+              <TruckIcon className="h-16 w-16 text-gray-300 mx-auto mb-4" />
               <p className="text-gray-500 mb-4">Nenhum veículo cadastrado</p>
               <p className="text-sm text-gray-400">
                 Clique em <strong>Novo Veículo</strong> para começar
@@ -277,7 +305,7 @@ export default function FleetPage() {
                   <CardContent className="p-4">
                     <div className="flex flex-col items-center text-center space-y-3">
                       <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
-                        <IconTruck className="h-8 w-8 text-gray-400" />
+                        <TruckIcon className="h-8 w-8 text-gray-400" />
                       </div>
                       <div>
                         <h3 className="font-bold text-xl text-card-foreground">

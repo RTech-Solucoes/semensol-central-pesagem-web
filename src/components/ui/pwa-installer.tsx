@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Button } from "@chakra-ui/react";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { IconDownload, IconX } from "@tabler/icons-react";
+import { DownloadSimpleIcon, XIcon } from "@phosphor-icons/react";
 
 export function PWAInstaller() {
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
@@ -92,7 +92,7 @@ export function PWAInstaller() {
                   size="sm"
                   className="h-6 w-6 p-0"
                 >
-                  <IconX className="h-3 w-3" />
+                  <XIcon className="h-3 w-3" />
                 </Button>
               </div>
               <div className="flex justify-end gap-2">
@@ -109,7 +109,7 @@ export function PWAInstaller() {
                   size="sm"
                   className="flex items-center gap-1 text-xs"
                 >
-                  <IconDownload className="h-3 w-3" />
+                  <DownloadSimpleIcon className="h-3 w-3" />
                   Instalar
                 </Button>
               </div>
