@@ -58,9 +58,7 @@
     sm:px-6 lg:px-12;
     animation: fadeIn 0.5s ease-out;
   }
-}
 
-@layer components {
   .brick-effect:hover {
     @apply
     -translate-x-2
@@ -74,9 +72,7 @@
     translate-y-0
     shadow-none;
   }
-}
 
-@layer utilities {
   .svg-background {
     @apply bg-primary-700;
     background-image: url("/images/background.svg");
@@ -92,109 +88,109 @@
       opacity: 1;
     }
   }
-}
 
-@media (max-width: theme('screens.xl')) {
-  * {
-    scrollbar-width: none;
+  @media (max-width: theme('screens.xl')) {
+    * {
+      scrollbar-width: none;
+    }
+
+    *::-webkit-scrollbar {
+      display: none;
+    }
+
+    .navbar {
+      @apply
+      flex px-4 fixed z-20 left-0 right-0 bottom-4;
+    }
+
+    .navbar-logo {
+      @apply hidden;
+    }
+
+    .navbar-inner {
+      @apply
+      flex items-center justify-between
+      w-full h-fit p-3 pb-3 mx-auto
+      max-w-md rounded-3xl
+      bg-popover drop-shadow-2xl;
+    }
+
+    .navbar-link {
+      @apply
+      flex flex-col items-center relative
+      after:absolute after:-bottom-2 after:opacity-0
+      after:w-3 after:h-1 after:mx-auto
+      after:rounded-full after:bg-primary-600
+      after:transition-all after:duration-200;
+    }
+
+    .navbar-link[data-active="true"] {
+      @apply
+      after:opacity-100 after:bottom-1.5;
+    }
+
+    .navbar-icon {
+      @apply
+      w-8 h-8 p-3 box-content rounded-2xl
+      transition-all duration-200
+      text-gray-300 bg-popover;
+    }
+
+    .navbar-icon[data-active="true"] {
+      @apply
+      text-primary-600 bg-primary-100 pt-2.5 pb-3.5;
+    }
   }
 
-  *::-webkit-scrollbar {
-    display: none;
-  }
+  @media (min-width: theme('screens.xl')) {
+    .navbar {
+      @apply
+      flex-row w-full max-w-7xl px-4 py-6 lg:px-6
+      flex justify-end
+      fixed z-20;
+    }
 
-  .navbar {
-    @apply
-    flex px-4 fixed z-20 left-0 right-0 bottom-4;
-  }
+    .navbar-logo {
+      @apply flex;
+    }
 
-  .navbar-logo {
-    @apply hidden;
-  }
+    .navbar-inner {
+      @apply
+      flex h-fit justify-between relative
+      rounded-2xl p-2 shadow-lg gap-2 overflow-hidden
+      bg-gradient-to-r from-popover/5 to-popover/20 backdrop-blur-sm;
+    }
 
-  .navbar-inner {
-    @apply
-    flex items-center justify-between
-    w-full h-fit p-3 pb-3 mx-auto
-    max-w-md rounded-3xl
-    bg-popover drop-shadow-2xl;
-  }
+    .navbar-link {
+      @apply
+      flex items-center gap-2 py-2 px-4
+      rounded-xl relative z-10 shrink-0
+      text-sm leading-6 text-gray-50
+      transition-colors duration-200 font-medium box-border
+      after:[content:var(--item-name)];
+    }
 
-  .navbar-link {
-    @apply
-    flex flex-col items-center relative
-    after:absolute after:-bottom-2 after:opacity-0
-    after:w-3 after:h-1 after:mx-auto
-    after:rounded-full after:bg-primary-600
-    after:transition-all after:duration-200;
-  }
+    .navbar-link[data-active="true"] {
+      @apply
+      bg-primary-600 text-white
+    }
 
-  .navbar-link[data-active="true"] {
-    @apply
-    after:opacity-100 after:bottom-1.5;
-  }
+    .navbar-link[data-active="false"] {
+      @apply
+      hover:bg-primary-100 hover:text-primary-600;
+    }
 
-  .navbar-icon {
-    @apply
-    w-8 h-8 p-3 box-content rounded-2xl
-    transition-all duration-200
-    text-gray-300 bg-popover;
-  }
+    .navbar-icon {
+      @apply
+      h-5 w-5 shrink-0 transition-colors;
 
-  .navbar-icon[data-active="true"] {
-    @apply
-    text-primary-600 bg-primary-100 pt-2.5 pb-3.5;
-  }
-}
+    }
 
-@media (min-width: theme('screens.xl')) {
-  .navbar {
-    @apply
-    flex-row w-full max-w-7xl px-4 py-6 lg:px-6
-    flex justify-end
-    fixed z-20;
-  }
-
-  .navbar-logo {
-    @apply flex;
-  }
-
-  .navbar-inner {
-    @apply
-    flex h-fit justify-between relative
-    rounded-2xl p-2 shadow-lg gap-2 overflow-hidden
-    bg-gradient-to-r from-popover/5 to-popover/20 backdrop-blur-sm;
-  }
-
-  .navbar-link {
-    @apply
-    flex items-center gap-2 py-2 px-4
-    rounded-xl relative z-10 shrink-0
-    text-sm leading-6 text-gray-50
-    transition-colors duration-200 font-medium box-border
-    after:[content:var(--item-name)];
-  }
-
-  .navbar-link[data-active="true"] {
-    @apply
-    bg-primary-600 text-white
-  }
-
-  .navbar-link[data-active="false"] {
-    @apply
-    hover:bg-primary-100 hover:text-primary-600;
-  }
-
-  .navbar-icon {
-    @apply
-    h-5 w-5 shrink-0 transition-colors;
+    .navbar-icon[data-active="true"] {
+      @apply
+      text-white;
+    }
 
   }
-
-  .navbar-icon[data-active="true"] {
-    @apply
-    text-white;
-  }
-
 }
 
