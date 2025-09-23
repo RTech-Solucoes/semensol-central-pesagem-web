@@ -47,25 +47,25 @@ jobs:
 
           echo "image=$IMAGE_REPO:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
-  # deploy:
-  #   name: Deploy Container
-  #   needs: build
-  #   runs-on: [self-hosted, semensol]
+  deploy:
+    name: Deploy Container
+    needs: build
+    runs-on: [self-hosted, semensol]
 
-  #   steps:
-  #     - name: Subir container
-  #       run: |
-  #         IMAGE="${{ needs.build.outputs.image }}"
+    steps:
+      - name: Subir container
+        run: |
+          IMAGE="${{ needs.build.outputs.image }}"
           
-  #         # parar e remover container antigo (se existir)
-  #         docker ps -q --filter "name=$CONTAINER_NAME" | grep -q . && docker stop $CONTAINER_NAME && docker rm $CONTAINER_NAME || true
+          # parar e remover container antigo (se existir)
+          docker ps -q --filter "name=$CONTAINER_NAME" | grep -q . && docker stop $CONTAINER_NAME && docker rm $CONTAINER_NAME || true
           
-  #         # rodar novo container
-  #         docker run -d -p 3001:3000 --restart always --name $CONTAINER_NAME $IMAGE
+          # rodar novo container
+          docker run -d -p 3001:3000 --restart always --name $CONTAINER_NAME $IMAGE
 
-  #     - name: Limpeza de imagens e containers antigos
-  #       run: |
-  #         docker system prune -af
+      - name: Limpeza de imagens e containers antigos
+        run: |
+          docker system prune -af
 
   #     - name: Send success message to Google Chat
   #       if: success()
