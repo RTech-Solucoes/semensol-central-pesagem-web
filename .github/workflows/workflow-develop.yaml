@@ -51,7 +51,7 @@ jobs:
         run: |
           IMAGE="${{ env.IMAGE_FULL }}"
           CONTAINER="${{ env.CONTAINER_NAME }}"
-          BRANCH=$(echo "${GITHUB_REF#refs/heads/}" | tr '/' '-')
+          BRANCH=$develop
 
           echo "Chamando API de deploy para imagem: $IMAGE, container: $CONTAINER, branch: $BRANCH"
 
