@@ -55,7 +55,7 @@ jobs:
 
           echo "Chamando API de deploy para imagem: $IMAGE, container: $CONTAINER, branch: $BRANCH"
 
-          RESPONSE=$(curl -s -w "\n%{http_code}" -X POST http://deploy.semensol.rtechsolution.com.br/semensol/api \
+          RESPONSE=$(curl -s -w "\n%{http_code}" -X POST https://deploy.semensol.rtechsolution.com.br/semensol/api \
             -H "Content-Type: application/json" \
             -d "$(jq -n --arg image "$IMAGE" --arg container "$CONTAINER" --arg branch "$BRANCH" '{image: $image, container: $container, branch: $branch}')")
 
