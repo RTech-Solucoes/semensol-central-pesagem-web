@@ -47,80 +47,100 @@ jobs:
 
           echo "image=$IMAGE_REPO:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
-  deploy:
-    name: Deploy Container
-    needs: build
-    runs-on: [self-hosted, semensol]
-
-    steps:
-      - name: Subir container
+      - name: Chamar API de deploy
         run: |
           IMAGE="${{ needs.build.outputs.image }}"
+          CONTAINER="${{ env.CONTAINER_NAME }}"
+          BRANCH=$(echo "${GITHUB_REF#refs/heads/}" | tr '/' '-')
+
+          echo "Chamando API de deploy para imagem: $IMAGE, container: $CONTAINER, branch: $BRANCH"
+
+          RESPONSE=$(curl -s -w "\n%{http_code}" -X POST http://deploy.semensol.rtechsolution.com.br/semensol/api \
+            -H "Content-Type: application/json" \
+            -d "$(jq -n --arg image "$IMAGE" --arg container "$CONTAINER" --arg branch "$BRANCH" '{image: $image, container: $container, branch: $branch}')")
+
+          # separar corpo e status HTTP
+          HTTP_BODY=$(echo "$RESPONSE" | head -n1)
+          HTTP_STATUS=$(echo "$RESPONSE" | tail -n1)
+
+          echo "Status: $HTTP_STATUS"
+          echo "Body: $HTTP_BODY"
+
+          # falhar pipeline se não for 200 ou se success=false
+          if [ "$HTTP_STATUS" -ne 200 ] || [ "$(echo "$HTTP_BODY" | jq -r '.success')" != "true" ]; then
+            echo "Erro no deploy"
+            exit 1
+          fi
+
+
+      # - name: Subir container
+      #   run: |
+      #     IMAGE="${{ needs.build.outputs.image }}"
           
-          # parar e remover container antigo (se existir)
-          docker ps -q --filter "name=$CONTAINER_NAME" | grep -q . && docker stop $CONTAINER_NAME && docker rm $CONTAINER_NAME || true
+      #     # parar e remover container antigo (se existir)
+      #     docker ps -q --filter "name=$CONTAINER_NAME" | grep -q . && docker stop $CONTAINER_NAME && docker rm $CONTAINER_NAME || true
           
-          # rodar novo container
-          docker run -d -p 3001:3000 --restart always --name $CONTAINER_NAME $IMAGE
+      #     # rodar novo container
+      #     docker run -d -p 3001:3000 --restart always --name $CONTAINER_NAME $IMAGE
 
-      - name: Limpeza de imagens e containers antigos
-        run: |
-          docker system prune -af
+      # - name: Limpeza de imagens e containers antigos
+      #   run: |
+      #     docker system prune -af
 
-  #     - name: Send success message to Google Chat
-  #       if: success()
-  #       env:
-  #         COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
-  #         GIT_BRANCH: ${{ github.ref_name }}
-  #       run: |
-  #         PAYLOAD=$(cat << EOF
-  #         {
-  #           "text": "Deploy do projeto Semensol",
-  #           "cards": [
-  #             {
-  #               "sections": [
-  #                 {
-  #                   "widgets": [
-  #                     { "keyValue": { "topLabel": "Projeto", "content": "semensol-central-pesagem-web" } },
-  #                     { "keyValue": { "topLabel": "Branch", "content": "$GIT_BRANCH" } },
-  #                     { "keyValue": { "topLabel": "Status", "content": "SUCCESS ✅" } },
-  #                     { "keyValue": { "topLabel": "Mensagem", "content": "Deploy para o Semensol Web realizado com sucesso!" } },
-  #                     { "keyValue": { "topLabel": "Commit", "content": "$COMMIT_MESSAGE" } }
-  #                   ]
-  #                 }
-  #               ]
-  #             }
-  #           ]
-  #         }
-  #         EOF
-  #         )
-  #         curl -s -X POST -H "Content-Type: application/json" -d "$PAYLOAD" "$WEBHOOK_URL"
+      # - name: Send success message to Google Chat
+      #   if: success()
+      #   env:
+      #     COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+      #     GIT_BRANCH: ${{ github.ref_name }}
+      #   run: |
+      #     PAYLOAD=$(cat << EOF
+      #     {
+      #       "text": "Deploy do projeto Semensol",
+      #       "cards": [
+      #         {
+      #           "sections": [
+      #             {
+      #               "widgets": [
+      #                 { "keyValue": { "topLabel": "Projeto", "content": "semensol-central-pesagem-web" } },
+      #                 { "keyValue": { "topLabel": "Branch", "content": "$GIT_BRANCH" } },
+      #                 { "keyValue": { "topLabel": "Status", "content": "SUCCESS ✅" } },
+      #                 { "keyValue": { "topLabel": "Mensagem", "content": "Deploy para o Semensol Web realizado com sucesso!" } },
+      #                 { "keyValue": { "topLabel": "Commit", "content": "$COMMIT_MESSAGE" } }
+      #               ]
+      #             }
+      #           ]
+      #         }
+      #       ]
+      #     }
+      #     EOF
+      #     )
+      #     curl -s -X POST -H "Content-Type: application/json" -d "$PAYLOAD" "$WEBHOOK_URL"
 
-  #     - name: Send failure message to Google Chat
-  #       if: failure()
-  #       env:
-  #         COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
-  #         GIT_BRANCH: ${{ github.ref_name }}
-  #       run: |
-  #         PAYLOAD=$(cat << EOF
-  #         {
-  #           "text": "Deploy do projeto Semensol",
-  #           "cards": [
-  #             {
-  #               "sections": [
-  #                 {
-  #                   "widgets": [
-  #                     { "keyValue": { "topLabel": "Projeto", "content": "semensol-central-pesagem-web" } },
-  #                     { "keyValue": { "topLabel": "Branch", "content": "$GIT_BRANCH" } },
-  #                     { "keyValue": { "topLabel": "Status", "content": "FAILED ❌" } },
-  #                     { "keyValue": { "topLabel": "Mensagem", "content": "Deploy para o Semensol Web falhou!" } },
-  #                     { "keyValue": { "topLabel": "Commit", "content": "$COMMIT_MESSAGE" } }
-  #                   ]
-  #                 }
-  #               ]
-  #             }
-  #           ]
-  #         }
-  #         EOF
-  #         )
-  #         curl -s -X POST -H "Content-Type: application/json" -d "$PAYLOAD" "$WEBHOOK_URL"
+      # - name: Send failure message to Google Chat
+      #   if: failure()
+      #   env:
+      #     COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+      #     GIT_BRANCH: ${{ github.ref_name }}
+      #   run: |
+      #     PAYLOAD=$(cat << EOF
+      #     {
+      #       "text": "Deploy do projeto Semensol",
+      #       "cards": [
+      #         {
+      #           "sections": [
+      #             {
+      #               "widgets": [
+      #                 { "keyValue": { "topLabel": "Projeto", "content": "semensol-central-pesagem-web" } },
+      #                 { "keyValue": { "topLabel": "Branch", "content": "$GIT_BRANCH" } },
+      #                 { "keyValue": { "topLabel": "Status", "content": "FAILED ❌" } },
+      #                 { "keyValue": { "topLabel": "Mensagem", "content": "Deploy para o Semensol Web falhou!" } },
+      #                 { "keyValue": { "topLabel": "Commit", "content": "$COMMIT_MESSAGE" } }
+      #               ]
+      #             }
+      #           ]
+      #         }
+      #       ]
+      #     }
+      #     EOF
+      #     )
+      #     curl -s -X POST -H "Content-Type: application/json" -d "$PAYLOAD" "$WEBHOOK_URL"
