@@ -20,8 +20,9 @@ jobs:
       - name: Checkout código
         uses: actions/checkout@v3
 
-      - name: Login no Docker Hub
-        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USER }}" --password-stdin
+      - name: Criar arquivo .env
+        run: |
+          echo "${{ secrets.ENV_FILE }}" > .env
 
       - name: Configurar credenciais AWS
         uses: aws-actions/configure-aws-credentials@v4
@@ -54,11 +55,11 @@ jobs:
         run: |
           IMAGE="${{ env.IMAGE_FULL }}"
           CONTAINER="${{ env.CONTAINER_NAME }}"
-          BRANCH=develop
+          BRANCH=$(echo "${GITHUB_REF#refs/heads/}" | tr '/' '-')
 
           echo "Chamando API de deploy para imagem: $IMAGE, container: $CONTAINER, branch: $BRANCH"
 
-          RESPONSE=$(curl -s -w "\n%{http_code}" -X POST https://deploy.semensol.rtechsolution.com.br/semensol/api \
+          RESPONSE=$(curl -s -w "\n%{http_code}" -X POST https://deploy.semensol.rtechsolution.com.br/semensol/web \
             -H "Content-Type: application/json" \
             -d "$(jq -n --arg image "$IMAGE" --arg container "$CONTAINER" --arg branch "$BRANCH" '{image: $image, container: $container, branch: $branch}')")
 
@@ -75,26 +76,12 @@ jobs:
             exit 1
           fi
 
-
-      # - name: Subir container
-      #   run: |
-      #     IMAGE="${{ needs.build.outputs.image }}"
-          
-      #     # parar e remover container antigo (se existir)
-      #     docker ps -q --filter "name=$CONTAINER_NAME" | grep -q . && docker stop $CONTAINER_NAME && docker rm $CONTAINER_NAME || true
-          
-      #     # rodar novo container
-      #     docker run -d -p 3001:3000 --restart always --name $CONTAINER_NAME $IMAGE
-
-      # - name: Limpeza de imagens e containers antigos
-      #   run: |
-      #     docker system prune -af
-
       # - name: Send success message to Google Chat
       #   if: success()
       #   env:
       #     COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
       #     GIT_BRANCH: ${{ github.ref_name }}
+      #     WEBHOOK_URL: https://chat.googleapis.com/v1/spaces/AAQA8ZwgVBs/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=CoZNV8BN9G4RmI7UpYRKA5edWRxM0YnL-BD5eLA6AQE
       #   run: |
       #     PAYLOAD=$(cat << EOF
       #     {
@@ -104,7 +91,7 @@ jobs:
       #           "sections": [
       #             {
       #               "widgets": [
-      #                 { "keyValue": { "topLabel": "Projeto", "content": "semensol-central-pesagem-web" } },
+      #                 { "keyValue": { "topLabel": "Projeto", "content": "semensol-central-pesagens-web" } },
       #                 { "keyValue": { "topLabel": "Branch", "content": "$GIT_BRANCH" } },
       #                 { "keyValue": { "topLabel": "Status", "content": "SUCCESS ✅" } },
       #                 { "keyValue": { "topLabel": "Mensagem", "content": "Deploy para o Semensol Web realizado com sucesso!" } },
@@ -124,6 +111,7 @@ jobs:
       #   env:
       #     COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
       #     GIT_BRANCH: ${{ github.ref_name }}
+      #     WEBHOOK_URL: https://chat.googleapis.com/v1/spaces/AAQA8ZwgVBs/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=CoZNV8BN9G4RmI7UpYRKA5edWRxM0YnL-BD5eLA6AQE
       #   run: |
       #     PAYLOAD=$(cat << EOF
       #     {
@@ -133,7 +121,7 @@ jobs:
       #           "sections": [
       #             {
       #               "widgets": [
-      #                 { "keyValue": { "topLabel": "Projeto", "content": "semensol-central-pesagem-web" } },
+      #                 { "keyValue": { "topLabel": "Projeto", "content": "semensol-central-pesagens-web" } },
       #                 { "keyValue": { "topLabel": "Branch", "content": "$GIT_BRANCH" } },
       #                 { "keyValue": { "topLabel": "Status", "content": "FAILED ❌" } },
       #                 { "keyValue": { "topLabel": "Mensagem", "content": "Deploy para o Semensol Web falhou!" } },
