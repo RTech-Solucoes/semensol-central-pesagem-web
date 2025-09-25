@@ -3,9 +3,7 @@ name: Deploy Semensol Web for Develop
 on:
   push:
     branches:
-      - feat/pipeline-cicd
-      - main
-      - master
+      - develop
 
 env:
   IMAGE_NAME: semensol-web
@@ -22,7 +20,7 @@ jobs:
 
       - name: Criar arquivo .env
         run: |
-          echo "${{ secrets.ENV_FILE }}" > .env
+          echo "${{ secrets.ENV_FILE_DEV }}" > .env
 
       - name: Configurar credenciais AWS
         uses: aws-actions/configure-aws-credentials@v4
@@ -55,8 +53,7 @@ jobs:
         run: |
           IMAGE="${{ env.IMAGE_FULL }}"
           CONTAINER="${{ env.CONTAINER_NAME }}"
-          BRANCH=develop
-          #BRANCH=$(echo "${GITHUB_REF#refs/heads/}" | tr '/' '-')
+          BRANCH=$(echo "${GITHUB_REF#refs/heads/}" | tr '/' '-')
 
           echo "Chamando API de deploy para imagem: $IMAGE, container: $CONTAINER, branch: $BRANCH"
 
@@ -77,62 +74,62 @@ jobs:
             exit 1
           fi
 
-      # - name: Send success message to Google Chat
-      #   if: success()
-      #   env:
-      #     COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
-      #     GIT_BRANCH: ${{ github.ref_name }}
-      #     WEBHOOK_URL: https://chat.googleapis.com/v1/spaces/AAQA8ZwgVBs/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=CoZNV8BN9G4RmI7UpYRKA5edWRxM0YnL-BD5eLA6AQE
-      #   run: |
-      #     PAYLOAD=$(cat << EOF
-      #     {
-      #       "text": "Deploy do projeto Semensol",
-      #       "cards": [
-      #         {
-      #           "sections": [
-      #             {
-      #               "widgets": [
-      #                 { "keyValue": { "topLabel": "Projeto", "content": "semensol-central-pesagens-web" } },
-      #                 { "keyValue": { "topLabel": "Branch", "content": "$GIT_BRANCH" } },
-      #                 { "keyValue": { "topLabel": "Status", "content": "SUCCESS ✅" } },
-      #                 { "keyValue": { "topLabel": "Mensagem", "content": "Deploy para o Semensol Web realizado com sucesso!" } },
-      #                 { "keyValue": { "topLabel": "Commit", "content": "$COMMIT_MESSAGE" } }
-      #               ]
-      #             }
-      #           ]
-      #         }
-      #       ]
-      #     }
-      #     EOF
-      #     )
-      #     curl -s -X POST -H "Content-Type: application/json" -d "$PAYLOAD" "$WEBHOOK_URL"
+      - name: Send success message to Google Chat
+        if: success()
+        env:
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+          GIT_BRANCH: ${{ github.ref_name }}
+          WEBHOOK_URL: https://chat.googleapis.com/v1/spaces/AAQA8ZwgVBs/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=CoZNV8BN9G4RmI7UpYRKA5edWRxM0YnL-BD5eLA6AQE
+        run: |
+          PAYLOAD=$(cat << EOF
+          {
+            "text": "Deploy do projeto Semensol",
+            "cards": [
+              {
+                "sections": [
+                  {
+                    "widgets": [
+                      { "keyValue": { "topLabel": "Projeto", "content": "semensol-central-pesagens-web" } },
+                      { "keyValue": { "topLabel": "Branch", "content": "$GIT_BRANCH" } },
+                      { "keyValue": { "topLabel": "Status", "content": "SUCCESS ✅" } },
+                      { "keyValue": { "topLabel": "Mensagem", "content": "Deploy para o Semensol Web realizado com sucesso!" } },
+                      { "keyValue": { "topLabel": "Commit", "content": "$COMMIT_MESSAGE" } }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+          EOF
+          )
+          curl -s -X POST -H "Content-Type: application/json" -d "$PAYLOAD" "$WEBHOOK_URL"
 
-      # - name: Send failure message to Google Chat
-      #   if: failure()
-      #   env:
-      #     COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
-      #     GIT_BRANCH: ${{ github.ref_name }}
-      #     WEBHOOK_URL: https://chat.googleapis.com/v1/spaces/AAQA8ZwgVBs/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=CoZNV8BN9G4RmI7UpYRKA5edWRxM0YnL-BD5eLA6AQE
-      #   run: |
-      #     PAYLOAD=$(cat << EOF
-      #     {
-      #       "text": "Deploy do projeto Semensol",
-      #       "cards": [
-      #         {
-      #           "sections": [
-      #             {
-      #               "widgets": [
-      #                 { "keyValue": { "topLabel": "Projeto", "content": "semensol-central-pesagens-web" } },
-      #                 { "keyValue": { "topLabel": "Branch", "content": "$GIT_BRANCH" } },
-      #                 { "keyValue": { "topLabel": "Status", "content": "FAILED ❌" } },
-      #                 { "keyValue": { "topLabel": "Mensagem", "content": "Deploy para o Semensol Web falhou!" } },
-      #                 { "keyValue": { "topLabel": "Commit", "content": "$COMMIT_MESSAGE" } }
-      #               ]
-      #             }
-      #           ]
-      #         }
-      #       ]
-      #     }
-      #     EOF
-      #     )
-      #     curl -s -X POST -H "Content-Type: application/json" -d "$PAYLOAD" "$WEBHOOK_URL"
+      - name: Send failure message to Google Chat
+        if: failure()
+        env:
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+          GIT_BRANCH: ${{ github.ref_name }}
+          WEBHOOK_URL: https://chat.googleapis.com/v1/spaces/AAQA8ZwgVBs/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=CoZNV8BN9G4RmI7UpYRKA5edWRxM0YnL-BD5eLA6AQE
+        run: |
+          PAYLOAD=$(cat << EOF
+          {
+            "text": "Deploy do projeto Semensol",
+            "cards": [
+              {
+                "sections": [
+                  {
+                    "widgets": [
+                      { "keyValue": { "topLabel": "Projeto", "content": "semensol-central-pesagens-web" } },
+                      { "keyValue": { "topLabel": "Branch", "content": "$GIT_BRANCH" } },
+                      { "keyValue": { "topLabel": "Status", "content": "FAILED ❌" } },
+                      { "keyValue": { "topLabel": "Mensagem", "content": "Deploy para o Semensol Web falhou!" } },
+                      { "keyValue": { "topLabel": "Commit", "content": "$COMMIT_MESSAGE" } }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+          EOF
+          )
+          curl -s -X POST -H "Content-Type: application/json" -d "$PAYLOAD" "$WEBHOOK_URL"
