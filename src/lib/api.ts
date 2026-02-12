@@ -1,4 +1,4 @@
-const BASE_URL = 'https://api.semensol.rtechsolution.com.br/api';
+const BASE_URL = 'https://develop.api.semensol.rtechsolution.com.br/api';
 
 interface ApiResponse<T> {
   data?: T;
