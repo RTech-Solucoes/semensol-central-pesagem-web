@@ -1,3 +1,4 @@
+// TODO: Adicionar o base_url por variáveis ambientes!
 const BASE_URL = 'https://develop.api.semensol.rtechsolution.com.br/api';
 
 interface ApiResponse<T> {
