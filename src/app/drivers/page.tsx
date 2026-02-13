@@ -22,6 +22,7 @@ import {
 import { apiClient } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import Image from "next/image";
 
 interface Driver {
   id: number;
@@ -64,9 +65,9 @@ export default function DriversPage() {
       const mappedDrivers = response.data.map((motorista) => ({
         id: motorista.id,
         nome: motorista.nome,
-        cpf: "",
-        cnh: "",
-        imagem_path: undefined,
+        cpf: motorista.cpf || "",
+        cnh: motorista.cnh || "",
+        imagem_path: motorista.imagem_path,
       }));
       setDrivers(mappedDrivers);
     }
@@ -82,17 +83,18 @@ export default function DriversPage() {
   const startCamera = async () => {
     try {
       const mediaStream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: "user" },
+        video: {
+          facingMode: "user",
+          width: { ideal: 640 },
+          height: { ideal: 480 },
+        },
       });
       setStream(mediaStream);
-      if (videoRef.current) {
-        videoRef.current.srcObject = mediaStream;
-      }
       setIsCameraMode(true);
     } catch (error) {
       toast({
         title: "Erro ao acessar câmera",
-        description: "Não foi possível acessar a câmera. Verifique as permissões.",
+        description: error instanceof Error ? error.message : "Não foi possível acessar a câmera. Verifique as permissões.",
         variant: "destructive",
       });
     }
@@ -139,6 +141,15 @@ export default function DriversPage() {
       }
     };
   }, [stream]);
+
+  useEffect(() => {
+    if (stream && videoRef.current && isCameraMode) {
+      videoRef.current.srcObject = stream;
+      videoRef.current.play().catch((error) => {
+        console.error('Erro ao reproduzir vídeo:', error);
+      });
+    }
+  }, [stream, isCameraMode]);
 
   const handleModalClose = () => {
     stopCamera();
@@ -279,6 +290,7 @@ export default function DriversPage() {
                           className="w-full h-72 max-h-72 rounded-lg bg-black"
                           autoPlay
                           playsInline
+                          muted
                         />
                         <canvas ref={canvasRef} className="hidden"></canvas>
                         <div className="flex gap-2">
@@ -349,11 +361,13 @@ export default function DriversPage() {
                 <Card key={driver.id} className="border border-gray-200">
                   <CardContent className="p-4">
                     <div className="flex flex-col items-center text-center space-y-3">
-                      <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
+                      <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center overflow-hidden">
                         {driver.imagem_path ? (
-                          <img
+                          <Image
                             src={driver.imagem_path}
                             alt={driver.nome}
+                            width={64}
+                            height={64}
                             className="w-16 h-16 rounded-full object-cover"
                           />
                         ) : (
