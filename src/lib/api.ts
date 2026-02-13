@@ -1,4 +1,4 @@
-const BASE_URL = 'https://develop.api.semensol.rtechsolution.com.br/api';
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000/api";
 
 interface ApiResponse<T> {
   data?: T;
@@ -55,7 +55,13 @@ class ApiClient {
     }
   }
 
-  async getMotoristas(): Promise<ApiResponse<{ id: number; nome: string }[]>> {
+  async getMotoristas(): Promise<ApiResponse<{
+    id: number;
+    nome: string;
+    cpf?: string;
+    cnh?: string;
+    imagem_path?: string;
+  }[]>> {
     return this.request('/motorista/listar');
   }
 
@@ -90,7 +96,16 @@ class ApiClient {
     return this.request('/balanca/ciclos-abertos');
   }
 
-  async getHistorico(): Promise<ApiResponse<any[]>> {
+  async getHistorico(): Promise<ApiResponse<{
+    id_pesagem: number;
+    caminhao_id: number;
+    motorista_id: number;
+    peso_entrada: number;
+    peso_saida: number | null;
+    peso_liquido: number | null;
+    data_entrada: string;
+    data_saida: string | null;
+  }[]>> {
     return this.request('/balanca/historico');
   }
 
@@ -152,7 +167,9 @@ class ApiClient {
   }
 
   async reconhecerPlaca(formData: FormData): Promise<ApiResponse<{
-    placa: string;
+    caminhao: {
+      placa: string;
+    };
   }>> {
     return this.request('/reconhecimento/caminhao', {
       method: 'POST',
