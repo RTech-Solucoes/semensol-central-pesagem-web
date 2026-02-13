@@ -199,17 +199,17 @@ export function VideoVerification({
         variant: "destructive",
       });
       setVerificationState(prev => ({ ...prev, plate: { detected: false }, loading: false }));
-    } else if (response.data?.placa) {
+    } else if (response.data?.caminhao?.placa) {
       const plateData = {
         detected: true,
-        value: response.data.placa
+        value: response.data.caminhao.placa
       };
 
       setVerificationState(prev => ({ ...prev, plate: plateData, loading: false }));
-      onPlateDetected(response.data.placa);
+      onPlateDetected(response.data.caminhao.placa);
       toast({
         title: "Placa detectada",
-        description: `Placa ${response.data.placa} identificada com sucesso!`,
+        description: `Placa ${response.data.caminhao.placa} identificada com sucesso!`,
       });
     } else {
       toast({
@@ -346,7 +346,6 @@ export function VideoVerification({
               playsInline
               muted
               className="w-full aspect-video bg-gray-100 rounded-lg object-cover"
-              style={{ transform: 'scaleX(-1)' }}
             />
             <canvas ref={canvasRef} className="hidden" />
 

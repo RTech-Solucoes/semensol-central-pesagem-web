@@ -44,13 +44,23 @@ export function CameraCapture({
 
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
-        setIsStreaming(true);
+
+        // Add explicit play call and wait for video to be ready
+        try {
+          await videoRef.current.play();
+          setIsStreaming(true);
+        } catch (playError) {
+          console.error('Erro ao reproduzir vídeo:', playError);
+          // Stop the stream if play fails
+          stream.getTracks().forEach(track => track.stop());
+          throw new Error('Não foi possível iniciar a reprodução do vídeo');
+        }
       }
     } catch (error) {
       console.error('Erro ao acessar câmera:', error);
       toast({
         title: "Erro de câmera",
-        description: "Não foi possível acessar a câmera. Verifique as permissões.",
+        description: error instanceof Error ? error.message : "Não foi possível acessar a câmera. Verifique as permissões.",
         variant: "destructive",
       });
     } finally {
@@ -124,13 +134,23 @@ export function CameraCapture({
 
           if (videoRef.current) {
             videoRef.current.srcObject = stream;
-            setIsStreaming(true);
+
+            // Add explicit play call and wait for video to be ready
+            try {
+              await videoRef.current.play();
+              setIsStreaming(true);
+            } catch (playError) {
+              console.error('Erro ao reproduzir vídeo:', playError);
+              // Stop the stream if play fails
+              stream.getTracks().forEach(track => track.stop());
+              throw new Error('Não foi possível iniciar a reprodução do vídeo');
+            }
           }
         } catch (error) {
           console.error('Erro ao trocar câmera:', error);
           toast({
             title: "Erro ao trocar câmera",
-            description: "Não foi possível trocar a câmera. Tente novamente.",
+            description: error instanceof Error ? error.message : "Não foi possível trocar a câmera. Tente novamente.",
             variant: "destructive",
           });
           setFacingMode(facingMode);
