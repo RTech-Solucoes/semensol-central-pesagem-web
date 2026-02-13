@@ -46,17 +46,46 @@ export default function Home() {
   const loadDashboardData = async () => {
     setLoading(true);
 
-    const [ciclosResponse, historicoResponse] = await Promise.all([
+    const [ciclosResponse, historicoResponse, caminhoesRes, motoristasRes] = await Promise.all([
       apiClient.getCiclosAbertos(),
-      apiClient.getHistorico()
+      apiClient.getHistorico(),
+      apiClient.getCaminhoes(),
+      apiClient.getMotoristas(),
     ]);
 
     if (ciclosResponse.data) {
       setCiclosAbertos(ciclosResponse.data);
     }
 
-    if (historicoResponse.data) {
-      setRecentActivity(historicoResponse.data.slice(0, 5));
+    if (historicoResponse.data && caminhoesRes.data && motoristasRes.data) {
+      // Criar mapas para lookup rápido
+      const caminhoesMap = new Map(
+        caminhoesRes.data.map((c) => [c.id, c.placa])
+      );
+      const motoristasMap = new Map(
+        motoristasRes.data.map((m) => [m.id, m.nome])
+      );
+
+      // Transformar os dados
+      const historicoTransformado: HistoricoItem[] = historicoResponse.data
+        .slice(0, 5)
+        .map((item) => {
+          const placa = caminhoesMap.get(item.caminhao_id);
+          const motorista = motoristasMap.get(item.motorista_id);
+
+          return {
+            id: item.id_pesagem,
+            placa: placa || `ID: ${item.caminhao_id}`,
+            motorista: motorista || `ID: ${item.motorista_id}`,
+            peso_entrada: item.peso_entrada,
+            peso_saida: item.peso_saida || undefined,
+            data_entrada: item.data_entrada,
+            data_saida: item.data_saida || undefined,
+            status: item.peso_saida ? "concluido" : "aberto",
+          };
+        });
+
+      setRecentActivity(historicoTransformado);
     }
 
     setLoading(false);
@@ -189,7 +218,7 @@ export default function Home() {
                             {activity.placa} - {activity.motorista}
                           </p>
                           <p className="text-xs text-gray-500">
-                            {new Date(activity.data_entrada).toLocaleString('pt-BR')}
+                            {activity.data_entrada ? activity.data_entrada.split('.')[0] : '-'}
                           </p>
                         </div>
                         <Badge
