@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -41,24 +41,58 @@ export default function HistoryPage() {
   });
   const { toast } = useToast();
 
-  useEffect(() => {
-    loadHistorico();
-  }, []);
-
-  const loadHistorico = async () => {
+  const loadHistorico = useCallback(async () => {
     setLoading(true);
-    const response = await apiClient.getHistorico();
-    if (response.error) {
+
+    try {
+      // Buscar dados em paralelo
+      const [historicoRes, caminhoesRes, motoristasRes] = await Promise.all([
+        apiClient.getHistorico(),
+        apiClient.getCaminhoes(),
+        apiClient.getMotoristas(),
+      ]);
+
+      if (historicoRes.error || caminhoesRes.error || motoristasRes.error) {
+        throw new Error("Erro ao carregar dados");
+      }
+
+      if (historicoRes.data && caminhoesRes.data && motoristasRes.data) {
+        // Criar mapas para lookup rápido
+        const caminhoesMap = new Map(
+          caminhoesRes.data.map((c: any) => [c.id, c.placa])
+        );
+        const motoristasMap = new Map(
+          motoristasRes.data.map((m: any) => [m.id, m.nome])
+        );
+
+        // Transformar os dados
+        const historicoTransformado: HistoricoItem[] = historicoRes.data.map((item) => ({
+          id: item.id_pesagem,
+          placa: caminhoesMap.get(item.caminhao_id) || `ID: ${item.caminhao_id}`,
+          motorista: motoristasMap.get(item.motorista_id) || `ID: ${item.motorista_id}`,
+          peso_entrada: item.peso_entrada,
+          peso_saida: item.peso_saida || undefined,
+          data_entrada: item.data_entrada,
+          data_saida: item.data_saida || undefined,
+          status: item.peso_saida ? "concluido" : "aberto",
+        }));
+
+        setHistorico(historicoTransformado);
+      }
+    } catch (error) {
       toast({
         title: "Erro ao carregar histórico",
-        description: response.error?.message,
+        description: error instanceof Error ? error.message : "Erro desconhecido",
         variant: "destructive",
       });
-    } else if (response.data) {
-      setHistorico(response.data);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
-  };
+  }, [toast]);
+
+  useEffect(() => {
+    loadHistorico();
+  }, [loadHistorico]);
 
   const historicoFiltrado = historico.filter((item) => {
     return (
@@ -220,11 +254,13 @@ export default function HistoryPage() {
                         {item.peso_saida ? `${item.peso_saida} kg` : "-"}
                       </td>
                       <td className="p-4">
-                        {new Date(item.data_entrada).toLocaleString("pt-BR")}
+                        {item.data_entrada
+                          ? item.data_entrada.split('.')[0]
+                          : "-"}
                       </td>
                       <td className="p-4">
                         {item.data_saida
-                          ? new Date(item.data_saida).toLocaleString("pt-BR")
+                          ? item.data_saida.split('.')[0]
                           : "-"}
                       </td>
                       <td className="p-4">
